@@ -12,6 +12,9 @@
 		D1AB9BD31D53F69100312A0A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D1AB9BD11D53F69100312A0A /* Main.storyboard */; };
 		D1AB9BD51D53F69100312A0A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D1AB9BD41D53F69100312A0A /* Assets.xcassets */; };
 		D1AB9BD81D53F69100312A0A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D1AB9BD61D53F69100312A0A /* LaunchScreen.storyboard */; };
+		D1AB9BE01D53FC4000312A0A /* CloudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1AB9BDF1D53FC4000312A0A /* CloudView.swift */; };
+		D1AB9BE21D54082D00312A0A /* Arc.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1AB9BE11D54082D00312A0A /* Arc.swift */; };
+		D1E9037D1D55887E005DED90 /* Plane.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E9037C1D55887E005DED90 /* Plane.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +25,9 @@
 		D1AB9BD41D53F69100312A0A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D1AB9BD71D53F69100312A0A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D1AB9BD91D53F69100312A0A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D1AB9BDF1D53FC4000312A0A /* CloudView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudView.swift; sourceTree = "<group>"; };
+		D1AB9BE11D54082D00312A0A /* Arc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Arc.swift; sourceTree = "<group>"; };
+		D1E9037C1D55887E005DED90 /* Plane.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Plane.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,7 +45,6 @@
 			isa = PBXGroup;
 			children = (
 				D1AB9BCC1D53F69100312A0A /* Fly */,
-				D1AB9BCB1D53F69100312A0A /* Products */,
 			);
 			sourceTree = "<group>";
 		};
@@ -49,6 +54,7 @@
 				D1AB9BCA1D53F69100312A0A /* Fly.app */,
 			);
 			name = Products;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		D1AB9BCC1D53F69100312A0A /* Fly */ = {
@@ -56,9 +62,13 @@
 			children = (
 				D1AB9BCD1D53F69100312A0A /* AppDelegate.swift */,
 				D1AB9BCF1D53F69100312A0A /* ViewController.swift */,
+				D1AB9BDF1D53FC4000312A0A /* CloudView.swift */,
+				D1AB9BE11D54082D00312A0A /* Arc.swift */,
+				D1E9037C1D55887E005DED90 /* Plane.swift */,
 				D1AB9BD11D53F69100312A0A /* Main.storyboard */,
 				D1AB9BD41D53F69100312A0A /* Assets.xcassets */,
 				D1AB9BD61D53F69100312A0A /* LaunchScreen.storyboard */,
+				D1AB9BCB1D53F69100312A0A /* Products */,
 				D1AB9BD91D53F69100312A0A /* Info.plist */,
 			);
 			path = Fly;
@@ -135,7 +145,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D1AB9BE01D53FC4000312A0A /* CloudView.swift in Sources */,
 				D1AB9BD01D53F69100312A0A /* ViewController.swift in Sources */,
+				D1E9037D1D55887E005DED90 /* Plane.swift in Sources */,
+				D1AB9BE21D54082D00312A0A /* Arc.swift in Sources */,
 				D1AB9BCE1D53F69100312A0A /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -199,7 +212,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -238,7 +251,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -286,6 +299,7 @@
 				D1AB9BDE1D53F69100312A0A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
