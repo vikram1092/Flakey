@@ -29,7 +29,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     var planeResistance: UIDynamicItemBehavior!
     var cloudResistance: UIDynamicItemBehavior!
     var planeElasticity: UIDynamicItemBehavior!
-    var planeAttachment: UIAttachmentBehavior!
+    var planeSnap: UISnapBehavior!
     var cloudPush: UIPushBehavior!
     var planePush: UIPushBehavior!
     
@@ -210,39 +210,6 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         cloudResistance.addItem(cloud)
         dynamicAnimator.addBehavior(cloudPush)
         
-        
-        
-        /*
-        CATransaction.begin()
-        CATransaction.setCompletionBlock { 
-            
-            self.collision.removeItem(cloud)
-            cloud.removeFromSuperview()
-        }
-        
-        let animation = CABasicAnimation(keyPath: "transform.translation.y")
-        animation.duration = speed
-        animation.fromValue = NSNumber(float: Float(cloud.center.y))
-        animation.toValue = NSNumber(float: Float(self.view.bounds.height + cloud.bounds.height/2))
-        animation.fillMode = kCAFillModeForwards
-        animation.removedOnCompletion = false
-        
-        cloud.layer.addAnimation(animation, forKey: nil)
-        CATransaction.commit()
-        */
-        
-        
-        //Animate new cloud across screen and remove it
-        /*
-        UIView.animateWithDuration(speed, delay: 0, options: UIViewAnimationOptions.CurveLinear, animations: { 
-            
-            cloud.center = CGPoint(x: cloud.center.x, y: self.view.bounds.height + cloud.bounds.height/2)
-            
-            }) { (Bool) in
-                
-                self.collision.removeItem(cloud)
-                cloud.removeFromSuperview()
-        }*/
     }
 
     
@@ -334,25 +301,35 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
             
             //Create a blank view and attach the plane to it
             //Place blank view at user's touch
-            let translation = sender.translationInView(self.view)
-            /*
-            let viewSize = CGFloat(6)
-            let blankView = UIView(frame: CGRect(x: translation.x - viewSize/2, y: translation.y - viewSize/2, width: viewSize, height: viewSize))
-            self.view.addSubview(blankView)
-            */
+            touchStartingPoint = sender.translationInView(self.view)
+            planeStartingPoint = plane.center
             
             //Create to attach plane
-            planeAttachment = UIAttachmentBehavior(item: plane, attachedToAnchor: translation)
-            dynamicAnimator.addBehavior(planeAttachment)
+            planeSnap = UISnapBehavior(item: plane, snapToPoint: planeStartingPoint)
+            dynamicAnimator.addBehavior(planeSnap)
             
             
         case .Changed:
             
-            planeAttachment.anchorPoint = sender.translationInView(self.view)
+            
+            //Set translation difference and sensitivity
+            let sensitivity = CGFloat(3)
+            let translation = sender.translationInView(self.view)
+            let horizontalDifference = (touchStartingPoint.x - translation.x) * sensitivity
+            let verticalDifference = (touchStartingPoint.y - translation.y) * sensitivity
+            
+            //Set movement according to difference accounting for view bounds as limitations
+            let horizontalMovement = min(max(planeStartingPoint.x + horizontalDifference,  plane.bounds.width/2), self.view.bounds.width - plane.bounds.width/2)
+            let verticalMovement = min(max(planeStartingPoint.y + verticalDifference, plane.bounds.height/2), self.view.bounds.height - plane.bounds.height/2)
+            1
+            
+            //Change snap point to movement variables
+            planeSnap.snapPoint = CGPoint(x: horizontalMovement, y: verticalMovement)
             
         case .Ended:
             
-            dynamicAnimator.removeBehavior(planeAttachment)
+            //Remove behavior
+            dynamicAnimator.removeBehavior(planeSnap)
             
         default: ()
             
