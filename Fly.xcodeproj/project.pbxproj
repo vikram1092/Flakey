@@ -7,17 +7,47 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D1A5A7751D7CD0BB00D6001A /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = D1A5A7331D7CD0BB00D6001A /* .gitignore */; };
+		D1A5A7761D7CD0BB00D6001A /* .travis.yml in Resources */ = {isa = PBXBuildFile; fileRef = D1A5A7341D7CD0BB00D6001A /* .travis.yml */; };
+		D1A5A77B1D7CD0BB00D6001A /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = D1A5A7391D7CD0BB00D6001A /* LICENSE */; };
+		D1A5A78F1D7CD0BB00D6001A /* PocketSVG.m in Sources */ = {isa = PBXBuildFile; fileRef = D1A5A76C1D7CD0BB00D6001A /* PocketSVG.m */; };
+		D1A5A7901D7CD0BB00D6001A /* PocketSVG.podspec in Resources */ = {isa = PBXBuildFile; fileRef = D1A5A76D1D7CD0BB00D6001A /* PocketSVG.podspec */; };
+		D1A5A7911D7CD0BB00D6001A /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D1A5A76F1D7CD0BB00D6001A /* Info.plist */; };
+		D1A5A7A81D7CD92600D6001A /* plane.svg in Resources */ = {isa = PBXBuildFile; fileRef = D1A5A7A71D7CD92600D6001A /* plane.svg */; };
+		D1A5A7AC1D7D042800D6001A /* Score.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A5A7AB1D7D042800D6001A /* Score.swift */; };
 		D1AB9BCE1D53F69100312A0A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1AB9BCD1D53F69100312A0A /* AppDelegate.swift */; };
 		D1AB9BD01D53F69100312A0A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1AB9BCF1D53F69100312A0A /* ViewController.swift */; };
 		D1AB9BD31D53F69100312A0A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D1AB9BD11D53F69100312A0A /* Main.storyboard */; };
 		D1AB9BD51D53F69100312A0A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D1AB9BD41D53F69100312A0A /* Assets.xcassets */; };
 		D1AB9BD81D53F69100312A0A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D1AB9BD61D53F69100312A0A /* LaunchScreen.storyboard */; };
-		D1AB9BE01D53FC4000312A0A /* CloudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1AB9BDF1D53FC4000312A0A /* CloudView.swift */; };
+		D1AB9BE01D53FC4000312A0A /* Cloud.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1AB9BDF1D53FC4000312A0A /* Cloud.swift */; };
 		D1AB9BE21D54082D00312A0A /* Arc.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1AB9BE11D54082D00312A0A /* Arc.swift */; };
 		D1E9037D1D55887E005DED90 /* Plane.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E9037C1D55887E005DED90 /* Plane.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		D1A5A7A01D7CD0BB00D6001A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D1A5A7711D7CD0BB00D6001A /* PocketSVGFramework.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 04ECF17D1BDB8D6500B524FA;
+			remoteInfo = PocketSVGFramework;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		D1A5A7331D7CD0BB00D6001A /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		D1A5A7341D7CD0BB00D6001A /* .travis.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .travis.yml; sourceTree = "<group>"; };
+		D1A5A7391D7CD0BB00D6001A /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		D1A5A76B1D7CD0BB00D6001A /* PocketSVG.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PocketSVG.h; sourceTree = "<group>"; };
+		D1A5A76C1D7CD0BB00D6001A /* PocketSVG.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PocketSVG.m; sourceTree = "<group>"; };
+		D1A5A76D1D7CD0BB00D6001A /* PocketSVG.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = PocketSVG.podspec; sourceTree = "<group>"; };
+		D1A5A76F1D7CD0BB00D6001A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D1A5A7701D7CD0BB00D6001A /* PocketSVGFramework.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PocketSVGFramework.h; sourceTree = "<group>"; };
+		D1A5A7711D7CD0BB00D6001A /* PocketSVGFramework.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = PocketSVGFramework.xcodeproj; sourceTree = "<group>"; };
+		D1A5A7A61D7CD7A500D6001A /* Fly-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Fly-Bridging-Header.h"; sourceTree = "<group>"; };
+		D1A5A7A71D7CD92600D6001A /* plane.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = plane.svg; sourceTree = "<group>"; };
+		D1A5A7AB1D7D042800D6001A /* Score.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Score.swift; sourceTree = "<group>"; };
 		D1AB9BCA1D53F69100312A0A /* Fly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Fly.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D1AB9BCD1D53F69100312A0A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D1AB9BCF1D53F69100312A0A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -25,7 +55,7 @@
 		D1AB9BD41D53F69100312A0A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D1AB9BD71D53F69100312A0A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D1AB9BD91D53F69100312A0A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D1AB9BDF1D53FC4000312A0A /* CloudView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudView.swift; sourceTree = "<group>"; };
+		D1AB9BDF1D53FC4000312A0A /* Cloud.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cloud.swift; sourceTree = "<group>"; };
 		D1AB9BE11D54082D00312A0A /* Arc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Arc.swift; sourceTree = "<group>"; };
 		D1E9037C1D55887E005DED90 /* Plane.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Plane.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -41,6 +71,39 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D1A5A7321D7CD0BB00D6001A /* PocketSVG-master */ = {
+			isa = PBXGroup;
+			children = (
+				D1A5A7A71D7CD92600D6001A /* plane.svg */,
+				D1A5A7331D7CD0BB00D6001A /* .gitignore */,
+				D1A5A7341D7CD0BB00D6001A /* .travis.yml */,
+				D1A5A7391D7CD0BB00D6001A /* LICENSE */,
+				D1A5A76B1D7CD0BB00D6001A /* PocketSVG.h */,
+				D1A5A76C1D7CD0BB00D6001A /* PocketSVG.m */,
+				D1A5A76D1D7CD0BB00D6001A /* PocketSVG.podspec */,
+				D1A5A76E1D7CD0BB00D6001A /* PocketSVGFramework */,
+				D1A5A7711D7CD0BB00D6001A /* PocketSVGFramework.xcodeproj */,
+			);
+			path = "PocketSVG-master";
+			sourceTree = "<group>";
+		};
+		D1A5A76E1D7CD0BB00D6001A /* PocketSVGFramework */ = {
+			isa = PBXGroup;
+			children = (
+				D1A5A76F1D7CD0BB00D6001A /* Info.plist */,
+				D1A5A7701D7CD0BB00D6001A /* PocketSVGFramework.h */,
+			);
+			path = PocketSVGFramework;
+			sourceTree = "<group>";
+		};
+		D1A5A7721D7CD0BB00D6001A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D1A5A7A11D7CD0BB00D6001A /* PocketSVGFramework.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		D1AB9BC11D53F69100312A0A = {
 			isa = PBXGroup;
 			children = (
@@ -60,16 +123,19 @@
 		D1AB9BCC1D53F69100312A0A /* Fly */ = {
 			isa = PBXGroup;
 			children = (
+				D1A5A7321D7CD0BB00D6001A /* PocketSVG-master */,
 				D1AB9BCD1D53F69100312A0A /* AppDelegate.swift */,
 				D1AB9BCF1D53F69100312A0A /* ViewController.swift */,
-				D1AB9BDF1D53FC4000312A0A /* CloudView.swift */,
+				D1AB9BDF1D53FC4000312A0A /* Cloud.swift */,
 				D1AB9BE11D54082D00312A0A /* Arc.swift */,
 				D1E9037C1D55887E005DED90 /* Plane.swift */,
+				D1A5A7AB1D7D042800D6001A /* Score.swift */,
 				D1AB9BD11D53F69100312A0A /* Main.storyboard */,
 				D1AB9BD41D53F69100312A0A /* Assets.xcassets */,
 				D1AB9BD61D53F69100312A0A /* LaunchScreen.storyboard */,
 				D1AB9BCB1D53F69100312A0A /* Products */,
 				D1AB9BD91D53F69100312A0A /* Info.plist */,
+				D1A5A7A61D7CD7A500D6001A /* Fly-Bridging-Header.h */,
 			);
 			path = Fly;
 			sourceTree = "<group>";
@@ -120,6 +186,12 @@
 			mainGroup = D1AB9BC11D53F69100312A0A;
 			productRefGroup = D1AB9BCB1D53F69100312A0A /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = D1A5A7721D7CD0BB00D6001A /* Products */;
+					ProjectRef = D1A5A7711D7CD0BB00D6001A /* PocketSVGFramework.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				D1AB9BC91D53F69100312A0A /* Fly */,
@@ -127,14 +199,30 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXReferenceProxy section */
+		D1A5A7A11D7CD0BB00D6001A /* PocketSVGFramework.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = PocketSVGFramework.framework;
+			remoteRef = D1A5A7A01D7CD0BB00D6001A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
 /* Begin PBXResourcesBuildPhase section */
 		D1AB9BC81D53F69100312A0A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D1A5A7761D7CD0BB00D6001A /* .travis.yml in Resources */,
+				D1A5A7751D7CD0BB00D6001A /* .gitignore in Resources */,
+				D1A5A77B1D7CD0BB00D6001A /* LICENSE in Resources */,
 				D1AB9BD81D53F69100312A0A /* LaunchScreen.storyboard in Resources */,
+				D1A5A7911D7CD0BB00D6001A /* Info.plist in Resources */,
+				D1A5A7A81D7CD92600D6001A /* plane.svg in Resources */,
 				D1AB9BD51D53F69100312A0A /* Assets.xcassets in Resources */,
 				D1AB9BD31D53F69100312A0A /* Main.storyboard in Resources */,
+				D1A5A7901D7CD0BB00D6001A /* PocketSVG.podspec in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -145,10 +233,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D1AB9BE01D53FC4000312A0A /* CloudView.swift in Sources */,
+				D1A5A7AC1D7D042800D6001A /* Score.swift in Sources */,
+				D1AB9BE01D53FC4000312A0A /* Cloud.swift in Sources */,
 				D1AB9BD01D53F69100312A0A /* ViewController.swift in Sources */,
 				D1E9037D1D55887E005DED90 /* Plane.swift in Sources */,
 				D1AB9BE21D54082D00312A0A /* Arc.swift in Sources */,
+				D1A5A78F1D7CD0BB00D6001A /* PocketSVG.m in Sources */,
 				D1AB9BCE1D53F69100312A0A /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -216,6 +306,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/Fly/Fly-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -254,6 +345,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/Fly/Fly-Bridging-Header.h";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;

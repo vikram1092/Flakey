@@ -41,9 +41,10 @@ class Arc: UIView {
         arcLayer.strokeColor = cloudColor.CGColor
         arcLayer.strokeStart = 0.0
         arcLayer.strokeEnd = 0.5
-        arcLayer.lineWidth = 4
+        arcLayer.lineWidth = 3
         arcLayer.lineCap = kCALineCapRound
         
         self.layer.addSublayer(arcLayer)
     }
+    
 }

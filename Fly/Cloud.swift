@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 
-class CloudView: UIView {
+class Cloud: UIView {
     
     
     
@@ -34,6 +34,11 @@ class CloudView: UIView {
     internal func initializeViews() {
         
         
+        //Disallow interaction
+        self.userInteractionEnabled = false
+        //self.backgroundColor = UIColor.greenColor()
+        
+        //Set variables
         let bounds = self.bounds
         let arcSize = CGFloat(25)
         var horizontalPosition = CGFloat(0)
@@ -42,6 +47,7 @@ class CloudView: UIView {
         let incrementBy = arcSize
         
         
+        //Set arcs in position to draw cloud
         while horizontalPosition < bounds.width {
             
             if horizontalPosition == 0 {
@@ -84,13 +90,7 @@ class CloudView: UIView {
                 //Increment
                 horizontalPosition += incrementBy
             }
-            
         }
     }
-    
-    
-    internal func randomNumber() -> CGFloat {
-        
-        return max(0.5, CGFloat(arc4random_uniform(UInt32(10)))/10)
-    }
+
 }
