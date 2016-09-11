@@ -15,6 +15,7 @@ class Score: UIView {
     var label1 = UILabel()
     var label2 = UILabel()
     let themeColor = UIColor(red: 211.0/225.0, green: 84.0/225.0, blue: 63.0/225.0, alpha: 1)
+    var score = 0
 
     
     
@@ -86,16 +87,18 @@ class Score: UIView {
         if label1.alpha == 1 && label1.text != nil {
             
             //Increment score on other label and move it above
-            let currentScore = Int(label1.text!)
-            label2.text = String(currentScore! + 1)
+            let incrementedScore = Int(label1.text!)! + 1
+            label2.text = String(incrementedScore)
+            score = incrementedScore
             label2.center = CGPoint(x: label1.center.x, y: label1.center.y - (label1.bounds.height/2 + label2.bounds.height/2))
             
         }
         else if label2.alpha == 1 {
             
             //Increment score on other label and move it above
-            let currentScore = Int(label2.text!)
-            label1.text = String(currentScore! + 1)
+            let incrementedScore = Int(label2.text!)! + 1
+            label1.text = String(incrementedScore)
+            score = incrementedScore
             label1.center = CGPoint(x: label2.center.x, y: label2.center.y - (label1.bounds.height/2 + label2.bounds.height/2))
         }
         
@@ -122,12 +125,17 @@ class Score: UIView {
             }
             
             
-            
             }) { (Bool) in
                 
                 //Placeholder
         }
+    }
+    
+    
+    internal func getScore() -> Int {
         
+        
+        return score
     }
     
     
