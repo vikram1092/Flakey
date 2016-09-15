@@ -18,12 +18,29 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Maf-vx-c6i">
-                                <rect key="frame" x="237" y="303" width="126" height="45"/>
-                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="fly" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bhU-GH-58c">
+                                <rect key="frame" x="217" y="70" width="167" height="127"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="45" id="N4c-QX-3yH"/>
-                                    <constraint firstAttribute="width" constant="126" id="nyZ-XO-1Yh"/>
+                                    <constraint firstAttribute="height" constant="127" id="0sc-0l-tdK"/>
+                                    <constraint firstAttribute="width" constant="167" id="aa7-Oy-fT3"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Zapfino" family="Zapfino" pointSize="36"/>
+                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eHc-oc-tFS" customClass="Score" customModule="Fly" customModuleProvider="target">
+                                <rect key="frame" x="20" y="20" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="40" id="6HV-cK-iYR"/>
+                                    <constraint firstAttribute="height" constant="40" id="SER-x6-Whf"/>
+                                </constraints>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Maf-vx-c6i">
+                                <rect key="frame" x="237" y="455" width="126" height="45"/>
+                                <color key="backgroundColor" red="0.82745098039999998" green="0.3294117647" blue="0.2470588235" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="126" id="rqq-S8-UQ6"/>
+                                    <constraint firstAttribute="height" constant="45" id="vdL-1L-RjW"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
                                 <state key="normal" title="S T A R T">
@@ -33,40 +50,25 @@
                                     <action selector="startButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="yzF-Bo-Fnz"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="fly" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bhU-GH-58c">
-                                <rect key="frame" x="217" y="54" width="167" height="145"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="145" id="Y5u-Yp-ZjJ"/>
-                                    <constraint firstAttribute="width" constant="167" id="veQ-Dt-tqH"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="Zapfino" family="Zapfino" pointSize="36"/>
-                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eHc-oc-tFS" customClass="Score" customModule="Fly" customModuleProvider="target">
-                                <rect key="frame" x="20" y="36" width="40" height="40"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="40" id="6HV-cK-iYR"/>
-                                    <constraint firstAttribute="height" constant="40" id="SER-x6-Whf"/>
-                                </constraints>
-                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
                         <constraints>
-                            <constraint firstItem="bhU-GH-58c" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="34" id="Fwm-nr-Tyx"/>
-                            <constraint firstItem="bhU-GH-58c" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="GDM-6p-vam"/>
+                            <constraint firstItem="Maf-vx-c6i" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="EmB-La-a5J"/>
+                            <constraint firstItem="bhU-GH-58c" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="IBB-ZS-qga"/>
                             <constraint firstItem="eHc-oc-tFS" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="Kx4-Si-yHB"/>
-                            <constraint firstItem="Maf-vx-c6i" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="LER-8Q-SmH"/>
-                            <constraint firstItem="eHc-oc-tFS" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="16" id="R5X-Q6-wI9"/>
-                            <constraint firstItem="Maf-vx-c6i" firstAttribute="top" secondItem="bhU-GH-58c" secondAttribute="bottom" constant="104" id="h7H-Ss-83I"/>
+                            <constraint firstItem="eHc-oc-tFS" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="20" id="R5X-Q6-wI9"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Maf-vx-c6i" secondAttribute="bottom" constant="100" id="VE7-sr-ruW"/>
+                            <constraint firstItem="bhU-GH-58c" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="70" id="fU6-h8-gtw"/>
                         </constraints>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="XHe-Kb-k7f" appends="YES" id="gUy-t7-BLh"/>
                         </connections>
                     </view>
-                    <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <connections>
+                        <outlet property="flyGesture" destination="XHe-Kb-k7f" id="Hvk-wt-VKT"/>
                         <outlet property="score" destination="eHc-oc-tFS" id="sr5-D7-r58"/>
                         <outlet property="startButton" destination="Maf-vx-c6i" id="ntY-Fi-GI8"/>
                         <outlet property="titleLabel" destination="bhU-GH-58c" id="NhL-4L-U7F"/>

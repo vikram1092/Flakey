@@ -42,7 +42,7 @@ class Cloud: UIView {
         let bounds = self.bounds
         let arcSize = CGFloat(25)
         var horizontalPosition = CGFloat(0)
-        let verticalPosition = CGFloat(self.bounds.height/2)
+        let verticalPosition = CGFloat(0)
         let maxVerticalDeviation = arcSize - 10
         let incrementBy = arcSize
         

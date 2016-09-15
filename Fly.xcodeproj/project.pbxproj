@@ -23,6 +23,8 @@
 		D1AB9BE01D53FC4000312A0A /* Cloud.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1AB9BDF1D53FC4000312A0A /* Cloud.swift */; };
 		D1AB9BE21D54082D00312A0A /* Arc.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1AB9BE11D54082D00312A0A /* Arc.swift */; };
 		D1E9037D1D55887E005DED90 /* Plane.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E9037C1D55887E005DED90 /* Plane.swift */; };
+		D1F2CDD21D8AFB14001479B6 /* Border.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1F2CDD11D8AFB14001479B6 /* Border.swift */; };
+		D1F2CDD61D8B0B06001479B6 /* Broadcast.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1F2CDD51D8B0B06001479B6 /* Broadcast.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +60,8 @@
 		D1AB9BDF1D53FC4000312A0A /* Cloud.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cloud.swift; sourceTree = "<group>"; };
 		D1AB9BE11D54082D00312A0A /* Arc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Arc.swift; sourceTree = "<group>"; };
 		D1E9037C1D55887E005DED90 /* Plane.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Plane.swift; sourceTree = "<group>"; };
+		D1F2CDD11D8AFB14001479B6 /* Border.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Border.swift; sourceTree = "<group>"; };
+		D1F2CDD51D8B0B06001479B6 /* Broadcast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Broadcast.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,6 +132,8 @@
 				D1AB9BCF1D53F69100312A0A /* ViewController.swift */,
 				D1AB9BDF1D53FC4000312A0A /* Cloud.swift */,
 				D1AB9BE11D54082D00312A0A /* Arc.swift */,
+				D1F2CDD11D8AFB14001479B6 /* Border.swift */,
+				D1F2CDD51D8B0B06001479B6 /* Broadcast.swift */,
 				D1E9037C1D55887E005DED90 /* Plane.swift */,
 				D1A5A7AB1D7D042800D6001A /* Score.swift */,
 				D1AB9BD11D53F69100312A0A /* Main.storyboard */,
@@ -233,11 +239,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D1F2CDD61D8B0B06001479B6 /* Broadcast.swift in Sources */,
 				D1A5A7AC1D7D042800D6001A /* Score.swift in Sources */,
 				D1AB9BE01D53FC4000312A0A /* Cloud.swift in Sources */,
 				D1AB9BD01D53F69100312A0A /* ViewController.swift in Sources */,
 				D1E9037D1D55887E005DED90 /* Plane.swift in Sources */,
 				D1AB9BE21D54082D00312A0A /* Arc.swift in Sources */,
+				D1F2CDD21D8AFB14001479B6 /* Border.swift in Sources */,
 				D1A5A78F1D7CD0BB00D6001A /* PocketSVG.m in Sources */,
 				D1AB9BCE1D53F69100312A0A /* AppDelegate.swift in Sources */,
 			);
