@@ -35,7 +35,7 @@ class Cloud: UIView {
         
         
         //Disallow interaction
-        self.userInteractionEnabled = false
+        self.isUserInteractionEnabled = false
         //self.backgroundColor = UIColor.greenColor()
         
         //Set variables
@@ -54,7 +54,7 @@ class Cloud: UIView {
                 
                 //Create first arc
                 let arc = Arc(frame: CGRect(x: horizontalPosition, y: verticalPosition - arcSize * 0.4, width: arcSize, height: arcSize * 1.5))
-                arc.transform = CGAffineTransformMakeRotation(CGFloat(M_PI)/2)
+                arc.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI)/2)
                 
                 self.addSubview(arc)
                 
@@ -65,7 +65,7 @@ class Cloud: UIView {
                 
                 //Create last arc
                 let arc = Arc(frame: CGRect(x: horizontalPosition - arcSize/2, y: verticalPosition - arcSize * 0.4, width: arcSize, height: arcSize * 1.5))
-                arc.transform = CGAffineTransformMakeRotation(-CGFloat(M_PI)/2)
+                arc.transform = CGAffineTransform(rotationAngle: -CGFloat(M_PI)/2)
                 
                 self.addSubview(arc)
                 
@@ -80,7 +80,7 @@ class Cloud: UIView {
                 
                 
                 let arc1 = Arc(frame: CGRect(x: horizontalPosition, y: verticalPosition - verticalOffset, width: arcSize, height: arcSize/1.5))
-                arc1.transform = CGAffineTransformMakeRotation(-CGFloat(M_PI))
+                arc1.transform = CGAffineTransform(rotationAngle: -CGFloat(M_PI))
                 
                 let arc2 = Arc(frame: CGRect(x: horizontalPosition, y: verticalPosition + verticalOffset, width: arcSize, height: arcSize/1.5))
                 

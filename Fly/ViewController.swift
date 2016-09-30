@@ -8,22 +8,22 @@
 
 import UIKit
 
-class ViewController: UIViewController, UICollisionBehaviorDelegate {
+class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAnimatorDelegate {
     
     
     @IBOutlet var startButton: UIButton!
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var score: Score!
     @IBOutlet var flyGesture: UIPanGestureRecognizer!
+    @IBOutlet var broadcast: Broadcast!
     
-    var cloudTimer = NSTimer()
-    var speedTimer = NSTimer()
+    var cloudTimer: Timer?
     var plane: Plane!
     var planeStartingPoint = CGPoint()
     var touchStartingPoint = CGPoint()
     var hideStatusBar = false
-    var broadcast = Broadcast()
-    let userDefaults = NSUserDefaults.standardUserDefaults()
+    var startButtonInitialized = false
+    let userDefaults = UserDefaults.standard
     
     var speed = CGFloat(1)
     var dynamicAnimator: UIDynamicAnimator!
@@ -31,7 +31,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     var boundaryCollision: UICollisionBehavior!
     var planeResistance: UIDynamicItemBehavior!
     var cloudResistance: UIDynamicItemBehavior!
-    var planeElasticity: UIDynamicItemBehavior!
+    var planeBehaviors: UIDynamicItemBehavior!
     var rotationRestriction: UIDynamicItemBehavior!
     var planeSnap: UISnapBehavior!
     var cloudPush: UIPushBehavior!
@@ -41,20 +41,19 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         
         
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
         
         //Initialize views
         initializeViewsAfterLoad()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.pauseView), name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
     }
     
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         
         
-        super.viewDidAppear(animated)
-        
-        //Initialize views
-        initializeViewsAfterAppear()
+        //Cut corners on start button
+        initializeStartButton()
     }
     
     
@@ -71,16 +70,20 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         plane.startAnimating()
         
         initializeDynamicAnimator()
-        
-        //Cut start button corners
-        startButton.layer.cornerRadius = startButton.bounds.height/2
-        startButton.clipsToBounds = true
-        
     }
     
     
-    internal func initializeViewsAfterAppear() {
+    internal func initializeStartButton() {
         
+        
+        if !startButtonInitialized {
+            
+            startButtonInitialized = true
+            
+            //Cut start button corners
+            startButton.layer.cornerRadius = 45.0/2.0
+            startButton.clipsToBounds = true
+        }
     }
     
     
@@ -91,18 +94,20 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         dynamicAnimator = UIDynamicAnimator(referenceView: self.view)
         
         cloudCollision = UICollisionBehavior(items: [plane])
-        cloudCollision.collisionMode = UICollisionBehaviorMode.Items
+        cloudCollision.collisionMode = UICollisionBehaviorMode.items
         cloudCollision.collisionDelegate = self
         dynamicAnimator.addBehavior(cloudCollision)
         
         boundaryCollision = UICollisionBehavior(items: [plane])
-        boundaryCollision.collisionMode = UICollisionBehaviorMode.Boundaries
+        boundaryCollision.collisionMode = UICollisionBehaviorMode.boundaries
         boundaryCollision.translatesReferenceBoundsIntoBoundary = true
         dynamicAnimator.addBehavior(self.boundaryCollision)
         
-        planeElasticity = UIDynamicItemBehavior(items: [plane])
-        planeElasticity.elasticity = 1.0
-        dynamicAnimator.addBehavior(self.planeElasticity)
+        planeBehaviors = UIDynamicItemBehavior(items: [plane])
+        planeBehaviors.elasticity = 1.0
+        planeBehaviors.resistance = 30
+        dynamicAnimator.addBehavior(self.planeBehaviors)
+        
         
         rotationRestriction = UIDynamicItemBehavior(items: [plane])
         rotationRestriction.allowsRotation = false
@@ -112,7 +117,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         cloudResistance = UIDynamicItemBehavior(items: [])
         cloudResistance.resistance = 0
         
-        
+        dynamicAnimator.delegate = self
         dynamicAnimator.addBehavior(cloudResistance)
         
     }
@@ -121,36 +126,37 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     internal func resetView(finalScore: Int?) {
         
         
-        flyGesture.enabled = false
-        titleLabel.hidden = false
-        startButton.hidden = false
+        //Reset view to start screen, show score broadcast if necessary
+        flyGesture.isEnabled = false
+        titleLabel.isHidden = false
+        startButton.isHidden = false
         
-        plane.hidden = true
+        plane.isHidden = true
         hideStatusBar = false
-        cloudTimer.invalidate()
-        speedTimer.invalidate()
         speed = CGFloat(1)
+        
+        if cloudTimer != nil {
+            
+            cloudTimer!.invalidate()
+            cloudTimer = nil
+        }
         
         if finalScore != nil {
             
-            let maxY = startButton.frame.minY - 20
-            let width = self.view.bounds.width - 100
-            let depth = CGFloat(100)
             
             checkIfBestScore(finalScore!)
+            
             if !broadcast.initialized {
-                
-                broadcast = Broadcast(frame: CGRect(x: self.view.center.x - width/2, y: depth, width: width, height: maxY - depth))
+                broadcast.initializeViews()
             }
             
             broadcast.setScoreLabel(finalScore!)
             broadcast.setBestScoreLabel()
-            self.view.addSubview(broadcast)
             
         }
         
         //Animate buttons fading and start game
-        UIView.animateWithDuration(0.3, animations: {
+        UIView.animate(withDuration: 0.3, animations: {
             
             
             if finalScore != nil {
@@ -175,32 +181,67 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
                 }
             }
             
-        }) { (Bool) in
+        }, completion: { (Bool) in
             
-            self.startButton.userInteractionEnabled = true
+            
+            self.startButton.isUserInteractionEnabled = true
             self.score.resetLabels()
-            self.flyGesture.enabled = true
+            self.flyGesture.isEnabled = true
             
             self.dynamicAnimator.removeAllBehaviors()
             self.plane.center = self.view.center
             
             self.initializeDynamicAnimator()
+        }) 
+    }
+    
+    
+    internal func pauseView() {
+        
+        
+        print("pauseView")
+        cloudTimer?.invalidate()
+        cloudTimer = nil
+        
+        /*
+        if plane.alpha == 1 {
+            
+            
+            
+            for behavior in dynamicAnimator.behaviors {
+                
+                if behavior is UIPushBehavior {
+                    
+                    print("'tis push")
+                    dynamicAnimator.removeBehavior(behavior)
+                }
+            }
+            
+            
+            for view in self.view.subviews {
+                
+                if view is Cloud {
+                    
+                    view.layer.removeAllAnimations()
+                }
+            }
         }
+ */
+        
     }
     
     
     
-    
-    @IBAction func startButtonPressed(sender: AnyObject) {
+    @IBAction func startButtonPressed(_ sender: AnyObject) {
         
         
         //Disable button
-        startButton.userInteractionEnabled = false
+        startButton.isUserInteractionEnabled = false
         hideStatusBar = true
-        plane.hidden = false
+        plane.isHidden = false
         
         //Animate button fade and start game
-        UIView.animateWithDuration(0.3, animations: { 
+        UIView.animate(withDuration: 0.3, animations: { 
             
             self.titleLabel.alpha = 0
             self.startButton.alpha = 0
@@ -210,14 +251,13 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
             self.score.alpha = 1
             self.plane.alpha = 1
             
-            }) { (Bool) in
+            }, completion: { (Bool) in
                 
-                self.titleLabel.hidden = true
-                self.startButton.hidden = true
-                self.broadcast.removeFromSuperview()
+                self.titleLabel.isHidden = true
+                self.startButton.isHidden = true
                 self.fly()
                 
-        }
+        }) 
     }
     
     
@@ -225,8 +265,8 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         
         
         //Animate clouds with timer
-        cloudTimer = NSTimer.scheduledTimerWithTimeInterval(NSTimeInterval(1/speed), target: self, selector: #selector(sendCloud), userInfo: nil, repeats: true)
-        cloudTimer.fire()
+        cloudTimer = Timer.scheduledTimer(timeInterval: TimeInterval(1/speed), target: self, selector: #selector(sendCloud), userInfo: nil, repeats: true)
+        cloudTimer!.fire()
         
     }
     
@@ -234,59 +274,69 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     internal func sendCloud() {
         
         
-        //Increase speed every few seconds
-        if score.getScore() % 10 == 0 && score.getScore() != 0 {
+        if plane.alpha == 1 {
             
-            print("speed up!")
-            speedUp()
+            //Increase speed every few seconds
+            if score.getScore() % 10 == 0 && score.getScore() != 0 {
+                
+                print("speed up!")
+                speedUp()
+            }
+            
+            
+            //Create new cloud of varying length
+            let width = CGFloat(randomCloudWidth())
+            let height = CGFloat(20)
+            let horizontalLocation = max(CGFloat(arc4random_uniform(UInt32(self.view.bounds.width - width - 20))), 20)
+            let cloud = Cloud(frame: CGRect(x: horizontalLocation, y: -height, width: width, height: height))
+            
+            self.view.addSubview(cloud)
+            
+            
+            //Add cloud behaviors
+            cloudCollision.addItem(cloud)
+            rotationRestriction.addItem(cloud)
+            cloudResistance.addItem(cloud)
+            
+            
+            //Push cloud
+            pushCloud(cloud: cloud)
+            
+            
+            //Add action to delete cloud once it's past screen
+            let cloudRemove = UIDynamicItemBehavior(items: [cloud])
+            cloudRemove.action = { (Bool) in
+                
+                if cloud.frame.minY > self.view.bounds.height {
+                    
+                    print("deleting cloud!")
+                    self.cloudCollision.removeItem(cloud)
+                    self.rotationRestriction.removeItem(cloud)
+                    self.cloudResistance.removeItem(cloud)
+                    self.dynamicAnimator.removeBehavior(cloudRemove)
+                    self.dynamicAnimator.removeBehavior(self.cloudPush)
+                    cloud.removeFromSuperview()
+                }
+            }
+            
+            dynamicAnimator.addBehavior(cloudRemove)
+            
+            //Increment score
+            self.score.increment()
+            
         }
+    }
+
+    
+    internal func pushCloud(cloud: UIView) {
         
         
-        //Create new cloud of varying length
-        let width = CGFloat(randomCloudWidth())
-        let height = CGFloat(20)
-        let horizontalLocation = max(CGFloat(arc4random_uniform(UInt32(self.view.bounds.width - width - 20))), 20)
-        let cloud = Cloud(frame: CGRect(x: horizontalLocation, y: -height, width: width, height: height))
-        
-        self.view.addSubview(cloud)
-        
-        
-        //Add cloud behaviors
-        cloudCollision.addItem(cloud)
-        rotationRestriction.addItem(cloud)
-        cloudResistance.addItem(cloud)
-        
-        
-        //Push cloud
-        cloudPush = UIPushBehavior(items: [cloud], mode: UIPushBehaviorMode.Instantaneous)
+        cloudPush = UIPushBehavior(items: [cloud], mode: UIPushBehaviorMode.instantaneous)
         cloudPush.pushDirection = CGVector(dx: 0, dy: 1)
         cloudPush.magnitude = speed * cloud.bounds.width * 0.005
         dynamicAnimator.addBehavior(cloudPush)
-        
-        
-        //Add action to delete cloud once it's past screen
-        let cloudRemove = UIDynamicItemBehavior(items: [cloud])
-        cloudRemove.action = { (Bool) in
-            
-            if cloud.frame.minY > self.view.bounds.height {
-                
-                print("deleting cloud!")
-                self.cloudCollision.removeItem(cloud)
-                self.rotationRestriction.removeItem(cloud)
-                self.cloudResistance.removeItem(cloud)
-                self.dynamicAnimator.removeBehavior(cloudRemove)
-                self.dynamicAnimator.removeBehavior(self.cloudPush)
-                cloud.removeFromSuperview()
-            }
-        }
-        
-        dynamicAnimator.addBehavior(cloudRemove)
-        
-        //Increment score
-        self.score.increment()
-        
     }
-
+    
     
     internal func randomCloudWidth() -> CGFloat {
         
@@ -302,11 +352,16 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     
     internal func speedUp() {
         
+        
         //Stop clouds
-        cloudTimer.invalidate()
+        if cloudTimer != nil {
+            
+            cloudTimer!.invalidate()
+            cloudTimer = nil
+        }
         
         // Delay execution of my block for 10 seconds.
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2 * Int64(NSEC_PER_SEC)), dispatch_get_main_queue()) {
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(2 * Int64(NSEC_PER_SEC)) / Double(NSEC_PER_SEC)) {
             
             if self.plane.alpha == 1 {
                 
@@ -318,54 +373,54 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     }
     
     
-    @IBAction func planeFlown(sender: UIPanGestureRecognizer) {
+    @IBAction func planeFlown(_ sender: UIPanGestureRecognizer) {
         
         
         if plane.alpha == 1 {
            
             switch sender.state {
             
-            case .Began:
+            case .began:
                 
                 //Create a blank view and attach the plane to it
                 //Place blank view at user's touch
-                touchStartingPoint = sender.translationInView(self.view)
+                touchStartingPoint = sender.translation(in: self.view)
                 planeStartingPoint = plane.center
                 
                 //Create to attach plane
-                planeSnap = UISnapBehavior(item: plane, snapToPoint: planeStartingPoint)
+                planeSnap = UISnapBehavior(item: plane, snapTo: planeStartingPoint)
                 dynamicAnimator.addBehavior(planeSnap)
                 
                 
-            case .Changed:
+            case .changed:
                 
                 
                 //Set translation difference and sensitivity
-                let sensitivity = CGFloat(3)
-                let translation = sender.translationInView(self.view)
+                let sensitivity = CGFloat(5)
+                let translation = sender.translation(in: self.view)
                 let horizontalDifference = (touchStartingPoint.x - translation.x) * sensitivity
                 let verticalDifference = (touchStartingPoint.y - translation.y) * sensitivity
                 
                 //Set movement according to difference accounting for view bounds as limitations
                 let horizontalMovement = min(max(planeStartingPoint.x + horizontalDifference,  plane.bounds.width/2), self.view.bounds.width - plane.bounds.width/2)
                 let verticalMovement = min(max(planeStartingPoint.y + verticalDifference, plane.bounds.height/2), self.view.bounds.height - plane.bounds.height/2)
-                1
+                
                 
                 //Change snap point to movement variables
                 planeSnap.snapPoint = CGPoint(x: horizontalMovement, y: verticalMovement)
                 
                 
-            case .Cancelled, .Ended:
+            case .cancelled, .ended:
                 
                 
                 //Remove behavior
                 dynamicAnimator.removeBehavior(planeSnap)
                 
                 //Cancel movement of plane
-                let velocity = sender.velocityInView(self.view)
+                let velocity = sender.velocity(in: self.view)
                 
                 let stopPlane = UIDynamicItemBehavior(items: [plane])
-                stopPlane.addLinearVelocity(CGPoint(x: -velocity.x, y: -velocity.y), forItem: plane)
+                stopPlane.addLinearVelocity(CGPoint(x: -velocity.x, y: -velocity.y), for: plane)
                 dynamicAnimator.addBehavior(stopPlane)
                 
                 
@@ -376,33 +431,32 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     }
     
     
-    internal func checkIfBestScore(finalScore: Int) {
+    internal func checkIfBestScore(_ finalScore: Int) {
         
         
-        let best = userDefaults.integerForKey("bestScore")
+        let best = userDefaults.integer(forKey: "bestScore")
         if best < finalScore {
             
-            userDefaults.setInteger(finalScore, forKey: "bestScore")
+            userDefaults.set(finalScore, forKey: "bestScore")
         }
     }
     
     
     
     
-    internal func collisionBehavior(behavior: UICollisionBehavior, beganContactForItem item1: UIDynamicItem, withItem item2: UIDynamicItem, atPoint p: CGPoint) {
+    internal func collisionBehavior(_ behavior: UICollisionBehavior, beganContactFor item1: UIDynamicItem, with item2: UIDynamicItem, at p: CGPoint) {
         
         print("Collision!")
-        self.resetView(score.getScore())
+        self.resetView(finalScore: score.getScore())
     }
     
     
-    internal func collisionBehavior(behavior: UICollisionBehavior, endedContactForItem item1: UIDynamicItem, withItem item2: UIDynamicItem) {
+    internal func collisionBehavior(_ behavior: UICollisionBehavior, endedContactFor item1: UIDynamicItem, with item2: UIDynamicItem) {
         
-        print("Collision!")
     }
     
     
-    override func prefersStatusBarHidden() -> Bool {
+    override var prefersStatusBarHidden : Bool {
         
         return true
     }

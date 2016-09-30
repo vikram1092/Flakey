@@ -13,10 +13,13 @@ class Plane: UIView {
     
     
     let planeLayer = CAShapeLayer()
-    let planeColor = UIColor.grayColor()
+    let planeColor = UIColor.gray
+    let trailColor = UIColor.gray
     var superViewPosition = CGPoint(x: 0, y: 0)
-    var lastPosition = CGFloat(0)
     var animating = false
+    let trail1 = CAShapeLayer()
+    let trail2 = CAShapeLayer()
+    let trail3 = CAShapeLayer()
     
     
     required init?(coder aDecoder: NSCoder) {
@@ -39,26 +42,75 @@ class Plane: UIView {
         
         
         //Intialize plane view
-        let path = PocketSVG.pathFromSVGFileNamed("plane").takeUnretainedValue()
+        let path = PocketSVG.path(fromSVGFileNamed: "plane").takeUnretainedValue()
         
         planeLayer.path = path
-        planeLayer.fillColor = UIColor.clearColor().CGColor
-        planeLayer.strokeColor = planeColor.CGColor
+        planeLayer.fillColor = UIColor.clear.cgColor
+        planeLayer.strokeColor = planeColor.cgColor
         planeLayer.lineWidth = 2
         planeLayer.lineCap = kCALineCapRound
         
+        
+        
+        //Set variables
+        let range = CGFloat(5)
+        let position1 = self.bounds.width/2 - range
+        let position2 = self.bounds.width/2
+        let position3 = self.bounds.width/2 + range
+        let height = self.bounds.height + 15
+        
+        //Create paths
+        let path1 = UIBezierPath()
+        path1.move(to: CGPoint(x: position1, y: self.bounds.height + 3))
+        path1.addLine(to: CGPoint(x: position1, y: height))
+        
+        let path2 = UIBezierPath()
+        path2.move(to: CGPoint(x: position2, y: self.bounds.height + 3))
+        path2.addLine(to: CGPoint(x: position2, y: height))
+        
+        let path3 = UIBezierPath()
+        path3.move(to: CGPoint(x: position3, y: self.bounds.height + 3))
+        path3.addLine(to: CGPoint(x: position3, y: height))
+        
+        //Create trail layers
+        trail1.path = path1.cgPath
+        //trail1.fillColor = UIColor.clear.cgColor
+        trail1.strokeColor = trailColor.cgColor
+        trail1.strokeStart = 0.0
+        trail1.strokeEnd = 0.0
+        trail1.lineWidth = 1.5
+        
+        trail2.path = path2.cgPath
+        //trail2.fillColor = UIColor.clear.cgColor
+        trail2.strokeColor = trailColor.cgColor
+        trail2.strokeStart = 0.0
+        trail2.strokeEnd = 0.0
+        trail2.lineWidth = 1.5
+        
+        trail3.path = path3.cgPath
+        //trail3.fillColor = UIColor.clear.cgColor
+        trail3.strokeColor = trailColor.cgColor
+        trail3.strokeStart = 0.0
+        trail3.strokeEnd = 0.0
+        trail3.lineWidth = 1.5
+        
+        //Add all layers
         self.layer.addSublayer(planeLayer)
+        self.layer.addSublayer(trail1)
+        self.layer.addSublayer(trail2)
+        self.layer.addSublayer(trail3)
     }
     
     
     internal func startAnimating() {
         
+        
         //Start the animation loop
         if !animating {
             
+            //Set animation flag
             animating = true
-            animate()
-            animate()
+            
             animate()
         }
     }
@@ -66,52 +118,39 @@ class Plane: UIView {
     
     internal func animate() {
         
-        let range = UInt32(10)
-        var position = self.bounds.width/2 - CGFloat(range) + CGFloat(arc4random_uniform(range))
-        let height = self.bounds.height + max(CGFloat(arc4random_uniform(UInt32(self.bounds.height))) * 0.5, 7)
         
-        
-        while position == lastPosition {
-            
-            position = CGFloat(arc4random_uniform(UInt32(self.bounds.width)))
-        }
-        
-        
-        let path = UIBezierPath()
-        path.moveToPoint(CGPoint(x: position, y: self.bounds.height + 3))
-        path.addLineToPoint(CGPoint(x: position, y: height))
-        
-        //Create shape layer for trail
-        let trail = CAShapeLayer()
-        trail.path = path.CGPath
-        trail.fillColor = UIColor.clearColor().CGColor
-        trail.strokeColor = UIColor.lightGrayColor().CGColor
-        trail.strokeStart = 0.0
-        trail.strokeEnd = 0.0
-        trail.lineWidth = 2
-        
-        
-        //Configure animation
-        CATransaction.begin()
+        //Create self referential looping block for trails
         CATransaction.setCompletionBlock {
             
-            //Remove trail and start over
-            trail.removeFromSuperlayer()
             self.animate()
         }
         
-        let animation = CABasicAnimation(keyPath: "strokeEnd")
-        animation.fromValue = 0.0
-        animation.toValue = 1.0
-        animation.duration = 0.5
-        animation.removedOnCompletion = true
+        CATransaction.begin()
         
-        self.layer.addSublayer(trail)
-        trail.addAnimation(animation, forKey: nil)
+        let animation1 = animation(0.2)
+        let animation2 = animation(0.4)
+        let animation3 = animation(0.2)
+        
+        trail1.add(animation1, forKey: nil)
+        trail2.add(animation2, forKey: nil)
+        trail3.add(animation3, forKey: nil)
         
         CATransaction.commit()
-        
     }
     
     
+    internal func animation(_ startValue: CGFloat) -> CABasicAnimation {
+        
+        
+        //Configure animation
+        let animation = CABasicAnimation(keyPath: "strokeEnd")
+        animation.fromValue = startValue
+        animation.toValue = max(CGFloat(arc4random_uniform(100))/100.0, 0.4)
+        animation.duration = 0.2
+        animation.autoreverses = true
+        animation.isRemovedOnCompletion = false
+        animation.fillMode = kCAFillModeForwards
+        
+        return animation
+    }
 }

@@ -37,13 +37,12 @@ class Border: UIView {
         let path = UIBezierPath()
         let width = self.bounds.width
         let height = self.bounds.height/2
-        print("width & height: \(width) \(height)")
         
-        path.moveToPoint(CGPoint(x: 0, y: height))
-        path.addLineToPoint(CGPoint(x: width, y: height))
-        borderLine.path = path.CGPath
-        borderLine.fillColor = UIColor.clearColor().CGColor
-        borderLine.strokeColor = UIColor.lightGrayColor().CGColor
+        path.move(to: CGPoint(x: 0, y: height))
+        path.addLine(to: CGPoint(x: width, y: height))
+        borderLine.path = path.cgPath
+        borderLine.fillColor = UIColor.clear.cgColor
+        borderLine.strokeColor = UIColor.lightGray.cgColor
         
         self.layer.addSublayer(borderLine)
     }

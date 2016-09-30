@@ -14,7 +14,7 @@ class Arc: UIView {
     
     
     let arcLayer = CAShapeLayer()
-    let cloudColor = UIColor.grayColor()
+    let cloudColor = UIColor.gray
     
     
     required init?(coder aDecoder: NSCoder) {
@@ -36,9 +36,9 @@ class Arc: UIView {
     internal func initializeLayers() {
     
         //Make arc layer
-        arcLayer.path = UIBezierPath(ovalInRect: self.bounds).CGPath
-        arcLayer.fillColor = UIColor.clearColor().CGColor
-        arcLayer.strokeColor = cloudColor.CGColor
+        arcLayer.path = UIBezierPath(ovalIn: self.bounds).cgPath
+        arcLayer.fillColor = UIColor.clear.cgColor
+        arcLayer.strokeColor = cloudColor.cgColor
         arcLayer.strokeStart = 0.0
         arcLayer.strokeEnd = 0.5
         arcLayer.lineWidth = 3

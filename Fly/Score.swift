@@ -50,12 +50,12 @@ class Score: UIView {
         label2 =  UILabel(frame: CGRect(x: 0, y: 0, width: self.bounds.width, height: height))
         
         //Initialize variables for labels
-        label1.textAlignment = NSTextAlignment.Center
-        label1.textColor = UIColor.whiteColor()
-        label1.font = UIFont.systemFontOfSize(14)
-        label2.textAlignment = NSTextAlignment.Center
-        label2.textColor = UIColor.whiteColor()
-        label2.font = UIFont.systemFontOfSize(14)
+        label1.textAlignment = NSTextAlignment.center
+        label1.textColor = UIColor.white
+        label1.font = UIFont.systemFont(ofSize: 14)
+        label2.textAlignment = NSTextAlignment.center
+        label2.textColor = UIColor.white
+        label2.font = UIFont.systemFont(ofSize: 14)
         
         //Add labels
         self.addSubview(label1)
@@ -68,11 +68,14 @@ class Score: UIView {
     
     internal func resetLabels() {
         
+        
         label1.text = nil
         label2.text = "1"
         
         label1.alpha = 1
         label2.alpha = 0
+        
+        score = 1
         
         //Adjust labels
         label1.center = CGPoint(x: label1.center.x, y: self.bounds.height/2)
@@ -104,7 +107,7 @@ class Score: UIView {
         
         
         //Animate transition
-        UIView.animateWithDuration(0.4, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: UIViewAnimationOptions.CurveLinear, animations: {
+        UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: UIViewAnimationOptions.curveLinear, animations: {
             
             
             let distance = self.label1.bounds.height/2 + self.label2.bounds.height/2
