@@ -19,15 +19,13 @@ class Broadcast: UIView {
     var scoreHeader = UILabel()
     var bestScoreHeader = UILabel()
     var scoreboardHeader = UILabel()
-    //var scoreboard = Scoreboard()
     let scoreColor = UIColor(red: 211.0/255.0, green: 84.0/255.0, blue: 63.0/255.0, alpha: 1)
     let headerColor = UIColor.lightGray
     var initialized = false
     
-    var scores = [String]()
     var activityIndicator = UIActivityIndicatorView()
     var activityIndicatorColor = UIColor.gray
-    var scoreTable = UIView()
+    var scoreTableView = UIView()
     
     
     required init?(coder aDecoder: NSCoder) {
@@ -110,16 +108,14 @@ class Broadcast: UIView {
         self.addSubview(scoreboardHeader)
         
         
-        //Add table container to it
-        scoreTable = self.viewWithTag(1)!
         
+        //Initialize table view and reset constraints
+        scoreTableView = self.viewWithTag(1)!
         
         //Initialize and add activity indicator
         activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
         self.addSubview(activityIndicator)
-        activityIndicator.center = CGPoint(x: self.bounds.width/2, y: scoreTable.center.y)
-        
-        activityIndicator.startAnimating()
+        activityIndicator.center = CGPoint(x: self.bounds.width/2, y: scoreTableView.center.y)
         
         
         //Set best score
@@ -130,19 +126,44 @@ class Broadcast: UIView {
     internal func showScoreboard() {
         
         
-        //Update UI
+        //Start animating activity indicator and show the score table
+        print("showScoreboard")
         activityIndicator.stopAnimating()
         
         UIView.animate(withDuration: 0.3) {
             
-            self.scoreTable.alpha = 1
+            self.scoreTableView.alpha = 1
         }
     }
     
     
+    internal func hideScoreBoard() {
+        
+        //Hide the score table and start animating activity indicator
+        print("hideScoreboard")
+        UIView.animate(withDuration: 0.3) {
+            
+            self.scoreTableView.alpha = 0
+        }
+    }
+    
     internal func setScoreLabel(_ newScore: Int) {
         
+        //Set score label
         score.text = String(newScore)
+    }
+    
+    
+    internal func getScore() -> Int {
+        
+        
+        //Get score from score label
+        if score.text != "" {
+            
+            return Int(score.text!)!
+        }
+        
+        return 0
     }
     
     

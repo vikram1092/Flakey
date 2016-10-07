@@ -16,53 +16,55 @@ class Score: UIView {
     var label2 = UILabel()
     let themeColor = UIColor(red: 211.0/225.0, green: 84.0/225.0, blue: 63.0/225.0, alpha: 1)
     var score = 0
+    var initialized = false
 
-    
     
     required init?(coder aDecoder: NSCoder) {
         
         super.init(coder: aDecoder)
-        
-        initializeViews()
     }
     
     
     override init(frame: CGRect) {
         
         super.init(frame: frame)
-        
-        initializeViews()
     }
     
     
     internal func initializeViews() {
         
         
-        //Set shape
-        self.backgroundColor = themeColor
-        self.layer.cornerRadius = self.bounds.height/2
-        self.clipsToBounds = true
-        
-        
-        //Redeclare labels
-        let height = CGFloat(20)
-        label1 = UILabel(frame: CGRect(x: 0, y: 0, width: self.bounds.width, height: height))
-        label2 =  UILabel(frame: CGRect(x: 0, y: 0, width: self.bounds.width, height: height))
-        
-        //Initialize variables for labels
-        label1.textAlignment = NSTextAlignment.center
-        label1.textColor = UIColor.white
-        label1.font = UIFont.systemFont(ofSize: 14)
-        label2.textAlignment = NSTextAlignment.center
-        label2.textColor = UIColor.white
-        label2.font = UIFont.systemFont(ofSize: 14)
-        
-        //Add labels
-        self.addSubview(label1)
-        self.addSubview(label2)
-        
-        //Set labels to default values
-        resetLabels()
+        print("Score initializeViews")
+        if !initialized {
+            
+            initialized = true
+            print(frame)
+            //Set shape
+            self.backgroundColor = themeColor
+            self.layer.cornerRadius = self.bounds.height/2
+            self.clipsToBounds = true
+            
+            
+            //Redeclare labels
+            let height = CGFloat(20)
+            label1 = UILabel(frame: CGRect(x: 0, y: 0, width: self.bounds.width, height: height))
+            label2 =  UILabel(frame: CGRect(x: 0, y: 0, width: self.bounds.width, height: height))
+            
+            //Initialize variables for labels
+            label1.textAlignment = NSTextAlignment.center
+            label1.textColor = UIColor.white
+            label1.font = UIFont.systemFont(ofSize: 14)
+            label2.textAlignment = NSTextAlignment.center
+            label2.textColor = UIColor.white
+            label2.font = UIFont.systemFont(ofSize: 14)
+            
+            //Add labels
+            self.addSubview(label1)
+            self.addSubview(label2)
+            
+            //Set labels to default values
+            resetLabels()
+        }
     }
     
     
@@ -136,7 +138,6 @@ class Score: UIView {
     
     
     internal func getScore() -> Int {
-        
         
         return score
     }

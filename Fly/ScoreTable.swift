@@ -8,30 +8,25 @@
 
 import Foundation
 import UIKit
-import Firebase
 
 class ScoreTable: UITableViewController {
     
     
     let userDefaults = UserDefaults.standard
-    var username = "---"
-    var ref: FIRDatabaseReference!
-    private var _refHandle: FIRDatabaseHandle!
+    var scores = Array<NSDictionary>()
+    var username = ""
     
     
     override func viewDidLoad() {
         
         
         super.viewDidLoad()
-        
-        initializeParameters()
     }
     
     
     override func viewDidAppear(_ animated: Bool) {
         
         
-        tableView.delegate = self
         print("viewDidAppear table")
         tableView.reloadData()
         print(tableView.numberOfRows(inSection: 0))
@@ -53,30 +48,31 @@ class ScoreTable: UITableViewController {
         
         print("cellForRowAt")
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell")!
+        let rankLabel = cell.viewWithTag(1) as! UILabel
+        let nameLabel = cell.viewWithTag(2) as! UILabel
+        let scoreLabel = cell.viewWithTag(3) as! UILabel
+        let scoreIndex = scores.count - indexPath.row - 1
+        
+        
+        rankLabel.text = String(indexPath.row)
+        
+        nameLabel.text = String(describing: scores[scoreIndex][Constants.username]!)
+        
+        scoreLabel.text = String(describing: scores[scoreIndex][Constants.score]!)
+        
+        
         return cell
     }
     
     
-    internal func numberOfRows(inSection section: Int) -> Int {
+    internal override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return 4
+        return scores.count
     }
     
     
-    internal func configureDatabase() {
+    internal func refresh() {
         
-        ref = FIRDatabase.database().reference()
-    }
-    
-    
-    internal func sendScore(data: [String: String]) {
-        
-        
-        //Send score
-        var mdata = data
-        mdata["username"] = username
-        
-        //Push data to Firebase Database
-        self.ref.child("score").childByAutoId().setValue(mdata)
+        tableView.reloadData()
     }
 }

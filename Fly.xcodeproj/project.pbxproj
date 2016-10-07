@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		AADA7F12B1B87C2A468EB052 /* Pods_Fly.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED41132728075A15C1E0AFAA /* Pods_Fly.framework */; };
+		D15532FF1DA720B400B7FAD9 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D15532FE1DA720B400B7FAD9 /* Constants.swift */; };
 		D1647ABE1D94A7C60027429C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D1647ABD1D94A7C60027429C /* GoogleService-Info.plist */; };
 		D1A5A7751D7CD0BB00D6001A /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = D1A5A7331D7CD0BB00D6001A /* .gitignore */; };
 		D1A5A7761D7CD0BB00D6001A /* .travis.yml in Resources */ = {isa = PBXBuildFile; fileRef = D1A5A7341D7CD0BB00D6001A /* .travis.yml */; };
@@ -42,6 +43,7 @@
 
 /* Begin PBXFileReference section */
 		94AFA9FB4B2679DE2369E52D /* Pods-Fly.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fly.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Fly/Pods-Fly.debug.xcconfig"; sourceTree = "<group>"; };
+		D15532FE1DA720B400B7FAD9 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		D1647ABD1D94A7C60027429C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D1A5A7331D7CD0BB00D6001A /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		D1A5A7341D7CD0BB00D6001A /* .travis.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .travis.yml; sourceTree = "<group>"; };
@@ -157,6 +159,7 @@
 			children = (
 				D1A5A7321D7CD0BB00D6001A /* PocketSVG-master */,
 				D1AB9BCD1D53F69100312A0A /* AppDelegate.swift */,
+				D15532FE1DA720B400B7FAD9 /* Constants.swift */,
 				D1AB9BCF1D53F69100312A0A /* ViewController.swift */,
 				D1AB9BDF1D53FC4000312A0A /* Cloud.swift */,
 				D1AB9BE11D54082D00312A0A /* Arc.swift */,
@@ -324,6 +327,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D1F2CDD61D8B0B06001479B6 /* Broadcast.swift in Sources */,
+				D15532FF1DA720B400B7FAD9 /* Constants.swift in Sources */,
 				D1A5A7AC1D7D042800D6001A /* Score.swift in Sources */,
 				D1AB9BE01D53FC4000312A0A /* Cloud.swift in Sources */,
 				D1AB9BD01D53F69100312A0A /* ViewController.swift in Sources */,

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAnimatorDelegate {
     
@@ -24,6 +25,11 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     var hideStatusBar = false
     var startButtonInitialized = false
     let userDefaults = UserDefaults.standard
+    var scoreTable = ScoreTable()
+    
+    var ref: FIRDatabaseReference!
+    private var _refHandle: FIRDatabaseHandle!
+    var username = "VIK"
     
     var speed = CGFloat(1)
     var dynamicAnimator: UIDynamicAnimator!
@@ -42,8 +48,10 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         
         super.viewDidLoad()
         
-        //Initialize views
+        //Initialize stuff
+        initializeParameters()
         initializeViewsAfterLoad()
+        configureDatabase()
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.pauseView), name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
     }
@@ -52,8 +60,38 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     override func viewWillAppear(_ animated: Bool) {
         
         
-        //Cut corners on start button
-        initializeStartButton()
+        super.viewWillAppear(animated)
+        
+        //Initialize views before view will appear
+        initializeViewsBeforeAppear()
+    }
+    
+    
+    override func viewDidAppear(_ animated: Bool) {
+        
+        
+        super.viewDidAppear(animated)
+        
+        
+        initializeViewsAfterAppear()
+        
+        for child in self.childViewControllers {
+            
+            if child is ScoreTable {
+                
+                scoreTable = child as! ScoreTable
+            }
+        }
+    }
+    
+    
+    internal func initializeParameters() {
+        
+        
+        if userDefaults.object(forKey: "username") != nil {
+            
+            username = userDefaults.object(forKey: "username") as! String
+        }
     }
     
     
@@ -73,7 +111,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     }
     
     
-    internal func initializeStartButton() {
+    internal func initializeViewsBeforeAppear() {
         
         
         if !startButtonInitialized {
@@ -83,6 +121,21 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
             //Cut start button corners
             startButton.layer.cornerRadius = 45.0/2.0
             startButton.clipsToBounds = true
+        }
+    }
+    
+    
+    internal func initializeViewsAfterAppear() {
+        
+        
+        //Initialize broadcast view
+        if !broadcast.initialized {
+            broadcast.initializeViews()
+        }
+        
+        //Initialize score view
+        if !score.initialized {
+            score.initializeViews()
         }
     }
     
@@ -123,6 +176,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     }
     
     
+    
     internal func resetView(finalScore: Int?) {
         
         
@@ -143,16 +197,15 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         
         if finalScore != nil {
             
-            
-            checkIfBestScore(finalScore!)
-            
-            if !broadcast.initialized {
-                broadcast.initializeViews()
-            }
+            //Check if current score is the best & set labels on broadcast view
+            let _ = checkIfBestScore(finalScore!)
             
             broadcast.setScoreLabel(finalScore!)
             broadcast.setBestScoreLabel()
-            
+        
+            //Send current score to database and request more scores
+            sendScore()
+            requestScores()
         }
         
         //Animate buttons fading and start game
@@ -183,7 +236,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
             
         }, completion: { (Bool) in
             
-            
+            //Start game
             self.startButton.isUserInteractionEnabled = true
             self.score.resetLabels()
             self.flyGesture.isEnabled = true
@@ -202,32 +255,6 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         print("pauseView")
         cloudTimer?.invalidate()
         cloudTimer = nil
-        
-        /*
-        if plane.alpha == 1 {
-            
-            
-            
-            for behavior in dynamicAnimator.behaviors {
-                
-                if behavior is UIPushBehavior {
-                    
-                    print("'tis push")
-                    dynamicAnimator.removeBehavior(behavior)
-                }
-            }
-            
-            
-            for view in self.view.subviews {
-                
-                if view is Cloud {
-                    
-                    view.layer.removeAllAnimations()
-                }
-            }
-        }
- */
-        
     }
     
     
@@ -251,6 +278,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
             self.score.alpha = 1
             self.plane.alpha = 1
             
+            
             }, completion: { (Bool) in
                 
                 self.titleLabel.isHidden = true
@@ -263,11 +291,9 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     
     internal func fly() {
         
-        
         //Animate clouds with timer
         cloudTimer = Timer.scheduledTimer(timeInterval: TimeInterval(1/speed), target: self, selector: #selector(sendCloud), userInfo: nil, repeats: true)
         cloudTimer!.fire()
-        
     }
     
     
@@ -431,16 +457,75 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     }
     
     
-    internal func checkIfBestScore(_ finalScore: Int) {
+    
+    internal func checkIfBestScore(_ finalScore: Int) -> Bool {
         
         
         let best = userDefaults.integer(forKey: "bestScore")
         if best < finalScore {
             
             userDefaults.set(finalScore, forKey: "bestScore")
+            return true
         }
+        
+        return false
     }
     
+    
+    internal func configureDatabase() {
+        
+        ref = FIRDatabase.database().reference()
+    }
+    
+    
+    internal func requestScores() {
+        
+        //Hide score table and show refreshing logo
+        broadcast.hideScoreBoard()
+        
+        //Query database for results
+        let scoresList = ref.child(Constants.baseChild)
+        scoresList.queryOrderedByPriority().queryLimited(toLast: 5).observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            if snapshot.value != nil {
+                
+                
+                let scoreList = self.convertSnapshotToDictionary(snapshot: snapshot)
+                
+                self.scoreTable.scores = scoreList
+                self.scoreTable.refresh()
+                self.broadcast.showScoreboard()
+            }
+        })
+    }
+    
+    
+    internal func convertSnapshotToDictionary(snapshot: FIRDataSnapshot) -> Array<NSDictionary> {
+    
+        
+        var scoreList = Array<NSDictionary>()
+        for child in snapshot.children {
+            
+            scoreList.append((child as! FIRDataSnapshot).value as! NSDictionary)
+        }
+        
+        return scoreList
+    
+    }
+    
+    internal func sendScore() {
+        
+        //Send score
+        let score = broadcast.getScore()
+        var mdata = [String: Any]()
+        mdata[Constants.username] = username
+        mdata[Constants.score] = score
+        
+        
+        //Push data to Firebase Database
+        self.ref.child(Constants.baseChild).child(String(score)).setValue(mdata)
+        self.ref.child(Constants.baseChild).child(String(score)).setPriority(score)
+    }
     
     
     
