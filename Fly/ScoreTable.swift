@@ -15,12 +15,15 @@ class ScoreTable: UITableViewController {
     let userDefaults = UserDefaults.standard
     var scores = Array<NSDictionary>()
     var username = ""
+    let orange = UIColor(red: 211.0/255.0, green: 84.0/255.0, blue: 63.0/255.0, alpha: 1)
+    let gray = UIColor.lightGray
+    var currentScore = 0
     
     
     override func viewDidLoad() {
         
-        
         super.viewDidLoad()
+        initializeParameters()
     }
     
     
@@ -36,9 +39,9 @@ class ScoreTable: UITableViewController {
     internal func initializeParameters() {
         
         
-        if userDefaults.object(forKey: "username") != nil {
+        if userDefaults.object(forKey: Constants.username) != nil {
             
-            username = userDefaults.object(forKey: "username") as! String
+            username = userDefaults.object(forKey: Constants.username) as! String
         }
     }
     
@@ -47,6 +50,7 @@ class ScoreTable: UITableViewController {
         
         
         print("cellForRowAt")
+        //Get necessary variables
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell")!
         let rankLabel = cell.viewWithTag(1) as! UILabel
         let nameLabel = cell.viewWithTag(2) as! UILabel
@@ -54,12 +58,25 @@ class ScoreTable: UITableViewController {
         let scoreIndex = scores.count - indexPath.row - 1
         
         
-        rankLabel.text = String(indexPath.row)
-        
+        //Set label values
+        rankLabel.text = String(indexPath.row + 1)
         nameLabel.text = String(describing: scores[scoreIndex][Constants.username]!)
-        
         scoreLabel.text = String(describing: scores[scoreIndex][Constants.score]!)
         
+        
+        //Change color depending on current score
+        if Int(scoreLabel.text!)! == currentScore && nameLabel.text! == username {
+            
+            rankLabel.textColor = orange
+            nameLabel.textColor = orange
+            scoreLabel.textColor = orange
+        }
+        else {
+            
+            rankLabel.textColor = gray
+            nameLabel.textColor = gray
+            scoreLabel.textColor = gray
+        }
         
         return cell
     }
@@ -74,5 +91,11 @@ class ScoreTable: UITableViewController {
     internal func refresh() {
         
         tableView.reloadData()
+    }
+    
+    
+    internal func updateCurrentScore(score: Int) {
+        
+        currentScore = score
     }
 }

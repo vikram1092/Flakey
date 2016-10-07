@@ -50,67 +50,19 @@ class Broadcast: UIView {
         //Turn invisible first
         self.alpha = 0
         
-        //Initialize score header view
-        let scoreHeaderWidth = self.bounds.width
-        scoreHeader = UILabel(frame: CGRect(x: 0, y: 0, width: scoreHeaderWidth, height: 20))
-        scoreHeader.font = UIFont.systemFont(ofSize: 15)
-        scoreHeader.textAlignment = NSTextAlignment.center
-        scoreHeader.textColor = headerColor
-        scoreHeader.text = "SCORE"
-        self.addSubview(scoreHeader)
         
+        //Initialize all views
+        scoreHeader = self.viewWithTag(1)! as! UILabel
+        score = self.viewWithTag(2)! as! UILabel
+        let bestScoreBorder = self.viewWithTag(3)! as! Border
+        bestScoreBorder.drawLine()
+        bestScoreHeader = self.viewWithTag(4)! as! UILabel
+        bestScore = self.viewWithTag(5)! as! UILabel
+        let scoreboardBorder = self.viewWithTag(6)! as! Border
+        scoreboardBorder.drawLine()
+        scoreboardHeader = self.viewWithTag(7)! as! UILabel
+        scoreTableView = self.viewWithTag(8)!
         
-        //Initialize score view
-        score = UILabel(frame: CGRect(x: 0, y:scoreHeader.frame.maxY + 10, width: self.bounds.width, height: 80))
-        score.font = UIFont.systemFont(ofSize: 90, weight: UIFontWeightUltraLight)
-        score.textAlignment = NSTextAlignment.center
-        score.textColor = scoreColor
-        self.addSubview(score)
-        
-        
-        //Initialize best score border
-        let bestScoreBorderWidth = self.bounds.width
-        let bestScoreBorder = Border(frame: CGRect(x: 0, y: score.frame.maxY + 10, width: bestScoreBorderWidth, height: 10))
-        self.addSubview(bestScoreBorder)
-        
-        
-        //Initialize best score header view
-        let bestScoreHeaderWidth = self.bounds.width
-        bestScoreHeader = UILabel(frame: CGRect(x: 0, y: bestScoreBorder.frame.maxY + 10, width: bestScoreHeaderWidth, height: 20))
-        bestScoreHeader.font = UIFont.systemFont(ofSize: 15)
-        bestScoreHeader.textAlignment = NSTextAlignment.center
-        bestScoreHeader.textColor = headerColor
-        bestScoreHeader.text = "BEST"
-        self.addSubview(bestScoreHeader)
-        
-        
-        //Initialize best score view
-        bestScore = UILabel(frame: CGRect(x: 0, y: bestScoreHeader.frame.maxY + 10, width: self.bounds.width, height: 40))
-        bestScore.font = UIFont.systemFont(ofSize: 40, weight: UIFontWeightUltraLight)
-        bestScore.textAlignment = NSTextAlignment.center
-        bestScore.textColor = scoreColor
-        self.addSubview(bestScore)
-        
-        
-        //Initialize top scores border
-        let scoreboardBorderWidth = self.bounds.width
-        let scoreboardBorder = Border(frame: CGRect(x: 0, y: bestScore.frame.maxY + 10, width: scoreboardBorderWidth, height: 10))
-        self.addSubview(scoreboardBorder)
-        
-        
-        //Initialize best score header view
-        let scoreboardHeaderWidth = self.bounds.width
-        scoreboardHeader = UILabel(frame: CGRect(x: 0, y: scoreboardBorder.frame.maxY + 10, width: scoreboardHeaderWidth, height: 20))
-        scoreboardHeader.font = UIFont.systemFont(ofSize: 15)
-        scoreboardHeader.textAlignment = NSTextAlignment.center
-        scoreboardHeader.textColor = headerColor
-        scoreboardHeader.text = "SCOREBOARD"
-        self.addSubview(scoreboardHeader)
-        
-        
-        
-        //Initialize table view and reset constraints
-        scoreTableView = self.viewWithTag(1)!
         
         //Initialize and add activity indicator
         activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.gray)

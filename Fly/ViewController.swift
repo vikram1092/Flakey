@@ -88,9 +88,13 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     internal func initializeParameters() {
         
         
-        if userDefaults.object(forKey: "username") != nil {
+        if userDefaults.object(forKey: Constants.username) != nil {
             
-            username = userDefaults.object(forKey: "username") as! String
+            username = userDefaults.object(forKey: Constants.username) as! String
+        }
+        else {
+            
+            userDefaults.set("VIK", forKey: Constants.username)
         }
     }
     
@@ -184,6 +188,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         flyGesture.isEnabled = false
         titleLabel.isHidden = false
         startButton.isHidden = false
+        broadcast.isUserInteractionEnabled = false
         
         plane.isHidden = true
         hideStatusBar = false
@@ -197,11 +202,12 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         
         if finalScore != nil {
             
-            //Check if current score is the best & set labels on broadcast view
+            //Check if current score is the best, set labels on broadcast view & pass score to table
             let _ = checkIfBestScore(finalScore!)
             
             broadcast.setScoreLabel(finalScore!)
             broadcast.setBestScoreLabel()
+            scoreTable.updateCurrentScore(score: finalScore!)
         
             //Send current score to database and request more scores
             sendScore()
@@ -262,8 +268,9 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     @IBAction func startButtonPressed(_ sender: AnyObject) {
         
         
-        //Disable button
+        //Disable button and broadcast
         startButton.isUserInteractionEnabled = false
+        broadcast.isUserInteractionEnabled = false
         hideStatusBar = true
         plane.isHidden = false
         
@@ -501,7 +508,6 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     
     
     internal func convertSnapshotToDictionary(snapshot: FIRDataSnapshot) -> Array<NSDictionary> {
-    
         
         var scoreList = Array<NSDictionary>()
         for child in snapshot.children {
@@ -510,8 +516,8 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         }
         
         return scoreList
-    
     }
+    
     
     internal func sendScore() {
         
