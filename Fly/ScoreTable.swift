@@ -18,6 +18,7 @@ class ScoreTable: UITableViewController {
     let orange = UIColor(red: 211.0/255.0, green: 84.0/255.0, blue: 63.0/255.0, alpha: 1)
     let gray = UIColor.lightGray
     var currentScore = 0
+    var currentRank = -1
     
     
     override func viewDidLoad() {
@@ -49,7 +50,6 @@ class ScoreTable: UITableViewController {
     internal override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         
-        print("cellForRowAt")
         //Get necessary variables
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell")!
         let rankLabel = cell.viewWithTag(1) as! UILabel
@@ -58,24 +58,43 @@ class ScoreTable: UITableViewController {
         let scoreIndex = scores.count - indexPath.row - 1
         
         
-        //Set label values
-        rankLabel.text = String(indexPath.row + 1)
-        nameLabel.text = String(describing: scores[scoreIndex][Constants.username]!)
-        scoreLabel.text = String(describing: scores[scoreIndex][Constants.score]!)
-        
-        
-        //Change color depending on current score
-        if Int(scoreLabel.text!)! == currentScore && nameLabel.text! == username {
+        if scores.count > 0 {
             
-            rankLabel.textColor = orange
-            nameLabel.textColor = orange
-            scoreLabel.textColor = orange
+            //Set label values
+            rankLabel.text = String(indexPath.row + 1)
+            nameLabel.text = String(describing: scores[scoreIndex][Constants.username]!)
+            scoreLabel.text = String(describing: scores[scoreIndex][Constants.score]!)
+            
+            
+            //If user score is below top 5, show user score at the bottom instead of the fifth row
+            if indexPath.row == 4 && currentRank > 5 {
+                
+                rankLabel.text = String(currentRank)
+                nameLabel.text = username
+                scoreLabel.text = String(currentScore)
+            }
+            
+            
+            //Change color if row is user's current score
+            if Int(scoreLabel.text!)! == currentScore && nameLabel.text! == username {
+                
+                rankLabel.textColor = orange
+                nameLabel.textColor = orange
+                scoreLabel.textColor = orange
+            }
+            else {
+                
+                rankLabel.textColor = gray
+                nameLabel.textColor = gray
+                scoreLabel.textColor = gray
+            }
         }
         else {
             
-            rankLabel.textColor = gray
-            nameLabel.textColor = gray
-            scoreLabel.textColor = gray
+            //Set label values
+            rankLabel.text = "-"
+            nameLabel.text = "-"
+            scoreLabel.text = "-"
         }
         
         return cell
@@ -84,7 +103,14 @@ class ScoreTable: UITableViewController {
     
     internal override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return scores.count
+        
+        //If scores list isn't empty, return score list. Else return 5.
+        if scores.count > 0 {
+            
+            return scores.count
+        }
+        
+        return 5
     }
     
     
@@ -97,5 +123,23 @@ class ScoreTable: UITableViewController {
     internal func updateCurrentScore(score: Int) {
         
         currentScore = score
+    }
+    
+    
+    internal func updateCurrentRank(rank: Int) {
+        
+        currentRank = rank
+    }
+    
+    
+    internal func resetRank() {
+        
+        currentRank = -1
+    }
+    
+    
+    internal func resetArray() {
+        
+        scores.removeAll()
     }
 }

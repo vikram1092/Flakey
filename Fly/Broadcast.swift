@@ -93,11 +93,10 @@ class Broadcast: UIView {
         
         //Hide the score table and start animating activity indicator
         print("hideScoreboard")
-        UIView.animate(withDuration: 0.3) {
-            
-            self.scoreTableView.alpha = 0
-        }
+        self.scoreTableView.alpha = 0
+        activityIndicator.startAnimating()
     }
+    
     
     internal func setScoreLabel(_ newScore: Int) {
         

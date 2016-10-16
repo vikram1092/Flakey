@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
@@ -124,7 +124,7 @@
                                     <constraint firstAttribute="height" constant="45" id="RK0-8y-cTZ"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
-                                <state key="normal" title="S T A R T">
+                                <state key="normal" title="START">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
@@ -137,21 +137,59 @@
                                     <constraint firstAttribute="height" constant="40" id="p6x-SL-HMe"/>
                                 </constraints>
                             </view>
+                            <view userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ak1-TG-O7b">
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Gf-xE-QnX">
+                                        <color key="backgroundColor" red="0.82745098039999998" green="0.3294117647" blue="0.2470588235" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="45" id="8Ki-1o-gTw"/>
+                                            <constraint firstAttribute="width" constant="126" id="zBX-qd-vZx"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
+                                        <state key="normal" title="RESUME">
+                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="resumeButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ML0-Dw-Nqq"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.82273123065015474" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstItem="2Gf-xE-QnX" firstAttribute="centerX" secondItem="ak1-TG-O7b" secondAttribute="centerX" id="gwS-nq-8jL"/>
+                                    <constraint firstItem="2Gf-xE-QnX" firstAttribute="centerY" secondItem="ak1-TG-O7b" secondAttribute="centerY" id="yl1-n6-S82"/>
+                                </constraints>
+                            </view>
+                            <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x2u-lh-ufy" customClass="PauseButton" customModule="Fly" customModuleProvider="target">
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="GSK-z3-YFu"/>
+                                    <constraint firstAttribute="width" constant="50" id="ckY-sU-un4"/>
+                                </constraints>
+                                <connections>
+                                    <action selector="pauseButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Wfm-Tg-Zxy"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <gestureRecognizers/>
                         <constraints>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="ak1-TG-O7b" secondAttribute="bottom" id="11O-aH-4jo"/>
+                            <constraint firstAttribute="trailing" secondItem="ak1-TG-O7b" secondAttribute="trailing" id="2gb-zj-Ec9"/>
                             <constraint firstItem="eHc-oc-tFS" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="20" id="DWK-y8-k5f"/>
                             <constraint firstItem="bhU-GH-58c" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="IBB-ZS-qga"/>
                             <constraint firstItem="Maf-vx-c6i" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="NHO-Nx-HSp"/>
                             <constraint firstItem="Maf-vx-c6i" firstAttribute="top" secondItem="817-Gt-QY2" secondAttribute="bottom" constant="20" id="QWA-B3-mkL"/>
                             <constraint firstItem="eHc-oc-tFS" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="16" id="R27-rf-HcU"/>
+                            <constraint firstItem="ak1-TG-O7b" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="VWS-5a-AoG"/>
+                            <constraint firstAttribute="trailing" secondItem="x2u-lh-ufy" secondAttribute="trailing" id="bUg-Yq-FFE"/>
                             <constraint firstAttribute="trailing" secondItem="817-Gt-QY2" secondAttribute="trailing" constant="50" id="f6r-Vk-7dC"/>
                             <constraint firstItem="bhU-GH-58c" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="70" id="fU6-h8-gtw"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Maf-vx-c6i" secondAttribute="bottom" constant="100" id="flK-Cb-oGQ"/>
                             <constraint firstItem="817-Gt-QY2" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="100" id="kAm-6b-dDB"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="x2u-lh-ufy" secondAttribute="bottom" id="n1K-In-CEJ"/>
                             <constraint firstItem="817-Gt-QY2" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="50" id="vBL-Pd-OTh"/>
                             <constraint firstItem="817-Gt-QY2" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="wv1-uo-Y1v"/>
+                            <constraint firstItem="ak1-TG-O7b" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="wxh-eZ-aor"/>
                         </constraints>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="XHe-Kb-k7f" appends="YES" id="gUy-t7-BLh"/>
@@ -161,6 +199,9 @@
                     <connections>
                         <outlet property="broadcast" destination="817-Gt-QY2" id="FKz-8f-ie6"/>
                         <outlet property="flyGesture" destination="XHe-Kb-k7f" id="Hvk-wt-VKT"/>
+                        <outlet property="pauseButton" destination="x2u-lh-ufy" id="m5Q-Xl-j4V"/>
+                        <outlet property="pauseView" destination="ak1-TG-O7b" id="MOE-gh-qud"/>
+                        <outlet property="resumeButton" destination="2Gf-xE-QnX" id="9C9-PC-PE8"/>
                         <outlet property="score" destination="eHc-oc-tFS" id="sr5-D7-r58"/>
                         <outlet property="startButton" destination="Maf-vx-c6i" id="ntY-Fi-GI8"/>
                         <outlet property="titleLabel" destination="bhU-GH-58c" id="NhL-4L-U7F"/>
@@ -194,7 +235,7 @@
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="--" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Khb-8W-ggK">
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="16" id="ntQ-8d-NYv"/>
+                                                <constraint firstAttribute="width" constant="20" id="ntQ-8d-NYv"/>
                                                 <constraint firstAttribute="height" constant="10" id="xab-aH-quB"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>

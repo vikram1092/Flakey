@@ -17,6 +17,9 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     @IBOutlet var score: Score!
     @IBOutlet var flyGesture: UIPanGestureRecognizer!
     @IBOutlet var broadcast: Broadcast!
+    @IBOutlet var pauseView: UIView!
+    @IBOutlet var resumeButton: UIButton!
+    @IBOutlet var pauseButton: PauseButton!
     
     var cloudTimer: Timer?
     var plane: Plane!
@@ -24,12 +27,14 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     var touchStartingPoint = CGPoint()
     var hideStatusBar = false
     var startButtonInitialized = false
+    var resumeButtonInitialized = false
     let userDefaults = UserDefaults.standard
     var scoreTable = ScoreTable()
     
     var ref: FIRDatabaseReference!
     private var _refHandle: FIRDatabaseHandle!
     var username = "VIK"
+    var paused = false
     
     var speed = CGFloat(1)
     var dynamicAnimator: UIDynamicAnimator!
@@ -53,7 +58,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         initializeViewsAfterLoad()
         configureDatabase()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.pauseView), name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.pauseGame), name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
     }
     
     
@@ -64,6 +69,19 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         
         //Initialize views before view will appear
         initializeViewsBeforeAppear()
+        
+        if paused {
+            
+            UIView.animate(withDuration: 0.5, animations: { 
+                
+                self.pauseView.alpha = 1
+                
+                }, completion: { (Bool) in
+                    
+                    self.pauseView.isUserInteractionEnabled = true
+            })
+        }
+        
     }
     
     
@@ -88,6 +106,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     internal func initializeParameters() {
         
         
+        print("initializeParameters")
         if userDefaults.object(forKey: Constants.username) != nil {
             
             username = userDefaults.object(forKey: Constants.username) as! String
@@ -103,6 +122,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         
         
         //Initialize plane
+        print("initializeViewsAfterLoad")
         let planeSize = CGFloat(30)
         plane = Plane(frame: CGRect(x: 0, y: 0, width: planeSize, height: planeSize))
         self.view.addSubview(plane)
@@ -118,6 +138,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     internal func initializeViewsBeforeAppear() {
         
         
+        print("initializeViewsBeforeAppear")
         if !startButtonInitialized {
             
             startButtonInitialized = true
@@ -126,12 +147,22 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
             startButton.layer.cornerRadius = 45.0/2.0
             startButton.clipsToBounds = true
         }
+        
+        if !resumeButtonInitialized {
+            
+            resumeButtonInitialized = true
+            
+            //Cut start button corners
+            resumeButton.layer.cornerRadius = 45.0/2.0
+            resumeButton.clipsToBounds = true
+        }
     }
     
     
     internal func initializeViewsAfterAppear() {
         
         
+        print("initializeViewsAfterAppear")
         //Initialize broadcast view
         if !broadcast.initialized {
             broadcast.initializeViews()
@@ -141,12 +172,15 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         if !score.initialized {
             score.initializeViews()
         }
+        
+        pauseButton.initializeViews()
     }
     
     
     internal func initializeDynamicAnimator() {
         
         
+        print("initializeDynamicAnimator")
         //Initialize animator and add plane behaviors
         dynamicAnimator = UIDynamicAnimator(referenceView: self.view)
         
@@ -184,21 +218,19 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     internal func resetView(finalScore: Int?) {
         
         
+        print("resetView")
         //Reset view to start screen, show score broadcast if necessary
         flyGesture.isEnabled = false
         titleLabel.isHidden = false
         startButton.isHidden = false
         broadcast.isUserInteractionEnabled = false
+        pauseButton.hide()
         
         plane.isHidden = true
         hideStatusBar = false
         speed = CGFloat(1)
         
-        if cloudTimer != nil {
-            
-            cloudTimer!.invalidate()
-            cloudTimer = nil
-        }
+        invalidateTimer()
         
         if finalScore != nil {
             
@@ -226,7 +258,6 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
                 
                 self.titleLabel.alpha = 1
             }
-            
             self.startButton.alpha = 1
             
             self.score.alpha = 0
@@ -255,24 +286,118 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     }
     
     
-    internal func pauseView() {
+    @IBAction func pauseButtonPressed(_ sender: AnyObject) {
         
-        
-        print("pauseView")
-        cloudTimer?.invalidate()
-        cloudTimer = nil
+        print("pauseButtonPressed")
+        pauseGame()
+        pauseButton.hide()
     }
     
+    
+    internal func pauseGame() {
+        
+        
+        //Pause game and show the pause view
+        print("pauseGame")
+        if plane.alpha == 1 {
+            
+            paused = true
+            invalidateTimer()
+            dynamicAnimator.removeAllBehaviors()
+            self.view.bringSubview(toFront: pauseView)
+            
+            UIView.animate(withDuration: 0.3, animations: {
+                
+                self.pauseView.alpha = 1
+                
+            }) { (Bool) in
+                
+                self.pauseView.isUserInteractionEnabled = true
+            }
+        }
+    }
+    
+    
+    @IBAction func resumeButtonPressed(_ sender: AnyObject) {
+        
+        
+        print("resumeButtonPressed")
+        //Resume game and graphics
+        paused = false
+        pauseView.isUserInteractionEnabled = false
+        pauseButton.show()
+        initializeDynamicAnimator()
+        
+        UIView.animate(withDuration: 0.5, animations: { 
+            
+            //Hide pause view
+            self.pauseView.alpha = 0
+            
+            }) { (Bool) in
+                
+                var verticalPosition = CGFloat(5000000)
+                var width = CGFloat(5000000)
+                
+                //Add cloud behavior to all existing clouds
+                for view in self.view.subviews {
+                    
+                    if view is Cloud {
+                        
+                        //If top-most cloud, record distance it has traveled
+                        if view.center.y < verticalPosition {
+                            
+                            verticalPosition = view.center.y
+                            width = view.bounds.width
+                        }
+                        
+                        //Add behaviors and push
+                        self.addCloudBehaviors(cloud: view as! Cloud)
+                        self.pushCloud(cloud: view as! Cloud)
+                    }
+                }
+                
+                
+                //Calculate time at which to resume game
+                //If distance and width have been retreived from a view,
+                //get time from the physics equation v = d/t
+                var time = CGFloat(0)
+                
+                if verticalPosition != 5000000 && width != 5000000 && self.score.getScore() % 10 != 0 {
+                    
+                    let velocity = self.cloudSpeed(width: width) * 500
+                    let distance = verticalPosition + 20
+                    time = distance/velocity
+                }
+                else if self.score.getScore() % 10 != 0 {
+                    
+                    time = -2
+                }
+                
+                
+                //Resume game
+                let timeInterval = TimeInterval(max(0, 1.0/self.speed - time))
+                print("details")
+                print(time )
+                print(1.0/self.speed)
+                print(timeInterval)
+                DispatchQueue.main.asyncAfter(deadline: .now() + timeInterval, execute: {
+                    
+                    self.fly()
+                })
+        }
+    }
     
     
     @IBAction func startButtonPressed(_ sender: AnyObject) {
         
         
+        print("startButtonPressed")
         //Disable button and broadcast
         startButton.isUserInteractionEnabled = false
         broadcast.isUserInteractionEnabled = false
         hideStatusBar = true
         plane.isHidden = false
+        pauseButton.show()
         
         //Animate button fade and start game
         UIView.animate(withDuration: 0.3, animations: { 
@@ -280,7 +405,6 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
             self.titleLabel.alpha = 0
             self.startButton.alpha = 0
             self.broadcast.alpha = 0
-            
             
             self.score.alpha = 1
             self.plane.alpha = 1
@@ -296,9 +420,22 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     }
     
     
+    internal func invalidateTimer() {
+        
+        if cloudTimer != nil {
+            cloudTimer?.invalidate()
+        }
+        cloudTimer = nil
+    }
+    
+    
+    
     internal func fly() {
         
+        
+        print("fly")
         //Animate clouds with timer
+        invalidateTimer()
         cloudTimer = Timer.scheduledTimer(timeInterval: TimeInterval(1/speed), target: self, selector: #selector(sendCloud), userInfo: nil, repeats: true)
         cloudTimer!.fire()
     }
@@ -307,67 +444,81 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     internal func sendCloud() {
         
         
-        if plane.alpha == 1 {
+        print("sendCloud")
+        if plane.alpha == 1 && !paused {
             
             //Increase speed every few seconds
-            if score.getScore() % 10 == 0 && score.getScore() != 0 {
+            if (score.getScore() + 1) % 10 == 0 && score.getScore() != 0 {
                 
                 print("speed up!")
                 speedUp()
             }
             
-            
-            //Create new cloud of varying length
+            //Else, create new cloud of varying length
             let width = CGFloat(randomCloudWidth())
             let height = CGFloat(20)
             let horizontalLocation = max(CGFloat(arc4random_uniform(UInt32(self.view.bounds.width - width - 20))), 20)
             let cloud = Cloud(frame: CGRect(x: horizontalLocation, y: -height, width: width, height: height))
+            self.view.insertSubview(cloud, belowSubview: broadcast)
             
-            self.view.addSubview(cloud)
-            
-            
-            //Add cloud behaviors
-            cloudCollision.addItem(cloud)
-            rotationRestriction.addItem(cloud)
-            cloudResistance.addItem(cloud)
-            
-            
-            //Push cloud
+            //Add cloud behaviors and push cloud
+            addCloudBehaviors(cloud: cloud)
             pushCloud(cloud: cloud)
             
             
-            //Add action to delete cloud once it's past screen
-            let cloudRemove = UIDynamicItemBehavior(items: [cloud])
-            cloudRemove.action = { (Bool) in
-                
-                if cloud.frame.minY > self.view.bounds.height {
-                    
-                    print("deleting cloud!")
-                    self.cloudCollision.removeItem(cloud)
-                    self.rotationRestriction.removeItem(cloud)
-                    self.cloudResistance.removeItem(cloud)
-                    self.dynamicAnimator.removeBehavior(cloudRemove)
-                    self.dynamicAnimator.removeBehavior(self.cloudPush)
-                    cloud.removeFromSuperview()
-                }
-            }
-            
-            dynamicAnimator.addBehavior(cloudRemove)
-            
             //Increment score
             self.score.increment()
+        }
+        else {
             
+            //Stop timer
+            invalidateTimer()
         }
     }
-
     
-    internal func pushCloud(cloud: UIView) {
+    
+    internal func addCloudBehaviors(cloud: Cloud) {
         
         
+        //Add clouds to the following behaviors
+        cloudCollision.addItem(cloud)
+        rotationRestriction.addItem(cloud)
+        cloudResistance.addItem(cloud)
+        
+        //Add action to delete cloud once it's past screen
+        let cloudRemove = UIDynamicItemBehavior(items: [cloud])
+        cloudRemove.action = { (Bool) in
+            
+            if cloud.frame.minY > self.view.bounds.height {
+                
+                self.cloudCollision.removeItem(cloud)
+                self.rotationRestriction.removeItem(cloud)
+                self.cloudResistance.removeItem(cloud)
+                self.dynamicAnimator.removeBehavior(cloudRemove)
+                self.dynamicAnimator.removeBehavior(self.cloudPush)
+                cloud.removeFromSuperview()
+            }
+        }
+        
+        dynamicAnimator.addBehavior(cloudRemove)
+    }
+    
+    
+    internal func pushCloud(cloud: Cloud) {
+        
+        //Add push behavior to cloud
         cloudPush = UIPushBehavior(items: [cloud], mode: UIPushBehaviorMode.instantaneous)
         cloudPush.pushDirection = CGVector(dx: 0, dy: 1)
-        cloudPush.magnitude = speed * cloud.bounds.width * 0.005
+        print(cloud.bounds.width)
+        cloudPush.magnitude = cloudSpeed(width: cloud.bounds.width)
         dynamicAnimator.addBehavior(cloudPush)
+    }
+    
+    
+    internal func cloudSpeed(width: CGFloat) -> CGFloat {
+        
+        print(speed * width * 0.005)
+        return speed * width * 0.005
     }
     
     
@@ -386,12 +537,9 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     internal func speedUp() {
         
         
+        print("speedUp")
         //Stop clouds
-        if cloudTimer != nil {
-            
-            cloudTimer!.invalidate()
-            cloudTimer = nil
-        }
+        invalidateTimer()
         
         // Delay execution of my block for 10 seconds.
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(2 * Int64(NSEC_PER_SEC)) / Double(NSEC_PER_SEC)) {
@@ -409,7 +557,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     @IBAction func planeFlown(_ sender: UIPanGestureRecognizer) {
         
         
-        if plane.alpha == 1 {
+        if plane.alpha == 1 && !paused {
            
             switch sender.state {
             
@@ -432,7 +580,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
                 let sensitivity = CGFloat(5)
                 let translation = sender.translation(in: self.view)
                 let horizontalDifference = (touchStartingPoint.x - translation.x) * sensitivity
-                let verticalDifference = (touchStartingPoint.y - translation.y) * sensitivity
+                let verticalDifference = CGFloat(0)//(touchStartingPoint.y - translation.y) * sensitivity
                 
                 //Set movement according to difference accounting for view bounds as limitations
                 let horizontalMovement = min(max(planeStartingPoint.x + horizontalDifference,  plane.bounds.width/2), self.view.bounds.width - plane.bounds.width/2)
@@ -468,6 +616,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     internal func checkIfBestScore(_ finalScore: Int) -> Bool {
         
         
+        print("checkIfBestScore")
         let best = userDefaults.integer(forKey: "bestScore")
         if best < finalScore {
             
@@ -481,6 +630,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     
     internal func configureDatabase() {
         
+        print("configureDatabase")
         ref = FIRDatabase.database().reference()
     }
     
@@ -492,18 +642,68 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         
         //Query database for results
         let scoresList = ref.child(Constants.baseChild)
-        scoresList.queryOrderedByPriority().queryLimited(toLast: 5).observeSingleEvent(of: .value, with: { (snapshot) in
+        scoresList.queryOrderedByPriority().queryLimited(toLast: 5).observe(.value, with: { (snapshot) in
             
-            if snapshot.value != nil {
+            let connection = snapshot.value
+            if connection != nil {
                 
-                
+                //Get top 5 score list
                 let scoreList = self.convertSnapshotToDictionary(snapshot: snapshot)
+                let scoreInTopFive = self.checkIfScoreInTopFive(scoreList: scoreList)
                 
-                self.scoreTable.scores = scoreList
-                self.scoreTable.refresh()
-                self.broadcast.showScoreboard()
+                
+                if scoreInTopFive {
+                    
+                    //If score is in top 5, show results in order
+                    self.scoreTable.resetRank()
+                    self.scoreTable.scores = scoreList
+                    self.scoreTable.refresh()
+                    self.broadcast.showScoreboard()
+                }
+                else {
+                    
+                    //If score is not in top 5, query the rank of the score and pass it to the table, where it will be handled
+                    let rankList = self.ref.child(Constants.baseChild)
+                    rankList.queryOrderedByPriority().queryStarting(atValue: self.broadcast.getScore(), childKey: Constants.score).observeSingleEvent(of: .value, with: { (rankSnapshot) in
+                        
+                        if rankSnapshot.value != nil {
+                            
+                            self.scoreTable.updateCurrentRank(rank: Int(rankSnapshot.childrenCount) + 1)
+                            self.scoreTable.scores = scoreList
+                            self.scoreTable.refresh()
+                            self.broadcast.showScoreboard()
+                        }
+                        else {
+                            
+                            self.showDefaultScoreBoard()
+                        }
+                        
+                        }, withCancel: { (error) in
+                            
+                            self.showDefaultScoreBoard()
+                    })
+                }
             }
-        })
+            else {
+                
+                self.showDefaultScoreBoard()
+            }
+            
+            }) { (error) in
+                
+                self.showDefaultScoreBoard()
+        }
+    }
+    
+    
+    internal func showDefaultScoreBoard() {
+        
+        
+        //Show default scoreboard
+        self.scoreTable.resetRank()
+        self.scoreTable.resetArray()
+        self.scoreTable.refresh()
+        self.broadcast.showScoreboard()
     }
     
     
@@ -516,6 +716,21 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         }
         
         return scoreList
+    }
+    
+    
+    internal func checkIfScoreInTopFive(scoreList: Array<NSDictionary>) -> Bool {
+        
+        
+        for element in scoreList {
+            
+            if element[Constants.username] as! String == username && element[Constants.score] as! Int == broadcast.getScore() {
+                
+                return true
+            }
+        }
+        
+        return false
     }
     
     
@@ -538,6 +753,8 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     internal func collisionBehavior(_ behavior: UICollisionBehavior, beganContactFor item1: UIDynamicItem, with item2: UIDynamicItem, at p: CGPoint) {
         
         print("Collision!")
+        print(item1)
+        print(item2)
         self.resetView(finalScore: score.getScore())
     }
     
