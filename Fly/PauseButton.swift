@@ -17,6 +17,7 @@ class PauseButton: UIButton {
     let layer1 = CAShapeLayer()
     let layer2 = CAShapeLayer()
     let buttonColor = UIColor(red: 211.0/255.0, green: 84.0/255.0, blue: 63.0/255.0, alpha: 1)
+    var hiding = true
     
     
     required init?(coder aDecoder: NSCoder) {
@@ -71,64 +72,70 @@ class PauseButton: UIButton {
     
     internal func show() {
         
-        
-        //Animate to show button, then allow user interaction
-        print("pause button show")
-        self.alpha = 1
-        CATransaction.begin()
-        CATransaction.setCompletionBlock {
+        if hiding {
             
-            self.isUserInteractionEnabled = true
+            //Animate to show button, then allow user interaction
+            print("pause button show")
+            hiding = false
+            self.alpha = 1
+            CATransaction.begin()
+            CATransaction.setCompletionBlock {
+                
+                self.isUserInteractionEnabled = true
+            }
+            
+            let animation1 = CABasicAnimation(keyPath: "strokeEnd")
+            animation1.duration = 0.3
+            animation1.fromValue = 0.0
+            animation1.toValue = 1.0
+            animation1.isRemovedOnCompletion = false
+            animation1.fillMode = kCAFillModeForwards
+            
+            let animation2 = CABasicAnimation(keyPath: "strokeStart")
+            animation2.duration = 0.3
+            animation2.fromValue = 1.0
+            animation2.toValue = 0.0
+            animation2.isRemovedOnCompletion = false
+            animation2.fillMode = kCAFillModeForwards
+            
+            layer1.add(animation1, forKey: nil)
+            layer2.add(animation2, forKey: nil)
+            
+            CATransaction.commit()
         }
-        
-        let animation1 = CABasicAnimation(keyPath: "strokeEnd")
-        animation1.duration = 0.3
-        animation1.fromValue = 0.0
-        animation1.toValue = 1.0
-        animation1.isRemovedOnCompletion = false
-        animation1.fillMode = kCAFillModeForwards
-        
-        let animation2 = CABasicAnimation(keyPath: "strokeStart")
-        animation2.duration = 0.3
-        animation2.fromValue = 1.0
-        animation2.toValue = 0.0
-        animation2.isRemovedOnCompletion = false
-        animation2.fillMode = kCAFillModeForwards
-        
-        layer1.add(animation1, forKey: nil)
-        layer2.add(animation2, forKey: nil)
-        
-        CATransaction.commit()
     }
     
     
     internal func hide() {
         
-        
-        //Animate to hide button and disallow user interaction
-        print("pause button hide")
-        self.isUserInteractionEnabled = false
-        CATransaction.begin()
-        CATransaction.setCompletionBlock {
+        if !hiding {
             
-            self.alpha = 0
+            //Animate to hide button and disallow user interaction
+            print("pause button hide")
+            hiding = true
+            self.isUserInteractionEnabled = false
+            CATransaction.begin()
+            CATransaction.setCompletionBlock {
+                
+                self.alpha = 0
+            }
+            
+            let animation1 = CABasicAnimation(keyPath: "strokeEnd")
+            animation1.duration = 0.3
+            animation1.fromValue = 1.0
+            animation1.toValue = 0.0
+            animation1.isRemovedOnCompletion = false
+            animation1.fillMode = kCAFillModeForwards
+            
+            let animation2 = CABasicAnimation(keyPath: "strokeStart")
+            animation2.duration = 0.3
+            animation2.fromValue = 0.0
+            animation2.toValue = 1.0
+            animation2.isRemovedOnCompletion = false
+            animation2.fillMode = kCAFillModeForwards
+            
+            layer1.add(animation1, forKey: nil)
+            layer2.add(animation2, forKey: nil)
         }
-
-        let animation1 = CABasicAnimation(keyPath: "strokeEnd")
-        animation1.duration = 0.3
-        animation1.fromValue = 1.0
-        animation1.toValue = 0.0
-        animation1.isRemovedOnCompletion = false
-        animation1.fillMode = kCAFillModeForwards
-        
-        let animation2 = CABasicAnimation(keyPath: "strokeStart")
-        animation2.duration = 0.3
-        animation2.fromValue = 0.0
-        animation2.toValue = 1.0
-        animation2.isRemovedOnCompletion = false
-        animation2.fillMode = kCAFillModeForwards
-        
-        layer1.add(animation1, forKey: nil)
-        layer2.add(animation2, forKey: nil)
     }
 }

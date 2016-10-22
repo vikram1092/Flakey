@@ -36,7 +36,7 @@ class Cloud: UIView {
         
         //Disallow interaction
         self.isUserInteractionEnabled = false
-        self.backgroundColor = UIColor.green
+        //self.backgroundColor = UIColor.green
         
         //Set variables
         let bounds = self.bounds

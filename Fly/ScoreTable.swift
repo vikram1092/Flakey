@@ -81,6 +81,10 @@ class ScoreTable: UITableViewController {
                 rankLabel.textColor = orange
                 nameLabel.textColor = orange
                 scoreLabel.textColor = orange
+                
+                rankLabel.font = UIFont.systemFont(ofSize: rankLabel.font.pointSize, weight: UIFontWeightMedium)
+                nameLabel.font = UIFont.systemFont(ofSize: nameLabel.font.pointSize, weight: UIFontWeightMedium)
+                scoreLabel.font = UIFont.systemFont(ofSize: scoreLabel.font.pointSize, weight: UIFontWeightMedium)
             }
             else {
                 

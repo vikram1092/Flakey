@@ -21,6 +21,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //Fire up Firebase
         FIRApp.configure()
         
+        //Configure mobile ads
+        GADMobileAds.configure(withApplicationID: "ca-app-pub-9981216773147280~9918825851")
+        
+        //Set default username in case value is nil
+        if UserDefaults.standard.value(forKey: "username") == nil {
+            
+            UserDefaults.standard.set("AAA", forKey: "username")
+        }
+        
         return true
     }
 
