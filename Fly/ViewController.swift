@@ -43,9 +43,9 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     var dynamicAnimator: UIDynamicAnimator!
     var cloudCollision: UICollisionBehavior!
     var boundaryCollision: UICollisionBehavior!
-    var flakeResistance: UIDynamicItemBehavior!
     var cloudResistance: UIDynamicItemBehavior!
     var flakeBehaviors: UIDynamicItemBehavior!
+    var flakeAttachment: UIAttachmentBehavior!
     var rotationRestriction: UIDynamicItemBehavior!
     var flakeSnap: UISnapBehavior!
     var cloudPush: UIPushBehavior!
@@ -121,8 +121,8 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         
         //Initialize flake
         print("initializeViewsAfterLoad")
-        let flakeHeight = CGFloat(40)
-        let flakeWidth = CGFloat(35)
+        let flakeHeight = CGFloat(20)
+        let flakeWidth = CGFloat(20)
         flake = Flake(frame: CGRect(x: 0, y: 0, width: flakeWidth, height: flakeHeight))
         self.view.addSubview(flake)
         
@@ -188,7 +188,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         
         
         print("initializeDynamicAnimator")
-        //Initialize animator and add flake behaviors
+        //Initialize animator, add cloud and flake behaviors
         dynamicAnimator = UIDynamicAnimator(referenceView: self.view)
         
         cloudCollision = UICollisionBehavior(items: [flake])
@@ -196,16 +196,22 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         cloudCollision.collisionDelegate = self
         dynamicAnimator.addBehavior(cloudCollision)
         
-        boundaryCollision = UICollisionBehavior(items: [flake])
+        boundaryCollision = UICollisionBehavior(items: [flake.flakeView])
         boundaryCollision.collisionMode = UICollisionBehaviorMode.boundaries
         boundaryCollision.translatesReferenceBoundsIntoBoundary = true
         dynamicAnimator.addBehavior(self.boundaryCollision)
         
-        flakeBehaviors = UIDynamicItemBehavior(items: [flake])
+        flakeBehaviors = UIDynamicItemBehavior(items: [flake, flake.flakeView])
         flakeBehaviors.elasticity = 1.0
-        flakeBehaviors.resistance = 30
+        flakeBehaviors.resistance = 10
         dynamicAnimator.addBehavior(self.flakeBehaviors)
         
+        flakeAttachment = UIAttachmentBehavior(item: flake.flakeView, attachedTo: flake)
+        flakeAttachment.anchorPoint = flake.center
+        flakeAttachment.length = 0
+        flakeAttachment.damping = 0
+        flakeAttachment.frequency = 30
+        dynamicAnimator.addBehavior(flakeAttachment)
         
         rotationRestriction = UIDynamicItemBehavior(items: [flake])
         rotationRestriction.allowsRotation = false
@@ -256,7 +262,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         }
         
         //Animate buttons fading and start game
-        UIView.animate(withDuration: 0.3, animations: {
+        UIView.animate(withDuration: 1, animations: {
             
             
             if finalScore != nil {
@@ -472,7 +478,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
             let height = CGFloat(20)
             let horizontalLocation = max(CGFloat(arc4random_uniform(UInt32(self.view.bounds.width - width - 20))), 20)
             let cloud = Cloud(frame: CGRect(x: horizontalLocation, y: self.view.bounds.height + height, width: width, height: height))
-            self.view.insertSubview(cloud, belowSubview: flake)
+            self.view.insertSubview(cloud, belowSubview: score)
             
             //Add cloud behaviors and push cloud
             addCloudBehaviors(cloud: cloud)
@@ -538,7 +544,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         
         //Return random number divisible by current arc length to use while generating cloud
         let divisor = CGFloat(25)
-        let upperLimit = UInt32((self.view.bounds.width - flake.bounds.width)/divisor) - 1
+        let upperLimit = UInt32((self.view.bounds.width - flake.flakeView.bounds.width)/divisor) - 1
         let randomNumber = max(arc4random_uniform(upperLimit) * UInt32(divisor), UInt32(divisor) * 3)
         
         return CGFloat(randomNumber)
@@ -557,7 +563,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
             
             if self.flake.alpha == 1 {
                 
-                self.speed += 0.3
+                self.speed += 0.15
                 self.fall()
             }
         }
@@ -576,6 +582,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
                 
                 //Create a blank view and attach the flake to it
                 //Place blank view at user's touch
+                print("began")
                 touchStartingPoint = sender.translation(in: self.view)
                 flakeStartingPoint = flake.center
                 
@@ -587,8 +594,9 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
             case .changed:
                 
                 
+                print("changed")
                 //Set translation difference and sensitivity
-                let sensitivity = CGFloat(5)
+                let sensitivity = CGFloat(7)
                 let translation = sender.translation(in: self.view)
                 let horizontalDifference = (touchStartingPoint.x - translation.x) * sensitivity
                 let verticalDifference = CGFloat(0)//(touchStartingPoint.y - translation.y) * sensitivity
@@ -605,6 +613,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
             case .cancelled, .ended:
                 
                 
+                print("ended")
                 //Remove behavior
                 dynamicAnimator.removeBehavior(flakeSnap)
                 
@@ -769,7 +778,16 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     internal func collisionBehavior(_ behavior: UICollisionBehavior, beganContactFor item1: UIDynamicItem, with item2: UIDynamicItem, at p: CGPoint) {
         
         print("Collision!")
-        self.resetView(finalScore: score.getScore())
+        if flake.alpha == 1  {
+            
+            flake.alpha = 0
+            invalidateTimer()
+            
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.3, execute: {
+                
+                self.resetView(finalScore: self.score.getScore())
+            })
+        }
     }
     
     

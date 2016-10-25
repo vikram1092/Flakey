@@ -37,7 +37,7 @@
                             <view userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ak1-TG-O7b">
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Gf-xE-QnX">
-                                        <color key="backgroundColor" red="0.82745098039999998" green="0.3294117647" blue="0.2470588235" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="0.77860283850000001" green="0.24362273509999999" blue="0.1909590065" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="45" id="8Ki-1o-gTw"/>
                                             <constraint firstAttribute="width" constant="126" id="zBX-qd-vZx"/>
@@ -100,7 +100,7 @@
                                             <constraint firstAttribute="height" constant="80" id="eP8-Qc-fpU"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" weight="ultraLight" pointSize="90"/>
-                                        <color key="textColor" red="0.82745098039999998" green="0.3294117647" blue="0.2470588235" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="textColor" red="0.77860283850000001" green="0.24362273509999999" blue="0.1909590065" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" tag="5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g4s-Mk-n2w">
@@ -108,7 +108,7 @@
                                             <constraint firstAttribute="height" constant="40" id="6n0-y6-RBm"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" weight="ultraLight" pointSize="40"/>
-                                        <color key="textColor" red="0.82745098039999998" green="0.3294117647" blue="0.2470588235" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="textColor" red="0.77860283850000001" green="0.24362273509999999" blue="0.1909590065" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <containerView opaque="NO" userInteractionEnabled="NO" tag="8" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7Vz-cA-46W">
@@ -121,7 +121,7 @@
                                         </connections>
                                     </containerView>
                                     <button opaque="NO" tag="9" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UYS-La-sZK">
-                                        <color key="backgroundColor" red="0.82745098039999998" green="0.3294117647" blue="0.2470588235" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" red="0.77860283850000001" green="0.24362273509999999" blue="0.1909590065" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="35" id="OYV-7t-JIp"/>
                                             <constraint firstAttribute="width" constant="50" id="b1c-dN-bHL"/>
@@ -176,7 +176,7 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Maf-vx-c6i">
-                                <color key="backgroundColor" red="0.82745098039999998" green="0.3294117647" blue="0.2470588235" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" red="0.77860283851623535" green="0.24362273514270782" blue="0.19095900654792786" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="126" id="7CQ-Np-3Vt"/>
                                     <constraint firstAttribute="height" constant="45" id="RK0-8y-cTZ"/>

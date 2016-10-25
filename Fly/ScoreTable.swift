@@ -15,7 +15,7 @@ class ScoreTable: UITableViewController {
     let userDefaults = UserDefaults.standard
     var scores = Array<NSDictionary>()
     var username = ""
-    let orange = UIColor(red: 211.0/255.0, green: 84.0/255.0, blue: 63.0/255.0, alpha: 1)
+    let orange = UIColor(red: 211.0/255.0, green: 84.0/255.0, blue: 63.0/255.0, alpha: 1)//UIColor(red: 199.0/255.0, green: 62.0/255.0, blue: 49.0/255.0, alpha: 1)
     let gray = UIColor.lightGray
     var currentScore = 0
     var currentRank = -1

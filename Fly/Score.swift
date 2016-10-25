@@ -14,7 +14,7 @@ class Score: UIView {
     
     var label1 = UILabel()
     var label2 = UILabel()
-    let themeColor = UIColor(red: 211.0/225.0, green: 84.0/225.0, blue: 63.0/225.0, alpha: 1)
+    let themeColor = UIColor(red: 199.0/225.0, green: 62.0/225.0, blue: 49.0/225.0, alpha: 1)
     var score = 0
     var initialized = false
 

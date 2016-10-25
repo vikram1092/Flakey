@@ -24,6 +24,7 @@ class Flake: UIView {
     let reverseRotate = CABasicAnimation(keyPath: "transform.rotation")
     var direction = 1.0
     
+    
     required init?(coder aDecoder: NSCoder) {
         
         super.init(coder: aDecoder)
@@ -44,6 +45,7 @@ class Flake: UIView {
         
         
         //Intialize flake view
+        //self.backgroundColor = UIColor.green
         let path = PocketSVG.path(fromSVGFileNamed: "snowflake").takeUnretainedValue()
         
         flakeLayer.path = path
@@ -59,7 +61,7 @@ class Flake: UIView {
         let position1 = self.bounds.width/2 - domain
         let position2 = self.bounds.width/2
         let position3 = self.bounds.width/2 + domain
-        let startingPoint = CGFloat(-5)
+        let startingPoint = CGFloat(-20)
         let height = startingPoint - 15
         
         //Create paths
@@ -95,7 +97,9 @@ class Flake: UIView {
         trail3.lineWidth = 1.5
         
         //Add all layers
-        flakeView = UIView(frame: self.bounds)
+        let size = CGFloat(40)
+        flakeView = UIView(frame: CGRect(x: self.center.x - size/2, y: self.center.y - size/2, width: size, height: size))
+        //flakeView.backgroundColor = UIColor(red: 1, green: 0, blue: 0, alpha: 0.5)
         flakeView.layer.addSublayer(flakeLayer)
         self.addSubview(flakeView)
         self.layer.addSublayer(trail1)
