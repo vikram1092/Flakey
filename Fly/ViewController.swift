@@ -223,7 +223,6 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         
         dynamicAnimator.delegate = self
         dynamicAnimator.addBehavior(cloudResistance)
-        
     }
     
     
