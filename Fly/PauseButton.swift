@@ -16,7 +16,7 @@ class PauseButton: UIButton {
     var initialized = false
     let layer1 = CAShapeLayer()
     let layer2 = CAShapeLayer()
-    let buttonColor = UIColor(red: 211.0/255.0, green: 84.0/255.0, blue: 63.0/255.0, alpha: 1)//UIColor(red: 199.0/255.0, green: 62.0/255.0, blue: 49.0/255.0, alpha: 1)
+    let buttonColor = UIColor(red: 211.0/255.0, green: 84.0/255.0, blue: 63.0/255.0, alpha: 1)
     var hiding = true
     
     

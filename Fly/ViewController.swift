@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAnimatorDelegate {
+class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAnimatorDelegate, UITextFieldDelegate {
     
     
     @IBOutlet var startButton: UIButton!
@@ -22,6 +22,9 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     @IBOutlet var pauseButton: PauseButton!
     @IBOutlet var adButton: UIButton!
     @IBOutlet var banner: GADBannerView!
+    @IBOutlet var usernameChangeView: UIView!
+    @IBOutlet var usernameChangeField: UITextField!
+    @IBOutlet var scoreTableTapGesture: UITapGestureRecognizer!
     
     var cloudTimer: Timer?
     var flake: Flake!
@@ -32,7 +35,8 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     var resumeButtonInitialized = false
     let userDefaults = UserDefaults.standard
     var scoreTable = ScoreTable()
-    let themeColor = UIColor.lightGray //UIColor(red: 211.0/225.0, green: 84.0/225.0, blue: 63.0/225.0, alpha: 1)
+    let themeGray = UIColor.lightGray
+    let themeHighlight = UIColor(red: 211.0/225.0, green: 84.0/225.0, blue: 63.0/225.0, alpha: 1)
     
     var ref: FIRDatabaseReference!
     private var _refHandle: FIRDatabaseHandle!
@@ -137,7 +141,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     internal func initializeViewsBeforeAppear() {
         
         
-        //Initialize buttons
+        //Initialize views and buttons
         print("initializeViewsBeforeAppear")
         if !startButtonInitialized {
             
@@ -181,6 +185,16 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
             adButton.layer.cornerRadius = adButton.bounds.height/2
             adButton.clipsToBounds = true
         }
+        
+        //Initialize username change view
+        if !usernameChangeField.clipsToBounds {
+            
+            usernameChangeField.layer.cornerRadius = usernameChangeField.bounds.height/2
+            usernameChangeField.clipsToBounds = true
+            usernameChangeField.layer.borderColor = themeHighlight.cgColor
+            usernameChangeField.layer.borderWidth = 2
+        }
+        
     }
     
     
@@ -769,9 +783,98 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     
     
     
+    @IBAction func scoreTableTapped(_ sender: AnyObject) {
+        
+        //Show and enable username change view and its elements
+        usernameChangeView.isUserInteractionEnabled = true
+        
+        UIView.animate(withDuration: 0.4, animations: {
+            
+            self.usernameChangeView.alpha = 1
+            
+            }) { (Bool) in
+                
+                //Enable keyboard and select text field
+                self.usernameChangeField.becomeFirstResponder()
+                self.usernameChangeField.isSelected = true
+        }
+    }
+    
+    
+    internal func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        
+        //Return whether replacing string is within length restriction
+        let currentCharacterCount = textField.text?.characters.count ?? 0
+        if (range.length + range.location > currentCharacterCount){
+            
+            return false
+        }
+        
+        let newLength = currentCharacterCount + string.characters.count - range.length
+        return newLength <= 6
+    }
+    
+    
+    internal func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
+        let text = textField.text
+        if text != nil {
+            
+            //Set the user default, then re-initialize parameters
+            userDefaults.set(text, forKey: Constants.username)
+            initializeParameters()
+            scoreTable.initializeParameters()
+            
+            //Hide username change view, send score update to database and request more scores
+            hideUsernameChangeView()
+            sendScore()
+            requestScores()
+        }
+        
+        return false
+    }
+    
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        //If username change view is displayed, do the following
+        if self.usernameChangeView.alpha == 1 {
+            
+            //If user touches the text field, stay. Else, leave.
+            let location = touches.first!.location(in: self.view)
+            let touchedField = location.x > usernameChangeField.frame.minX && location.x < usernameChangeField.frame.maxX && location.y > usernameChangeField.frame.minY && location.y < usernameChangeField.frame.maxY
+            
+            if !touchedField {
+                
+                hideUsernameChangeView()
+            }
+        }
+    }
+    
+    
+    internal func hideUsernameChangeView() {
+        
+        //Remove keyboard and username change view
+        self.usernameChangeField.resignFirstResponder()
+        self.usernameChangeView.isUserInteractionEnabled = false
+        
+        UIView.animate(withDuration: 0.4, animations: {
+            
+            self.usernameChangeView.alpha = 0
+            
+            }, completion: { (Bool) in
+                
+                self.usernameChangeField.isSelected = false
+                self.usernameChangeField.text = nil
+        })
+    }
+    
+    
     
     @IBAction func adButtonPressed(_ sender: AnyObject) {
     }
+    
     
     
     internal func collisionBehavior(_ behavior: UICollisionBehavior, beganContactFor item1: UIDynamicItem, with item2: UIDynamicItem, at p: CGPoint) {
