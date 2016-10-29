@@ -14,7 +14,7 @@ class Score: UIView {
     
     var label1 = UILabel()
     var label2 = UILabel()
-    let themeColor = UIColor(red: 211.0/255.0, green: 84.0/255.0, blue: 63.0/255.0, alpha: 1)
+    let themeColor = Constants.highlightColor
     var score = 0
     var initialized = false
 
@@ -38,7 +38,6 @@ class Score: UIView {
         if !initialized {
             
             initialized = true
-            print(frame)
             //Set shape
             self.backgroundColor = themeColor
             self.layer.cornerRadius = self.bounds.height/2

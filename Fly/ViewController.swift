@@ -11,6 +11,7 @@ import Firebase
 
 class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAnimatorDelegate, UITextFieldDelegate {
     
+    @IBOutlet var backdrop: Backdrop!
     
     @IBOutlet var startButton: UIButton!
     @IBOutlet var titleLabel: UILabel!
@@ -35,19 +36,20 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     var resumeButtonInitialized = false
     let userDefaults = UserDefaults.standard
     var scoreTable = ScoreTable()
-    let themeGray = UIColor.lightGray
-    let themeHighlight = UIColor(red: 211.0/225.0, green: 84.0/225.0, blue: 63.0/225.0, alpha: 1)
+    let themeGray = Constants.secondaryColor
+    let themeHighlight = Constants.highlightColor
     
     var ref: FIRDatabaseReference!
     private var _refHandle: FIRDatabaseHandle!
     var username = "VIK"
     var paused = false
+    var collided = false
     
     var speed = CGFloat(1)
     var dynamicAnimator: UIDynamicAnimator!
     var cloudCollision: UICollisionBehavior!
     var boundaryCollision: UICollisionBehavior!
-    var cloudResistance: UIDynamicItemBehavior!
+    var cloudBehaviors: UIDynamicItemBehavior!
     var flakeBehaviors: UIDynamicItemBehavior!
     var flakeAttachment: UIAttachmentBehavior!
     var rotationRestriction: UIDynamicItemBehavior!
@@ -89,6 +91,9 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
             })
         }
         
+        //Initialize backdrop
+        backdrop.initializeViews()
+        
     }
     
     
@@ -115,7 +120,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         print("initializeParameters")
         if userDefaults.object(forKey: Constants.username) != nil {
             
-            username = userDefaults.object(forKey: Constants.username) as! String
+            username = NSKeyedUnarchiver.unarchiveObject(with: userDefaults.object(forKey: Constants.username) as! Data) as! String
         }
     }
     
@@ -130,9 +135,8 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         flake = Flake(frame: CGRect(x: 0, y: 0, width: flakeWidth, height: flakeHeight))
         self.view.addSubview(flake)
         
-        flake.center = CGPoint(x: self.view.center.x, y: self.view.bounds.height/3)
         flake.alpha = 0
-        flake.startAnimating()
+        flake.center = CGPoint(x: self.view.center.x, y: self.view.bounds.height/3)
         
         initializeDynamicAnimator()
     }
@@ -195,6 +199,9 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
             usernameChangeField.layer.borderWidth = 2
         }
         
+        
+        flake.startAnimating()
+        
     }
     
     
@@ -218,6 +225,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         flakeBehaviors = UIDynamicItemBehavior(items: [flake, flake.flakeView])
         flakeBehaviors.elasticity = 1.0
         flakeBehaviors.resistance = 10
+        flakeBehaviors.density = 10
         dynamicAnimator.addBehavior(self.flakeBehaviors)
         
         flakeAttachment = UIAttachmentBehavior(item: flake.flakeView, attachedTo: flake)
@@ -232,11 +240,12 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         dynamicAnimator.addBehavior(rotationRestriction)
         
         
-        cloudResistance = UIDynamicItemBehavior(items: [])
-        cloudResistance.resistance = 0
+        cloudBehaviors = UIDynamicItemBehavior(items: [])
+        cloudBehaviors.resistance = 0
+        cloudBehaviors.density = 10000
         
         dynamicAnimator.delegate = self
-        dynamicAnimator.addBehavior(cloudResistance)
+        dynamicAnimator.addBehavior(cloudBehaviors)
     }
     
     
@@ -428,6 +437,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         startButton.isUserInteractionEnabled = false
         broadcast.isUserInteractionEnabled = false
         hideStatusBar = true
+        collided = false
         flake.isHidden = false
         pauseButton.show()
         
@@ -515,7 +525,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         //Add clouds to the following behaviors
         cloudCollision.addItem(cloud)
         rotationRestriction.addItem(cloud)
-        cloudResistance.addItem(cloud)
+        cloudBehaviors.addItem(cloud)
         
         //Add action to delete cloud once it's past screen
         let cloudRemove = UIDynamicItemBehavior(items: [cloud])
@@ -525,7 +535,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
                 
                 self.cloudCollision.removeItem(cloud)
                 self.rotationRestriction.removeItem(cloud)
-                self.cloudResistance.removeItem(cloud)
+                self.cloudBehaviors.removeItem(cloud)
                 self.dynamicAnimator.removeBehavior(cloudRemove)
                 self.dynamicAnimator.removeBehavior(self.cloudPush)
                 cloud.removeFromSuperview()
@@ -548,7 +558,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     
     internal func cloudSpeed(width: CGFloat) -> CGFloat {
         
-        return speed * width * 0.005
+        return speed * width * 60
     }
     
     
@@ -587,7 +597,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     @IBAction func flakeFlown(_ sender: UIPanGestureRecognizer) {
         
         
-        if flake.alpha == 1 && !paused {
+        if flake.alpha == 1 && !paused && !collided {
            
             switch sender.state {
             
@@ -650,10 +660,10 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         
         
         print("checkIfBestScore")
-        let best = userDefaults.integer(forKey: "bestScore")
+        let best = userDefaults.integer(forKey: Constants.bestScore)
         if best < finalScore {
             
-            userDefaults.set(finalScore, forKey: "bestScore")
+            userDefaults.set(finalScore, forKey: Constants.bestScore)
             return true
         }
         
@@ -819,10 +829,10 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     internal func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
         let text = textField.text
-        if text != nil {
+        if text != nil && text != "" {
             
             //Set the user default, then re-initialize parameters
-            userDefaults.set(text, forKey: Constants.username)
+            userDefaults.set(NSKeyedArchiver.archivedData(withRootObject: text!), forKey: Constants.username)
             initializeParameters()
             scoreTable.initializeParameters()
             
@@ -880,15 +890,33 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     internal func collisionBehavior(_ behavior: UICollisionBehavior, beganContactFor item1: UIDynamicItem, with item2: UIDynamicItem, at p: CGPoint) {
         
         print("Collision!")
-        if flake.alpha == 1  {
+        if flake.alpha == 1 && !collided {
             
-            flake.alpha = 0
+            collided = true
+            
             invalidateTimer()
-            
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.3, execute: {
+            if item1 is Flake {
                 
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.3, execute: {
+                    
+                    print("finalScore \(self.score.getScore())")
+                    self.resetView(finalScore: self.score.getScore())
+                })
+                
+            }
+            else if item2 is Flake {
+                
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.3, execute: {
+                    
+                    print("finalScore \(self.score.getScore())")
+                    self.resetView(finalScore: self.score.getScore())
+                })
+            }
+            else if item1 is Cloud && item2 is Cloud {
+                
+                print("finalScore \(self.score.getScore())")
                 self.resetView(finalScore: self.score.getScore())
-            })
+            }
         }
     }
     

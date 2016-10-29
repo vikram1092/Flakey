@@ -8,6 +8,7 @@ target ‘Flakey’ do
   # Pods for Flakey
 
 pod 'Firebase'
+pod 'Firebase/Core'
 pod 'Firebase/Database'
 pod 'Firebase/AdMob'
 

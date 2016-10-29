@@ -19,8 +19,6 @@ class Broadcast: UIView {
     var scoreHeader = UILabel()
     var bestScoreHeader = UILabel()
     var scoreboardHeader = UILabel()
-    let scoreColor = UIColor(red: 211.0/255.0, green: 84.0/255.0, blue: 63.0/255.0, alpha: 1)
-    let headerColor = UIColor.lightGray
     var initialized = false
     
     var activityIndicator = UIActivityIndicatorView()

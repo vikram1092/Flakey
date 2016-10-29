@@ -15,8 +15,8 @@ class ScoreTable: UITableViewController {
     let userDefaults = UserDefaults.standard
     var scores = Array<NSDictionary>()
     var username = ""
-    let orange = UIColor(red: 211.0/255.0, green: 84.0/255.0, blue: 63.0/255.0, alpha: 1)//UIColor(red: 199.0/255.0, green: 62.0/255.0, blue: 49.0/255.0, alpha: 1)
-    let gray = UIColor.lightGray
+    let highlight = Constants.highlightColor
+    let secondary = Constants.secondaryColor
     var currentScore = 0
     var currentRank = -1
     
@@ -33,7 +33,7 @@ class ScoreTable: UITableViewController {
         
         print("viewDidAppear table")
         tableView.reloadData()
-        print(tableView.numberOfRows(inSection: 0))
+        
     }
     
     
@@ -42,7 +42,7 @@ class ScoreTable: UITableViewController {
         
         if userDefaults.object(forKey: Constants.username) != nil {
             
-            username = userDefaults.object(forKey: Constants.username) as! String
+            username = NSKeyedUnarchiver.unarchiveObject(with: userDefaults.object(forKey: Constants.username) as! Data) as! String
         }
     }
     
@@ -75,12 +75,12 @@ class ScoreTable: UITableViewController {
             }
             
             
-            //Change color if row is user's current score
+            //Use highlight color if row is user's current score, else use secondary color
             if Int(scoreLabel.text!)! == currentScore && nameLabel.text! == username {
                 
-                rankLabel.textColor = orange
-                nameLabel.textColor = orange
-                scoreLabel.textColor = orange
+                rankLabel.textColor = highlight
+                nameLabel.textColor = highlight
+                scoreLabel.textColor = highlight
                 
                 rankLabel.font = UIFont.systemFont(ofSize: rankLabel.font.pointSize, weight: UIFontWeightMedium)
                 nameLabel.font = UIFont.systemFont(ofSize: nameLabel.font.pointSize, weight: UIFontWeightMedium)
@@ -88,9 +88,9 @@ class ScoreTable: UITableViewController {
             }
             else {
                 
-                rankLabel.textColor = gray
-                nameLabel.textColor = gray
-                scoreLabel.textColor = gray
+                rankLabel.textColor = secondary
+                nameLabel.textColor = secondary
+                scoreLabel.textColor = secondary
             }
         }
         else {
@@ -101,12 +101,13 @@ class ScoreTable: UITableViewController {
             scoreLabel.text = "-"
         }
         
+        //cell.backgroundColor = UIColor.clear
+        cell.contentView.backgroundColor = UIColor.clear
         return cell
     }
     
     
     internal override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
         
         //If scores list isn't empty, return score list. Else return 5.
         if scores.count > 0 {
@@ -115,6 +116,13 @@ class ScoreTable: UITableViewController {
         }
         
         return 5
+    }
+    
+    
+    internal override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        
+        //cell.backgroundColor = UIColor.clear
+        cell.contentView.backgroundColor = UIColor.clear
     }
     
     

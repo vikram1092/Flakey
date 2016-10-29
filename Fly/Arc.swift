@@ -14,7 +14,7 @@ class Arc: UIView {
     
     
     let arcLayer = CAShapeLayer()
-    let cloudColor = UIColor.gray
+    let cloudColor = Constants.secondaryColor
     
     
     required init?(coder aDecoder: NSCoder) {

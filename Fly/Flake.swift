@@ -13,8 +13,8 @@ class Flake: UIView {
     
     var flakeView = UIView()
     let flakeLayer = CAShapeLayer()
-    let flakeColor = UIColor.gray
-    let trailColor = UIColor.gray
+    let flakeColor = Constants.secondaryColor
+    let trailColor = Constants.secondaryColor
     var superViewPosition = CGPoint(x: 0, y: 0)
     var animating = false
     let trail1 = CAShapeLayer()
@@ -99,7 +99,6 @@ class Flake: UIView {
         //Add all layers
         let size = CGFloat(40)
         flakeView = UIView(frame: CGRect(x: self.center.x - size/2, y: self.center.y - size/2, width: size, height: size))
-        //flakeView.backgroundColor = UIColor(red: 1, green: 0, blue: 0, alpha: 0.5)
         flakeView.layer.addSublayer(flakeLayer)
         self.addSubview(flakeView)
         self.layer.addSublayer(trail1)
@@ -164,7 +163,7 @@ class Flake: UIView {
     
     internal func rotateSnowflake(initialAngle: Double) {
         
-
+        
         if animating {
             
             //Rotate from current angle to a random angle, then repeat
