@@ -55,7 +55,7 @@ class Backdrop: UIView {
         for i in 0...number {
             
             let flake = UIImageView(image: UIImage(named: "backdropSmall"))
-            let horizontalMultiplier = flake.bounds.width/2 + CGFloat(i * 150) + CGFloat(arc4random_uniform(50))
+            let horizontalMultiplier = flake.bounds.width/2 + CGFloat(i * 150) + CGFloat(arc4random_uniform(100)) - 50
             let horizontalPosition = min(horizontalMultiplier, self.bounds.width - flake.bounds.width/2)
             let verticalPosition = max(flake.bounds.height, CGFloat(arc4random_uniform(100)))
             

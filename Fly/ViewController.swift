@@ -893,11 +893,12 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         if flake.alpha == 1 && !collided {
             
             collided = true
-            
+            dynamicAnimator.removeAllBehaviors()
             invalidateTimer()
+            
             if item1 is Flake {
                 
-                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.3, execute: {
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1, execute: {
                     
                     print("finalScore \(self.score.getScore())")
                     self.resetView(finalScore: self.score.getScore())
@@ -906,7 +907,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
             }
             else if item2 is Flake {
                 
-                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.3, execute: {
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1, execute: {
                     
                     print("finalScore \(self.score.getScore())")
                     self.resetView(finalScore: self.score.getScore())
