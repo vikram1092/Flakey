@@ -23,9 +23,13 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     @IBOutlet var pauseButton: PauseButton!
     @IBOutlet var adButton: UIButton!
     @IBOutlet var banner: GADBannerView!
-    @IBOutlet var usernameChangeView: UIView!
+    @IBOutlet var blurView: UIVisualEffectView!
+    @IBOutlet var usernameChangeHeader: UILabel!
     @IBOutlet var usernameChangeField: UITextField!
     @IBOutlet var scoreTableTapGesture: UITapGestureRecognizer!
+    @IBOutlet var aboutLabel: UITextView!
+    @IBOutlet var aboutButton: UIButton!
+    @IBOutlet var shareButton: UIButton!
     
     var cloudTimer: Timer?
     var flake: Flake!
@@ -147,22 +151,31 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         
         //Initialize views and buttons
         print("initializeViewsBeforeAppear")
-        if !startButtonInitialized {
-            
-            startButtonInitialized = true
-            
+        if !startButton.clipsToBounds {
             //Cut start button corners
             startButton.layer.cornerRadius = 45.0/2.0
             startButton.clipsToBounds = true
         }
         
-        if !resumeButtonInitialized {
-            
-            resumeButtonInitialized = true
+        if !resumeButton.clipsToBounds {
             
             //Cut start button corners
             resumeButton.layer.cornerRadius = 45.0/2.0
             resumeButton.clipsToBounds = true
+        }
+        
+        if !aboutButton.clipsToBounds {
+            
+            //Cut about button corners
+            aboutButton.layer.cornerRadius = 18
+            aboutButton.clipsToBounds = true
+        }
+        
+        if !shareButton.clipsToBounds {
+            
+            //Cut share button corners
+            shareButton.layer.cornerRadius = 18
+            shareButton.clipsToBounds = true
         }
     }
     
@@ -199,9 +212,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
             usernameChangeField.layer.borderWidth = 2
         }
         
-        
         flake.startAnimating()
-        
     }
     
     
@@ -258,6 +269,8 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         flyGesture.isEnabled = false
         titleLabel.isHidden = false
         startButton.isHidden = false
+        aboutButton.isHidden = false
+        shareButton.isHidden = false
         broadcast.isUserInteractionEnabled = false
         pauseButton.hide()
         
@@ -297,6 +310,8 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
                 self.titleLabel.alpha = 1
             }
             self.startButton.alpha = 1
+            self.aboutButton.alpha = 1
+            self.shareButton.alpha = 1
             
             self.score.alpha = 0
             self.flake.alpha = 0
@@ -311,14 +326,17 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
             
         }, completion: { (Bool) in
             
-            //Start game
+            //Restore user interaction to buttons
             self.startButton.isUserInteractionEnabled = true
+            self.aboutButton.isUserInteractionEnabled = true
+            self.shareButton.isUserInteractionEnabled = true
             self.score.resetLabels()
             self.flyGesture.isEnabled = true
             
             self.dynamicAnimator.removeAllBehaviors()
             self.flake.center = CGPoint(x: self.view.center.x, y: self.view.bounds.height/3)
             
+            //DEMO CODE - REMOVE TEST DEVICES
             //Initialize banner
             self.banner.rootViewController = self
             let request = GADRequest()
@@ -331,6 +349,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     
     
     @IBAction func pauseButtonPressed(_ sender: AnyObject) {
+        
         
         print("pauseButtonPressed")
         pauseGame()
@@ -435,6 +454,8 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         print("startButtonPressed")
         //Disable button and broadcast
         startButton.isUserInteractionEnabled = false
+        aboutButton.isUserInteractionEnabled = false
+        shareButton.isUserInteractionEnabled = false
         broadcast.isUserInteractionEnabled = false
         hideStatusBar = true
         collided = false
@@ -446,6 +467,8 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
             
             self.titleLabel.alpha = 0
             self.startButton.alpha = 0
+            self.aboutButton.alpha = 0
+            self.shareButton.alpha = 0
             self.broadcast.alpha = 0
             
             self.score.alpha = 1
@@ -456,6 +479,8 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
                 
                 self.titleLabel.isHidden = true
                 self.startButton.isHidden = true
+                self.aboutButton.isHidden = true
+                self.shareButton.isHidden = true
                 self.fall()
                 
         }) 
@@ -464,12 +489,27 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     
     internal func invalidateTimer() {
         
+        
+        //Invalidate and nullify the cloud timer
         if cloudTimer != nil {
             cloudTimer?.invalidate()
         }
         cloudTimer = nil
     }
     
+    
+    
+    internal func startGame() {
+        
+        
+        //If the tutorial hasn't been shown, show tutorial. Else, start the game
+        if !userDefaults.bool(forKey: "tutorialShown") {
+            startTutorial()
+        }
+        else {
+            fall()
+        }
+    }
     
     
     internal func fall() {
@@ -547,6 +587,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     
     
     internal func pushCloud(cloud: Cloud) {
+        
         
         //Add push behavior to cloud
         cloudPush = UIPushBehavior(items: [cloud], mode: UIPushBehaviorMode.instantaneous)
@@ -656,6 +697,21 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     
     
     
+    internal func startTutorial() {
+        
+        
+        
+    }
+    
+    
+    internal func showFlakeTutorial() {
+        
+        
+        
+    }
+    
+    
+    
     internal func checkIfBestScore(_ finalScore: Int) -> Bool {
         
         
@@ -673,12 +729,14 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     
     internal func configureDatabase() {
         
+        
         print("configureDatabase")
         ref = FIRDatabase.database().reference()
     }
     
     
     internal func requestScores() {
+        
         
         //Hide score table and show refreshing logo
         broadcast.hideScoreBoard()
@@ -752,6 +810,8 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     
     internal func convertSnapshotToDictionary(snapshot: FIRDataSnapshot) -> Array<NSDictionary> {
         
+        
+        //Convert snapshot of list to a dictionary
         var scoreList = Array<NSDictionary>()
         for child in snapshot.children {
             
@@ -779,6 +839,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     
     internal func sendScore() {
         
+        
         //Send score
         let score = broadcast.getScore()
         var mdata = [String: Any]()
@@ -795,12 +856,17 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     
     @IBAction func scoreTableTapped(_ sender: AnyObject) {
         
+        
         //Show and enable username change view and its elements
-        usernameChangeView.isUserInteractionEnabled = true
+        blurView.isUserInteractionEnabled = true
+        usernameChangeField.alpha = 1
+        usernameChangeHeader.alpha = 1
+        aboutLabel.alpha = 0
+        usernameChangeField.isUserInteractionEnabled = true
         
         UIView.animate(withDuration: 0.4, animations: {
             
-            self.usernameChangeView.alpha = 1
+            self.blurView.alpha = 1
             
             }) { (Bool) in
                 
@@ -828,6 +894,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     
     internal func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
+        
         let text = textField.text
         if text != nil && text != "" {
             
@@ -848,14 +915,15 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
+        
         //If username change view is displayed, do the following
-        if self.usernameChangeView.alpha == 1 {
+        if self.blurView.alpha == 1 {
             
             //If user touches the text field, stay. Else, leave.
             let location = touches.first!.location(in: self.view)
             let touchedField = location.x > usernameChangeField.frame.minX && location.x < usernameChangeField.frame.maxX && location.y > usernameChangeField.frame.minY && location.y < usernameChangeField.frame.maxY
             
-            if !touchedField {
+            if !touchedField || !usernameChangeField.isUserInteractionEnabled {
                 
                 hideUsernameChangeView()
             }
@@ -865,13 +933,14 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     
     internal func hideUsernameChangeView() {
         
+        
         //Remove keyboard and username change view
         self.usernameChangeField.resignFirstResponder()
-        self.usernameChangeView.isUserInteractionEnabled = false
+        self.blurView.isUserInteractionEnabled = false
         
         UIView.animate(withDuration: 0.4, animations: {
             
-            self.usernameChangeView.alpha = 0
+            self.blurView.alpha = 0
             
             }, completion: { (Bool) in
                 
@@ -886,8 +955,30 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     }
     
     
+    @IBAction func aboutButtonPressed(_ sender: AnyObject) {
+        
+        
+        //Show and enable username change view and its elements
+        blurView.isUserInteractionEnabled = true
+        usernameChangeField.alpha = 0
+        usernameChangeHeader.alpha = 0
+        aboutLabel.alpha = 1
+        usernameChangeField.isUserInteractionEnabled = false
+        
+        UIView.animate(withDuration: 0.4, animations: {
+            
+            self.blurView.alpha = 1
+            
+        }) { (Bool) in
+            
+            //Nothing for now
+        }
+    }
+    
+    
     
     internal func collisionBehavior(_ behavior: UICollisionBehavior, beganContactFor item1: UIDynamicItem, with item2: UIDynamicItem, at p: CGPoint) {
+        
         
         print("Collision!")
         if flake.alpha == 1 && !collided {

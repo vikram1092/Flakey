@@ -22,12 +22,12 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lzo-dy-dCz" customClass="Backdrop" customModule="Flakey" customModuleProvider="target">
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="fly" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bhU-GH-58c">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="flakey" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bhU-GH-58c">
                                 <constraints>
                                     <constraint firstAttribute="height" constant="127" id="0sc-0l-tdK"/>
                                     <constraint firstAttribute="width" constant="167" id="aa7-Oy-fT3"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="Zapfino" family="Zapfino" pointSize="36"/>
+                                <fontDescription key="fontDescription" name="GurmukhiMN" family="Gurmukhi MN" pointSize="36"/>
                                 <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -45,7 +45,7 @@
                                             <constraint firstAttribute="height" constant="45" id="8Ki-1o-gTw"/>
                                             <constraint firstAttribute="width" constant="126" id="zBX-qd-vZx"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
+                                        <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="17"/>
                                         <state key="normal" title="RESUME">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
@@ -134,6 +134,7 @@
                                             <constraint firstAttribute="width" constant="220" id="Kwv-5O-8oR"/>
                                             <constraint firstAttribute="height" constant="120" id="wWC-Ze-bJ6"/>
                                         </constraints>
+                                        <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="17"/>
                                         <connections>
                                             <outletCollection property="gestureRecognizers" destination="gK7-Uo-5R7" appends="YES" id="pYf-00-qmY"/>
                                         </connections>
@@ -144,7 +145,7 @@
                                             <constraint firstAttribute="height" constant="35" id="OYV-7t-JIp"/>
                                             <constraint firstAttribute="width" constant="50" id="b1c-dN-bHL"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
+                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
                                         <state key="normal" title="+5">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -195,7 +196,7 @@
                                     <constraint firstAttribute="width" constant="126" id="7CQ-Np-3Vt"/>
                                     <constraint firstAttribute="height" constant="45" id="RK0-8y-cTZ"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
+                                <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="17"/>
                                 <inset key="titleEdgeInsets" minX="-5" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <state key="normal" title="START">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -213,6 +214,31 @@
                                     <action selector="pauseButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Wfm-Tg-Zxy"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uEA-21-XEb">
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="36" id="Fjc-Yu-F1z"/>
+                                    <constraint firstAttribute="width" constant="80" id="IwN-8n-yFR"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="13"/>
+                                <state key="normal" title="ABOUT">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="aboutButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="DEx-Z1-uCm"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qj3-pG-YaQ">
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="36" id="rCQ-7e-m7Q"/>
+                                    <constraint firstAttribute="width" constant="80" id="zGl-nW-k4y"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="13"/>
+                                <state key="normal" title="SHARE">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                            </button>
                             <visualEffectView opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="znO-Gd-Vbc">
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="7ds-wH-Tr3">
                                     <frame key="frameInset"/>
@@ -220,8 +246,8 @@
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ENTER YOUR NAME" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o8R-1C-0Qm">
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="275" id="C4T-S1-fVr"/>
-                                                <constraint firstAttribute="height" constant="20" id="UUc-e3-wrC"/>
+                                                <constraint firstAttribute="width" constant="275" id="JZg-ol-k0x"/>
+                                                <constraint firstAttribute="height" constant="20" id="dq6-gl-OyO"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -230,8 +256,10 @@
                                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0pw-BL-MBh">
                                             <color key="tintColor" red="0.77860283850000001" green="0.24362273509999999" blue="0.1909590065" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="30" id="5I8-b8-0NX"/>
-                                                <constraint firstAttribute="width" constant="130" id="8F0-Wr-qsL"/>
+                                                <constraint firstAttribute="height" constant="30" id="4Dp-sP-Aeg"/>
+                                                <constraint firstAttribute="width" constant="130" id="BDJ-AJ-MLW"/>
+                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="kKj-0u-nCT"/>
+                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="130" id="loe-cn-ygp"/>
                                             </constraints>
                                             <color key="textColor" red="0.77860283850000001" green="0.24362273509999999" blue="0.1909590065" alpha="1" colorSpace="calibratedRGB"/>
                                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
@@ -240,18 +268,104 @@
                                                 <outlet property="delegate" destination="BYZ-38-t0r" id="D8G-mQ-VZM"/>
                                             </connections>
                                         </textField>
+                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" editable="NO" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ysS-Lx-nKE">
+                                            <color key="tintColor" red="0.77860283850000001" green="0.24362273509999999" blue="0.1909590065" alpha="1" colorSpace="calibratedRGB"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="275" id="oPB-hS-0OZ"/>
+                                                <constraint firstAttribute="height" constant="480" id="rmC-Z9-PEw"/>
+                                            </constraints>
+                                            <attributedString key="attributedText">
+                                                <fragment content="Flakey is created by Vikram Ramkumar.  ">
+                                                    <attributes>
+                                                        <color key="NSColor" red="0.58983333333333332" green="0.58983333333333332" blue="0.58983333333333332" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <font key="NSFont" size="16" name="HelveticaNeue-Medium"/>
+                                                        <font key="NSOriginalFont" size="16" name="Helvetica"/>
+                                                        <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                    </attributes>
+                                                </fragment>
+                                                <fragment content="The snowflake is made">
+                                                    <attributes>
+                                                        <color key="NSColor" red="0.58983333333333332" green="0.58983333333333332" blue="0.58983333333333332" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <font key="NSFont" size="16" name="HelveticaNeue-Medium"/>
+                                                        <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                    </attributes>
+                                                </fragment>
+                                                <fragment content=" by">
+                                                    <attributes>
+                                                        <color key="NSColor" red="0.58983333333333332" green="0.58983333333333332" blue="0.58983333333333332" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <font key="NSFont" size="16" name="HelveticaNeue-Medium"/>
+                                                        <font key="NSOriginalFont" size="16" name="Helvetica"/>
+                                                        <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                    </attributes>
+                                                </fragment>
+                                                <fragment content=" ">
+                                                    <attributes>
+                                                        <color key="NSColor" red="0.77860283850000001" green="0.24362273509999999" blue="0.1909590065" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <font key="NSFont" size="16" name="HelveticaNeue-Medium"/>
+                                                        <font key="NSOriginalFont" size="16" name="Helvetica"/>
+                                                        <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                    </attributes>
+                                                </fragment>
+                                                <fragment content="Icon Works">
+                                                    <attributes>
+                                                        <color key="NSColor" red="0.77860283850000001" green="0.24362273509999999" blue="0.1909590065" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <font key="NSFont" size="16" name="HelveticaNeue-Medium"/>
+                                                        <url key="NSLink" string="http://www.flaticon.com/authors/icon-works"/>
+                                                        <font key="NSOriginalFont" size="16" name="Helvetica"/>
+                                                        <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                    </attributes>
+                                                </fragment>
+                                                <fragment content=" ">
+                                                    <attributes>
+                                                        <color key="NSColor" red="0.77860283850000001" green="0.24362273509999999" blue="0.1909590065" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <font key="NSFont" size="16" name="HelveticaNeue-Medium"/>
+                                                        <font key="NSOriginalFont" size="16" name="Helvetica"/>
+                                                        <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                    </attributes>
+                                                </fragment>
+                                                <fragment content="from ">
+                                                    <attributes>
+                                                        <color key="NSColor" red="0.58983333333333332" green="0.58983333333333332" blue="0.58983333333333332" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <font key="NSFont" size="16" name="HelveticaNeue-Medium"/>
+                                                        <font key="NSOriginalFont" size="16" name="Helvetica"/>
+                                                        <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                    </attributes>
+                                                </fragment>
+                                                <fragment content="www.flaticon.com">
+                                                    <attributes>
+                                                        <color key="NSColor" red="0.77860283850000001" green="0.24362273509999999" blue="0.1909590065" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <font key="NSFont" size="16" name="HelveticaNeue-Medium"/>
+                                                        <url key="NSLink" string="http://www.flaticon.com/"/>
+                                                        <font key="NSOriginalFont" size="16" name="Helvetica"/>
+                                                        <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                    </attributes>
+                                                </fragment>
+                                                <fragment content=" ">
+                                                    <attributes>
+                                                        <color key="NSColor" red="0.77860283850000001" green="0.24362273509999999" blue="0.1909590065" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <font key="NSFont" size="16" name="HelveticaNeue-Medium"/>
+                                                        <font key="NSOriginalFont" size="16" name="Helvetica"/>
+                                                        <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                    </attributes>
+                                                </fragment>
+                                            </attributedString>
+                                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                            <dataDetectorType key="dataDetectorTypes" link="YES"/>
+                                        </textView>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="0pw-BL-MBh" firstAttribute="top" secondItem="o8R-1C-0Qm" secondAttribute="bottom" constant="30" id="0r6-Jg-fjb"/>
-                                        <constraint firstItem="o8R-1C-0Qm" firstAttribute="centerX" secondItem="7ds-wH-Tr3" secondAttribute="centerX" id="CZv-tX-otB"/>
-                                        <constraint firstItem="o8R-1C-0Qm" firstAttribute="top" secondItem="7ds-wH-Tr3" secondAttribute="top" constant="110" id="bcc-lH-Y6r"/>
-                                        <constraint firstItem="0pw-BL-MBh" firstAttribute="centerX" secondItem="7ds-wH-Tr3" secondAttribute="centerX" id="hyQ-aw-HfD"/>
+                                        <constraint firstItem="ysS-Lx-nKE" firstAttribute="centerX" secondItem="7ds-wH-Tr3" secondAttribute="centerX" id="2ig-5r-sg0"/>
+                                        <constraint firstItem="0pw-BL-MBh" firstAttribute="centerX" secondItem="7ds-wH-Tr3" secondAttribute="centerX" id="G1U-Ab-Nx7"/>
+                                        <constraint firstItem="o8R-1C-0Qm" firstAttribute="centerX" secondItem="7ds-wH-Tr3" secondAttribute="centerX" id="bi0-Lg-zxn"/>
+                                        <constraint firstItem="0pw-BL-MBh" firstAttribute="top" secondItem="o8R-1C-0Qm" secondAttribute="bottom" constant="30" id="dJn-XV-Oz0"/>
+                                        <constraint firstItem="ysS-Lx-nKE" firstAttribute="centerY" secondItem="7ds-wH-Tr3" secondAttribute="centerY" id="mGa-cw-WlR"/>
+                                        <constraint firstItem="o8R-1C-0Qm" firstAttribute="top" secondItem="7ds-wH-Tr3" secondAttribute="top" constant="100" id="wL2-Ee-sc1"/>
                                     </constraints>
                                 </view>
                                 <blurEffect style="light"/>
                             </visualEffectView>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.31145018339157104" green="0.22560760378837585" blue="0.29558733105659485" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="ak1-TG-O7b" secondAttribute="bottom" id="11O-aH-4jo"/>
@@ -259,6 +373,7 @@
                             <constraint firstAttribute="trailing" secondItem="ak1-TG-O7b" secondAttribute="trailing" id="2gb-zj-Ec9"/>
                             <constraint firstItem="x2u-lh-ufy" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="15" id="BLw-Lv-mdt"/>
                             <constraint firstItem="eHc-oc-tFS" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="20" id="DWK-y8-k5f"/>
+                            <constraint firstItem="qj3-pG-YaQ" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="HNM-bq-Hgx"/>
                             <constraint firstItem="bhU-GH-58c" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="IBB-ZS-qga"/>
                             <constraint firstAttribute="trailing" secondItem="Lzo-dy-dCz" secondAttribute="trailing" id="IPQ-we-BQS"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Lzo-dy-dCz" secondAttribute="bottom" id="LOf-2I-aPu"/>
@@ -269,12 +384,15 @@
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="817-Gt-QY2" secondAttribute="bottom" id="PFh-Me-mnc"/>
                             <constraint firstItem="x2u-lh-ufy" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="QOs-Rv-MX3"/>
                             <constraint firstItem="eHc-oc-tFS" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="16" id="R27-rf-HcU"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="qj3-pG-YaQ" secondAttribute="bottom" constant="93" id="Tw1-0t-fxz"/>
                             <constraint firstItem="ak1-TG-O7b" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="VWS-5a-AoG"/>
                             <constraint firstItem="znO-Gd-Vbc" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="ZJ7-YS-cQd"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="uEA-21-XEb" secondAttribute="bottom" constant="93" id="dg6-tU-deL"/>
                             <constraint firstItem="bhU-GH-58c" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="70" id="fU6-h8-gtw"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Maf-vx-c6i" secondAttribute="bottom" constant="88" id="flK-Cb-oGQ"/>
                             <constraint firstItem="817-Gt-QY2" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="70" id="kAm-6b-dDB"/>
                             <constraint firstItem="817-Gt-QY2" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="pmZ-7f-i2O"/>
+                            <constraint firstItem="uEA-21-XEb" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="qnD-Wi-AA7"/>
                             <constraint firstItem="znO-Gd-Vbc" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="w9P-on-UjL"/>
                             <constraint firstItem="817-Gt-QY2" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="wv1-uo-Y1v"/>
                             <constraint firstItem="ak1-TG-O7b" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="wxh-eZ-aor"/>
@@ -287,9 +405,12 @@
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
                     <connections>
+                        <outlet property="aboutButton" destination="uEA-21-XEb" id="fj3-5O-2jE"/>
+                        <outlet property="aboutLabel" destination="ysS-Lx-nKE" id="dNf-JR-K6U"/>
                         <outlet property="adButton" destination="UYS-La-sZK" id="7gC-ZO-5vS"/>
                         <outlet property="backdrop" destination="Lzo-dy-dCz" id="mbB-Ta-PNH"/>
                         <outlet property="banner" destination="3tS-mC-822" id="BKK-eo-weW"/>
+                        <outlet property="blurView" destination="znO-Gd-Vbc" id="Fox-zt-Mdg"/>
                         <outlet property="broadcast" destination="817-Gt-QY2" id="FKz-8f-ie6"/>
                         <outlet property="flyGesture" destination="XHe-Kb-k7f" id="Hvk-wt-VKT"/>
                         <outlet property="pauseButton" destination="x2u-lh-ufy" id="m5Q-Xl-j4V"/>
@@ -297,10 +418,11 @@
                         <outlet property="resumeButton" destination="2Gf-xE-QnX" id="9C9-PC-PE8"/>
                         <outlet property="score" destination="eHc-oc-tFS" id="sr5-D7-r58"/>
                         <outlet property="scoreTableTapGesture" destination="gK7-Uo-5R7" id="3gH-dN-h6n"/>
+                        <outlet property="shareButton" destination="qj3-pG-YaQ" id="fIw-ah-9XC"/>
                         <outlet property="startButton" destination="Maf-vx-c6i" id="ntY-Fi-GI8"/>
                         <outlet property="titleLabel" destination="bhU-GH-58c" id="NhL-4L-U7F"/>
                         <outlet property="usernameChangeField" destination="0pw-BL-MBh" id="2q9-l5-YHR"/>
-                        <outlet property="usernameChangeView" destination="znO-Gd-Vbc" id="q6M-e2-rXv"/>
+                        <outlet property="usernameChangeHeader" destination="o8R-1C-0Qm" id="VsN-2e-Jw9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -338,7 +460,7 @@
                                                 <constraint firstAttribute="height" constant="10" id="BgM-7F-uhc"/>
                                                 <constraint firstAttribute="width" constant="39" id="ZcE-DR-gHM"/>
                                             </constraints>
-                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
