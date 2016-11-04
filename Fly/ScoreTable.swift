@@ -103,7 +103,6 @@ class ScoreTable: UITableViewController {
         
         //cell.backgroundColor = UIColor.clear
         cell.contentView.backgroundColor = UIColor.clear
-        print(rankLabel.font)
         
         return cell
     }

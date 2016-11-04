@@ -38,6 +38,10 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     var hideStatusBar = false
     var startButtonInitialized = false
     var resumeButtonInitialized = false
+    var buttonsExpanded = false
+    var constraintsRemoved = false
+    var origAboutConstraint: NSLayoutConstraint!
+    var origShareConstraint: NSLayoutConstraint!
     let userDefaults = UserDefaults.standard
     var scoreTable = ScoreTable()
     let themeGray = Constants.secondaryColor
@@ -213,6 +217,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         }
         
         flake.startAnimating()
+        expandButtons()
     }
     
     
@@ -261,17 +266,15 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     
     
     
-    internal func resetView(finalScore: Int?) {
+    internal func resetView(finalScore: Int) {
         
         
         print("resetView")
         //Reset view to start screen, show score broadcast if necessary
         flyGesture.isEnabled = false
         titleLabel.isHidden = false
-        startButton.isHidden = false
-        aboutButton.isHidden = false
-        shareButton.isHidden = false
         broadcast.isUserInteractionEnabled = false
+        expandButtons()
         pauseButton.hide()
         
         flake.isHidden = true
@@ -279,39 +282,26 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         speed = CGFloat(1)
         
         invalidateTimer()
+    
+        //Check if current score is the best, set labels on broadcast view & pass score to table
+        let _ = checkIfBestScore(finalScore)
+        broadcast.setScoreLabel(finalScore)
+        broadcast.setBestScoreLabel()
+        scoreTable.updateCurrentScore(score: finalScore)
         
-        if finalScore != nil {
-            
-            //Check if current score is the best, set labels on broadcast view & pass score to table
-            let _ = checkIfBestScore(finalScore!)
-            broadcast.setScoreLabel(finalScore!)
-            broadcast.setBestScoreLabel()
-            scoreTable.updateCurrentScore(score: finalScore!)
-            
-            //Change start button text
-            startButton.setTitle("AGAIN!", for: .normal)
-        
-            //Send current score to database and request more scores
-            sendScore()
-            requestScores()
-        }
+        //Change start button text
+        startButton.setTitle("AGAIN!", for: .normal)
+    
+        //Send current score to database and request more scores
+        sendScore()
+        requestScores()
         
         //Animate buttons fading and start game
         UIView.animate(withDuration: 1, animations: {
             
-            
-            if finalScore != nil {
-                
-                self.broadcast.alpha = 1
-                self.broadcast.isUserInteractionEnabled = true
-            }
-            else {
-                
-                self.titleLabel.alpha = 1
-            }
-            self.startButton.alpha = 1
-            self.aboutButton.alpha = 1
-            self.shareButton.alpha = 1
+        
+            self.broadcast.alpha = 1
+            self.broadcast.isUserInteractionEnabled = true
             
             self.score.alpha = 0
             self.flake.alpha = 0
@@ -327,9 +317,6 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         }, completion: { (Bool) in
             
             //Restore user interaction to buttons
-            self.startButton.isUserInteractionEnabled = true
-            self.aboutButton.isUserInteractionEnabled = true
-            self.shareButton.isUserInteractionEnabled = true
             self.score.resetLabels()
             self.flyGesture.isEnabled = true
             
@@ -345,6 +332,125 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
             
             self.initializeDynamicAnimator()
         }) 
+    }
+    
+    
+    internal func expandButtons() {
+        
+        
+        print("expandButtons")
+        //Expand side buttons
+        if !buttonsExpanded {
+            
+            buttonsExpanded = true
+            
+            //Dispatch after a little bit
+            //Use this so that button doesn't freeze during delay
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.3, execute: {
+                
+                
+                UIView.animate(withDuration: 0.3, animations: {
+                    
+                    //Animate start button first
+                    self.startButton.alpha = 1
+                    
+                    }, completion: { (Bool) in
+                        
+                        self.aboutButton.alpha = 1
+                        self.shareButton.alpha = 1
+                        
+                        //Store and remove old centering constraints
+                        for constraint in self.view.constraints {
+                            
+                            if constraint.identifier == "horizCenter" {
+                                
+                                //Store centering constraints as original
+                                if constraint.firstItem as! NSObject == self.shareButton || constraint.secondItem as! NSObject == self.shareButton {
+                                    
+                                    self.origShareConstraint = constraint
+                                }
+                                else {
+                                    
+                                    self.origAboutConstraint = constraint
+                                }
+                                self.view.removeConstraint(constraint)
+                            }
+                        }
+                        
+                        //Place new constraints to expand out buttons
+                        let constant = CGFloat(-33)
+                        let aboutConstraint = NSLayoutConstraint(item: self.startButton, attribute: .trailingMargin, relatedBy: .equal, toItem: self.aboutButton, attribute: .leadingMargin, multiplier: 1, constant: constant)
+                        aboutConstraint.identifier = "newConstraint"
+                        
+                        let shareConstraint = NSLayoutConstraint(item: self.shareButton, attribute: .trailingMargin, relatedBy: .equal, toItem: self.startButton, attribute: .leadingMargin, multiplier: 1, constant: constant)
+                        shareConstraint.identifier = "newConstraint"
+                        
+                        self.view.addConstraint(shareConstraint)
+                        self.view.addConstraint(aboutConstraint)
+                        
+                        
+                        //Animate buttons to appear from behind the start button
+                        UIView.animate(withDuration: 0.7, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0, options: UIViewAnimationOptions.curveLinear, animations: {
+                            
+                            self.view.layoutIfNeeded()
+                            
+                            }, completion: { (Bool) in
+                                
+                                //Nothing for now
+                                self.startButton.isUserInteractionEnabled = true
+                                self.aboutButton.isUserInteractionEnabled = true
+                                self.shareButton.isUserInteractionEnabled = true
+                        })
+                })
+            })
+        }
+    }
+    
+    
+    internal func retractButtons() {
+        
+        
+        print("retractButtons")
+        if buttonsExpanded {
+            
+            //Disable user interactions for all buttons
+            buttonsExpanded = false
+            startButton.isUserInteractionEnabled = false
+            aboutButton.isUserInteractionEnabled = false
+            shareButton.isUserInteractionEnabled = false
+            
+            //Store and remove new constraints
+            for constraint in self.view.constraints {
+                
+                if constraint.identifier == "newConstraint" {
+                    
+                    self.view.removeConstraint(constraint)
+                }
+            }
+            
+            //Place old constraints to retract buttons
+            self.view.addConstraint(origAboutConstraint)
+            self.view.addConstraint(origShareConstraint)
+            
+            //Animate buttons to disappear behind the start button
+            UIView.animate(withDuration: 0.15, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.3, options: UIViewAnimationOptions.curveLinear, animations: {
+                
+                self.view.layoutIfNeeded()
+                
+                }, completion: { (Bool) in
+                    
+                    //Hide buttons to not affect transparency
+                    self.aboutButton.alpha = 0
+                    self.shareButton.alpha = 0
+                    
+                    //Animate start button disappearance
+                    UIView.animate(withDuration: 0.15, animations: {
+                        
+                        self.startButton.alpha = 0
+                    })
+            })
+            
+        }
     }
     
     
@@ -452,10 +558,8 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         
         
         print("startButtonPressed")
-        //Disable button and broadcast
-        startButton.isUserInteractionEnabled = false
-        aboutButton.isUserInteractionEnabled = false
-        shareButton.isUserInteractionEnabled = false
+        //Disable and animate all buttons
+        retractButtons()
         broadcast.isUserInteractionEnabled = false
         hideStatusBar = true
         collided = false
@@ -466,9 +570,6 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         UIView.animate(withDuration: 0.3, animations: { 
             
             self.titleLabel.alpha = 0
-            self.startButton.alpha = 0
-            self.aboutButton.alpha = 0
-            self.shareButton.alpha = 0
             self.broadcast.alpha = 0
             
             self.score.alpha = 1
@@ -478,9 +579,6 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
             }, completion: { (Bool) in
                 
                 self.titleLabel.isHidden = true
-                self.startButton.isHidden = true
-                self.aboutButton.isHidden = true
-                self.shareButton.isHidden = true
                 self.fall()
                 
         }) 
@@ -972,6 +1070,20 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         }) { (Bool) in
             
             //Nothing for now
+        }
+    }
+    
+    
+    @IBAction func shareButtonPressed(_ sender: AnyObject) {
+        
+        let textToShare = "Beat my score in Flakey!"
+        
+        if let flakeyLink = NSURL(string: "itms://itunes.apple.com/flakey/1168312945?mt=8") {
+            let objectsToShare = [textToShare, flakeyLink] as [Any]
+            let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
+            
+            activityVC.popoverPresentationController!.sourceView = sender as? UIView
+            self.present(activityVC, animated: true, completion: nil)
         }
     }
     

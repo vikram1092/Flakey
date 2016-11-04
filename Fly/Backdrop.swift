@@ -41,6 +41,13 @@ class Backdrop: UIView {
     
     internal func sendFlakes() {
         
+        //Nullify and then (re)schedule timer
+        if flakeTimer != nil {
+            
+            flakeTimer.invalidate()
+            flakeTimer = nil
+        }
+        
         flakeTimer = Timer.scheduledTimer(timeInterval: 1.6, target: self, selector: #selector(sendFlake), userInfo: nil, repeats: true)
         flakeTimer.fire()
     }
