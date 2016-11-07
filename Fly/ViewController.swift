@@ -11,8 +11,8 @@ import Firebase
 
 class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAnimatorDelegate, UITextFieldDelegate {
     
-    @IBOutlet var backdrop: Backdrop!
     
+    @IBOutlet var backdrop: Backdrop!
     @IBOutlet var startButton: UIButton!
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var score: Score!
@@ -63,6 +63,9 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     var rotationRestriction: UIDynamicItemBehavior!
     var flakeSnap: UISnapBehavior!
     var cloudPush: UIPushBehavior!
+    
+    var flakeMoveTutorial: UIView?
+    var avoidCloudTutorial: UIView?
     
     
     override func viewDidLoad() {
@@ -269,6 +272,10 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     internal func resetView(finalScore: Int) {
         
         
+        //DEMO CODE -- Remove tutorial keys
+        self.userDefaults.set(false, forKey: "moveFlakeTutorialShown")
+        self.userDefaults.set(false, forKey: "avoidCloudTutorialShown")
+        
         print("resetView")
         //Reset view to start screen, show score broadcast if necessary
         flyGesture.isEnabled = false
@@ -468,7 +475,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         
         //Pause game and show the pause view
         print("pauseGame")
-        if flake.alpha == 1 {
+        if flake.alpha == 1 && flakeMoveTutorial == nil && avoidCloudTutorial == nil {
             
             paused = true
             invalidateTimer()
@@ -491,65 +498,72 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         
         
         print("resumeButtonPressed")
+        resumeGame()
+    }
+    
+    
+    internal func resumeGame() {
+        
+        
         //Resume game and graphics
         paused = false
         pauseView.isUserInteractionEnabled = false
         pauseButton.show()
         initializeDynamicAnimator()
         
-        UIView.animate(withDuration: 0.5, animations: { 
+        UIView.animate(withDuration: 0.5, animations: {
             
             //Hide pause view
             self.pauseView.alpha = 0
             
-            }) { (Bool) in
+        }) { (Bool) in
+            
+            var verticalPosition = CGFloat(-5000000)
+            var width = CGFloat(-5000000)
+            
+            //Add cloud behavior to all existing clouds
+            for view in self.view.subviews {
                 
-                var verticalPosition = CGFloat(-5000000)
-                var width = CGFloat(-5000000)
-                
-                //Add cloud behavior to all existing clouds
-                for view in self.view.subviews {
+                if view is Cloud {
                     
-                    if view is Cloud {
+                    //If top-most cloud, record distance it has traveled
+                    if view.center.y > verticalPosition {
                         
-                        //If top-most cloud, record distance it has traveled
-                        if view.center.y > verticalPosition {
-                            
-                            verticalPosition = view.center.y
-                            width = view.bounds.width
-                        }
-                        
-                        //Add behaviors and push
-                        self.addCloudBehaviors(cloud: view as! Cloud)
-                        self.pushCloud(cloud: view as! Cloud)
+                        verticalPosition = view.center.y
+                        width = view.bounds.width
                     }
-                }
-                
-                
-                //Calculate time at which to resume game
-                //If distance and width have been retreived from a view,
-                //get time from the physics equation v = d/t
-                var time = CGFloat(0)
-                
-                if verticalPosition != -5000000 && width != -5000000 && self.score.getScore() % 10 != 0 {
                     
-                    let velocity = self.cloudSpeed(width: width) * 500
-                    let distance = self.view.bounds.height - verticalPosition + 30
-                    time = distance/velocity
+                    //Add behaviors and push
+                    self.addCloudBehaviors(cloud: view as! Cloud)
+                    self.pushCloud(cloud: view as! Cloud)
                 }
-                else if self.score.getScore() % 10 != 0 {
-                    
-                    //If the app is transitioning, give it two extra seconds
-                    time = -2
-                }
+            }
+            
+            
+            //Calculate time at which to resume game
+            //If distance and width have been retreived from a view,
+            //get time from the physics equation v = d/t
+            var time = CGFloat(0)
+            
+            if verticalPosition != -5000000 && width != -5000000 && self.score.getScore() % 10 != 0 {
                 
+                let velocity = self.cloudSpeed(width: width) * 500
+                let distance = self.view.bounds.height - verticalPosition + 30
+                time = distance/velocity
+            }
+            else if self.score.getScore() % 10 != 0 {
                 
-                //Resume game
-                let timeInterval = TimeInterval(max(0, 1.0/self.speed - time))
-                DispatchQueue.main.asyncAfter(deadline: .now() + timeInterval, execute: {
-                    
-                    self.fall()
-                })
+                //If the app is transitioning, give it two extra seconds
+                time = -2
+            }
+            
+            
+            //Resume game
+            let timeInterval = TimeInterval(max(0, 1.0/self.speed - time))
+            DispatchQueue.main.asyncAfter(deadline: .now() + timeInterval, execute: {
+                
+                self.fall()
+            })
         }
     }
     
@@ -579,7 +593,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
             }, completion: { (Bool) in
                 
                 self.titleLabel.isHidden = true
-                self.fall()
+                self.startGame()
                 
         }) 
     }
@@ -601,8 +615,8 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         
         
         //If the tutorial hasn't been shown, show tutorial. Else, start the game
-        if !userDefaults.bool(forKey: "tutorialShown") {
-            startTutorial()
+        if !userDefaults.bool(forKey: "moveFlakeTutorialShown") {
+            showMoveFlakeTutorial()
         }
         else {
             fall()
@@ -614,10 +628,23 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         
         
         print("fall")
-        //Animate clouds with timer
-        invalidateTimer()
-        cloudTimer = Timer.scheduledTimer(timeInterval: TimeInterval(1/speed), target: self, selector: #selector(sendCloud), userInfo: nil, repeats: true)
-        cloudTimer!.fire()
+        //Check if tutorial has been shown
+        if userDefaults.bool(forKey: "avoidCloudTutorialShown") {
+            
+            //Animate clouds with timer
+            invalidateTimer()
+            cloudTimer = Timer.scheduledTimer(timeInterval: TimeInterval(1/speed), target: self, selector: #selector(sendCloud), userInfo: nil, repeats: true)
+            cloudTimer!.fire()
+        }
+        else {
+            
+            //Send a cloud and show the tutorial for it
+            sendCloud()
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1, execute: {
+                
+                self.showAvoidCloudTutorial()
+            })
+        }
     }
     
     
@@ -786,6 +813,8 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
                 stopflake.addLinearVelocity(CGPoint(x: -velocity.x, y: -velocity.y), for: flake)
                 dynamicAnimator.addBehavior(stopflake)
                 
+                removeMoveFlakeTutorial()
+                
                 
             default: ()
                 
@@ -795,17 +824,147 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     
     
     
-    internal func startTutorial() {
+    internal func showMoveFlakeTutorial() {
         
         
-        
+        if !userDefaults.bool(forKey: "moveFlakeTutorialShown") {
+            
+            //Show move flake tutorial
+            let tutorialWidth = self.view.bounds.width - 150
+            let tutorialHeight = CGFloat(300)
+            let tutorialDepth = self.view.bounds.height * 2/3
+            flakeMoveTutorial = UIView(frame: CGRect(x: self.view.center.x - tutorialWidth/2, y: tutorialDepth, width: tutorialWidth, height: tutorialHeight))
+            flakeMoveTutorial!.alpha = 0
+            flakeMoveTutorial!.isUserInteractionEnabled = false
+            
+            let border = Border(frame: CGRect(x: 0, y: 0, width: flakeMoveTutorial!.bounds.width, height: 10))
+            
+            //Create label to show instructions
+            let label = UILabel(frame: CGRect(x: 0, y: 10, width: tutorialWidth, height: 70))
+            label.textAlignment = .center
+            label.font = UIFont.systemFont(ofSize: 15, weight: UIFontWeightMedium)
+            label.numberOfLines = 0
+            label.textColor = themeGray
+            label.text = Constants.moveFlakeTutorialText1
+            
+            //Add and animate
+            flakeMoveTutorial!.addSubview(border)
+            flakeMoveTutorial!.addSubview(label)
+            self.view.insertSubview(flakeMoveTutorial!, aboveSubview: backdrop)
+            
+            
+            //Hide pause button and show tutorial
+            pauseButton.hide()
+            UIView.animate(withDuration: 0.3) {
+                
+                self.flakeMoveTutorial!.alpha = 1
+            }
+            
+            //Wait a second, then animate to instruction
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 3, execute: {
+                
+                UIView.animate(withDuration: 0.3, animations: {
+                    label.text = Constants.moveFlakeTutorialText2
+                })
+            })
+        }
     }
     
     
-    internal func showFlakeTutorial() {
+    internal func removeMoveFlakeTutorial() {
         
         
+        //Remove move flake tutorial and start game
+        if flakeMoveTutorial != nil {
+            if flakeMoveTutorial?.alpha == 1 {
+                
+                UIView.animate(withDuration: 0.3, animations: {
+                    
+                    self.flakeMoveTutorial!.alpha = 0
+                    }, completion: { (Bool) in
+                        
+                        self.flakeMoveTutorial!.removeFromSuperview()
+                        self.flakeMoveTutorial = nil
+                        self.userDefaults.set(true, forKey: "moveFlakeTutorialShown")
+                        self.fall()
+                        self.pauseButton.show()
+                })
+            }
+        }
+    }
+    
+    
+    internal func showAvoidCloudTutorial() {
         
+        
+        if !userDefaults.bool(forKey: "avoidCloudTutorialShown") {
+            
+            //Pause game first
+            pauseButton.hide()
+            paused = true
+            invalidateTimer()
+            dynamicAnimator.removeAllBehaviors()
+            
+            //Show move flake tutorial
+            let tutorialWidth = self.view.bounds.width - 150
+            let tutorialHeight = CGFloat(300)
+            let tutorialDepth = self.view.bounds.height * 2/3
+            avoidCloudTutorial = UIView(frame: CGRect(x: self.view.center.x - tutorialWidth/2, y: tutorialDepth, width: tutorialWidth, height: tutorialHeight))
+            avoidCloudTutorial!.alpha = 0
+            
+            let border = Border(frame: CGRect(x: 0, y: 0, width: avoidCloudTutorial!.bounds.width, height: 10))
+            
+            //Create label to show instructions
+            let label = UILabel(frame: CGRect(x: 0, y: 10, width: tutorialWidth, height: 70))
+            label.textAlignment = .center
+            label.font = UIFont.systemFont(ofSize: 15, weight: UIFontWeightMedium)
+            label.numberOfLines = 0
+            label.textColor = themeGray
+            label.text = Constants.avoidCloudTutorialText
+            
+            let button = UIButton(type: .custom)
+            button.frame = CGRect(x: avoidCloudTutorial!.bounds.width/2 - 50, y: label.frame.maxY, width: 100, height: 45)
+            button.setTitle("OK", for: .normal)
+            button.titleLabel!.font = startButton.titleLabel!.font
+            //button.setTitleColor(UIColor.white, for: .normal)
+            button.backgroundColor = themeGray
+            button.addTarget(self, action: #selector(removeAvoidCloudTutorial), for: .touchUpInside)
+            button.layer.cornerRadius = button.bounds.height/2
+            button.clipsToBounds = true
+            
+            //Add and animate
+            avoidCloudTutorial!.addSubview(border)
+            avoidCloudTutorial!.addSubview(label)
+            avoidCloudTutorial!.addSubview(button)
+            self.view.insertSubview(avoidCloudTutorial!, aboveSubview: backdrop)
+            
+            UIView.animate(withDuration: 0.3) {
+                
+                self.avoidCloudTutorial!.alpha = 1
+            }
+        }
+    }
+    
+    
+    internal func removeAvoidCloudTutorial() {
+        
+        
+        //Remove move flake tutorial and start game
+        if avoidCloudTutorial != nil {
+            if avoidCloudTutorial?.alpha == 1 {
+                
+                UIView.animate(withDuration: 0.3, animations: {
+                    
+                    self.avoidCloudTutorial!.alpha = 0
+                    }, completion: { (Bool) in
+                        
+                        self.avoidCloudTutorial!.removeFromSuperview()
+                        self.avoidCloudTutorial = nil
+                        self.userDefaults.set(true, forKey: "avoidCloudTutorialShown")
+                        self.resumeGame()
+                })
+            }
+        }
     }
     
     
@@ -1098,6 +1257,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
             collided = true
             dynamicAnimator.removeAllBehaviors()
             invalidateTimer()
+            removeAvoidCloudTutorial()
             
             if item1 is Flake {
                 
@@ -1124,10 +1284,6 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         }
     }
     
-    
-    internal func collisionBehavior(_ behavior: UICollisionBehavior, endedContactFor item1: UIDynamicItem, with item2: UIDynamicItem) {
-        
-    }
     
     
     override var prefersStatusBarHidden : Bool {
