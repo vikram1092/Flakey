@@ -10,6 +10,7 @@
 		B1E15B8B746B974D99F6570B /* Pods_Flakey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 024EDF313F83DAB84CB9606E /* Pods_Flakey.framework */; };
 		D110085C1DBBC88D0007EACA /* snowflake.svg in Resources */ = {isa = PBXBuildFile; fileRef = D110085B1DBBC88D0007EACA /* snowflake.svg */; };
 		D110085E1DBBDB890007EACA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D110085D1DBBDB890007EACA /* GoogleService-Info.plist */; };
+		D12E92031DD0DF8C00F7E71A /* BroadcastTutorialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D12E92021DD0DF8B00F7E71A /* BroadcastTutorialView.swift */; };
 		D13ED1D41DC2B76B00F4A176 /* Backdrop.swift in Sources */ = {isa = PBXBuildFile; fileRef = D13ED1D31DC2B76B00F4A176 /* Backdrop.swift */; };
 		D13ED1DC1DC2E77800F4A176 /* backdropSmall.png in Resources */ = {isa = PBXBuildFile; fileRef = D13ED1D91DC2E77800F4A176 /* backdropSmall.png */; };
 		D13ED1DD1DC2E77800F4A176 /* backdropSmall@x2.png in Resources */ = {isa = PBXBuildFile; fileRef = D13ED1DA1DC2E77800F4A176 /* backdropSmall@x2.png */; };
@@ -56,6 +57,7 @@
 		B28560324B452E5FBA227812 /* Pods-Plungy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Plungy.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Plungy/Pods-Plungy.debug.xcconfig"; sourceTree = "<group>"; };
 		D110085B1DBBC88D0007EACA /* snowflake.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = snowflake.svg; sourceTree = "<group>"; };
 		D110085D1DBBDB890007EACA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		D12E92021DD0DF8B00F7E71A /* BroadcastTutorialView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BroadcastTutorialView.swift; sourceTree = "<group>"; };
 		D13ED1D31DC2B76B00F4A176 /* Backdrop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Backdrop.swift; sourceTree = "<group>"; };
 		D13ED1D91DC2E77800F4A176 /* backdropSmall.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = backdropSmall.png; sourceTree = "<group>"; };
 		D13ED1DA1DC2E77800F4A176 /* backdropSmall@x2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "backdropSmall@x2.png"; sourceTree = "<group>"; };
@@ -201,6 +203,7 @@
 				D1AB9BE11D54082D00312A0A /* Arc.swift */,
 				D1F2CDD11D8AFB14001479B6 /* Border.swift */,
 				D1F2CDD51D8B0B06001479B6 /* Broadcast.swift */,
+				D12E92021DD0DF8B00F7E71A /* BroadcastTutorialView.swift */,
 				D1DA55181D9DA26D0026FD25 /* ScoreTable.swift */,
 				D195E8FF1DAE894D003EF784 /* PauseButton.swift */,
 				D1E9037C1D55887E005DED90 /* Flake.swift */,
@@ -369,6 +372,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D12E92031DD0DF8C00F7E71A /* BroadcastTutorialView.swift in Sources */,
 				D1F2CDD61D8B0B06001479B6 /* Broadcast.swift in Sources */,
 				D15532FF1DA720B400B7FAD9 /* Constants.swift in Sources */,
 				D1A5A7AC1D7D042800D6001A /* Score.swift in Sources */,

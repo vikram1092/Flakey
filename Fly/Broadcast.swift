@@ -19,12 +19,18 @@ class Broadcast: UIView {
     var scoreHeader = UILabel()
     var bestScoreHeader = UILabel()
     var scoreboardHeader = UILabel()
+    var bestScoreBorder: Border!
+    var scoreboardBorder: Border!
     var initialized = false
     
     var activityIndicator = UIActivityIndicatorView()
     var activityIndicatorColor = UIColor.gray
+    var themeGray = Constants.secondaryColor
+    var tutorialColor = UIColor.gray
     var scoreTableView = UIView()
     var adButton = UIButton()
+    var scoreTutorial: UIView?
+    var scoreboardTutorial: UIView?
     
     
     required init?(coder aDecoder: NSCoder) {
@@ -53,11 +59,11 @@ class Broadcast: UIView {
         //Initialize all views
         scoreHeader = self.viewWithTag(1)! as! UILabel
         score = self.viewWithTag(2)! as! UILabel
-        let bestScoreBorder = self.viewWithTag(3)! as! Border
+        bestScoreBorder = self.viewWithTag(3)! as! Border
         bestScoreBorder.drawLine()
         bestScoreHeader = self.viewWithTag(4)! as! UILabel
         bestScore = self.viewWithTag(5)! as! UILabel
-        let scoreboardBorder = self.viewWithTag(6)! as! Border
+        scoreboardBorder = self.viewWithTag(6)! as! Border
         scoreboardBorder.drawLine()
         scoreboardHeader = self.viewWithTag(7)! as! UILabel
         scoreTableView = self.viewWithTag(8)!
@@ -70,39 +76,48 @@ class Broadcast: UIView {
         activityIndicator.center = CGPoint(x: self.bounds.width/2, y: scoreTableView.center.y)
         
         
-        //Set best score
+        //Set best score and show tutorials
         setBestScoreLabel()
+        self.showScoreTutorial()
     }
     
     
     internal func showScoreboard() {
         
-        
-        //Start animating activity indicator, then show the score table and ad button
-        print("showScoreboard")
-        activityIndicator.stopAnimating()
-        
-        UIView.animate(withDuration: 0.3, animations: { 
+        if userDefaults.bool(forKey: Constants.scoreTutorialKey)  {
             
-            self.scoreTableView.alpha = 1
-            self.adButton.alpha = 1
+            //Stop animating activity indicator, then show the score table and ad button
+            print("showScoreboard")
+            activityIndicator.stopAnimating()
             
+            UIView.animate(withDuration: 0.3, animations: {
+                
+                self.scoreTableView.alpha = 1
+                self.adButton.alpha = 1
+                self.scoreboardHeader.alpha = 1
+                
             }) { (Bool) in
                 
                 //Enable ad button at the end
                 self.adButton.isUserInteractionEnabled = true
+            }
         }
     }
     
     
     internal func hideScoreBoard() {
         
-        //Hide the score table, disable ad button, and start animating activity indicator
-        print("hideScoreboard")
-        self.scoreTableView.alpha = 0
-        self.adButton.alpha = 0
-        self.adButton.isUserInteractionEnabled = false
-        activityIndicator.startAnimating()
+        
+        if userDefaults.bool(forKey: Constants.scoreTutorialKey)  {
+            
+            //Hide the score table, disable ad button, and start animating activity indicator
+            print("hideScoreboard")
+            self.scoreTableView.alpha = 0
+            self.adButton.alpha = 0
+            self.scoreboardHeader.alpha = 0
+            self.adButton.isUserInteractionEnabled = false
+            activityIndicator.startAnimating()
+        }
     }
     
     
@@ -114,7 +129,6 @@ class Broadcast: UIView {
     
     
     internal func getScore() -> Int {
-        
         
         //Get score from score label
         if score.text != "" {
@@ -130,5 +144,168 @@ class Broadcast: UIView {
         
         let best = userDefaults.integer(forKey: "bestScore")
         bestScore.text = String(best)
+    }
+    
+    
+    
+    internal func showScoreTutorial() {
+        
+        
+        //Show score tutorial
+        if !userDefaults.bool(forKey: Constants.scoreTutorialKey) && scoreTutorial == nil {
+            
+            //Hide score table
+            scoreTableView.alpha = 0
+            
+            //Create score tutorial
+            scoreTutorial = UIView(frame: scoreTableView.frame)
+            
+            //Create label to show instructions
+            let label = UILabel(frame: CGRect(x: 0, y: 10, width: scoreTutorial!.bounds.width, height: 70))
+            label.textAlignment = .center
+            label.font = UIFont.systemFont(ofSize: 15, weight: UIFontWeightMedium)
+            label.numberOfLines = 0
+            label.textColor = tutorialColor
+            label.text = Constants.scoreTutorialText
+            
+            
+            //Create button to dismiss
+            let button = UIButton(type: .system)
+            button.frame = CGRect(x: scoreTutorial!.bounds.width/2 - 50, y: label.frame.maxY, width: 100, height: 45)
+            button.setTitle("OK", for: .normal)
+            button.titleLabel!.font = UIFont(name: Constants.buttonFont, size: Constants.buttonFontSize)
+            button.setTitleColor(UIColor.white, for: .normal)
+            button.backgroundColor = tutorialColor
+            button.addTarget(self, action: #selector(removeScoreTutorial), for: .touchUpInside)
+            button.layer.cornerRadius = button.bounds.height/2
+            button.clipsToBounds = true
+            
+            //Add tutorial view
+            scoreTutorial!.addSubview(label)
+            scoreTutorial!.addSubview(button)
+            self.addSubview(scoreTutorial!)
+        }
+    }
+    
+    
+    internal func removeScoreTutorial() {
+        
+        
+        //Remove score tutorial if it's shown
+        if scoreTutorial != nil {
+            
+            //Set tutorial key
+            userDefaults.set(true, forKey: Constants.scoreTutorialKey)
+            
+            //Do animations and removal
+            UIView.animate(withDuration: 0.3, animations: { 
+                
+                self.scoreTutorial!.alpha = 0
+                
+            }, completion: { (Bool) in
+                
+                self.scoreTutorial!.removeFromSuperview()
+                self.scoreTutorial = nil
+                
+                //Show scoreboard and its tutorial
+                self.showScoreboard()
+                self.showScoreboardTutorial()
+            })
+        }
+    }
+    
+    
+    internal func showScoreboardTutorial() {
+        
+        
+        //Show score tutorial
+        if !userDefaults.bool(forKey: Constants.scoreboardTutorialKey) && scoreboardTutorial == nil {
+            
+            
+            //Create score tutorial
+            let tutorialWidth = CGFloat(275)
+            let tutorialHeight = bestScore.frame.maxY - score.frame.minY
+            scoreboardTutorial = UIView(frame: CGRect(x: self.bounds.width/2 - tutorialWidth/2, y: score.frame.minY, width: tutorialWidth, height: tutorialHeight))
+            
+            //Create label to show instructions
+            let label = UILabel(frame: CGRect(x: 0, y: 10, width: scoreboardTutorial!.bounds.width, height: 100))
+            label.textAlignment = .center
+            label.font = UIFont.systemFont(ofSize: 15, weight: UIFontWeightMedium)
+            label.numberOfLines = 0
+            label.textColor = tutorialColor
+            label.text = Constants.scoreboardTutorialText
+            
+            
+            //Create button to dismiss
+            let button = UIButton(type: .system)
+            button.frame = CGRect(x: scoreboardTutorial!.bounds.width/2 - 50, y: label.frame.maxY, width: 100, height: 45)
+            button.setTitle("GOT IT", for: .normal)
+            button.titleLabel!.font = UIFont(name: Constants.buttonFont, size: Constants.buttonFontSize)
+            button.setTitleColor(UIColor.white, for: .normal)
+            button.backgroundColor = tutorialColor
+            button.addTarget(self, action: #selector(removeScoreboardTutorial), for: .touchUpInside)
+            button.layer.cornerRadius = button.bounds.height/2
+            button.clipsToBounds = true
+            
+            
+            //Add tutorial
+            scoreboardTutorial!.alpha = 0
+            scoreboardTutorial!.addSubview(label)
+            scoreboardTutorial!.addSubview(button)
+            self.addSubview(scoreboardTutorial!)
+            
+            
+            //Animate
+            UIView.animate(withDuration: 0.3, animations: {
+                
+                //Hide score and best score labels
+                self.scoreHeader.alpha = 0
+                self.score.alpha = 0
+                self.bestScoreHeader.alpha = 0
+                self.bestScore.alpha = 0
+                self.bestScoreBorder.alpha = 0
+                
+            }, completion: { (Bool) in
+                
+                //Show tutorial
+                UIView.animate(withDuration: 0.3, animations: {
+                    
+                    self.scoreboardTutorial!.alpha = 1
+                })
+            })
+        }
+    }
+    
+    
+    internal func removeScoreboardTutorial() {
+        
+        
+        //Remove score tutorial if it's shown
+        if scoreboardTutorial != nil {
+            
+            //Set tutorial key
+            self.userDefaults.set(true, forKey: Constants.scoreboardTutorialKey)
+            
+            //Do animations and removal
+            UIView.animate(withDuration: 0.3, animations: {
+                
+                self.scoreboardTutorial!.alpha = 0
+                
+            }, completion: { (Bool) in
+                
+                self.scoreboardTutorial!.removeFromSuperview()
+                self.scoreboardTutorial = nil
+                
+                //Restore score and best score labels
+                UIView.animate(withDuration: 0.3, animations: {
+                    
+                    self.scoreHeader.alpha = 1
+                    self.score.alpha = 1
+                    self.bestScoreHeader.alpha = 1
+                    self.bestScore.alpha = 1
+                    self.bestScoreBorder.alpha = 1
+                })
+            })
+        }
     }
 }
