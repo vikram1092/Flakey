@@ -31,6 +31,8 @@ class Broadcast: UIView {
     var adButton = UIButton()
     var scoreTutorial: UIView?
     var scoreboardTutorial: UIView?
+    var scoreboardTutorialLabel: UILabel!
+    var scoreboardTutorialButton: UIButton!
     
     
     required init?(coder aDecoder: NSCoder) {
@@ -93,13 +95,21 @@ class Broadcast: UIView {
             UIView.animate(withDuration: 0.3, animations: {
                 
                 self.scoreTableView.alpha = 1
-                self.adButton.alpha = 1
                 self.scoreboardHeader.alpha = 1
+                
+                //Only show ad button if the tutorial has been completed
+                if self.userDefaults.bool(forKey: Constants.scoreboardTutorialKey) {
+                    
+                    self.adButton.alpha = 1
+                }
                 
             }) { (Bool) in
                 
-                //Enable ad button at the end
-                self.adButton.isUserInteractionEnabled = true
+                //Enable ad button at the end if it's been shown
+                if self.adButton.alpha == 1 {
+                    
+                    self.adButton.isUserInteractionEnabled = true
+                }
             }
         }
     }
@@ -228,30 +238,30 @@ class Broadcast: UIView {
             scoreboardTutorial = UIView(frame: CGRect(x: self.bounds.width/2 - tutorialWidth/2, y: score.frame.minY, width: tutorialWidth, height: tutorialHeight))
             
             //Create label to show instructions
-            let label = UILabel(frame: CGRect(x: 0, y: 10, width: scoreboardTutorial!.bounds.width, height: 100))
-            label.textAlignment = .center
-            label.font = UIFont.systemFont(ofSize: 15, weight: UIFontWeightMedium)
-            label.numberOfLines = 0
-            label.textColor = tutorialColor
-            label.text = Constants.scoreboardTutorialText
+            scoreboardTutorialLabel = UILabel(frame: CGRect(x: 0, y: 10, width: scoreboardTutorial!.bounds.width, height: 100))
+            scoreboardTutorialLabel.textAlignment = .center
+            scoreboardTutorialLabel.font = UIFont.systemFont(ofSize: 15, weight: UIFontWeightMedium)
+            scoreboardTutorialLabel.numberOfLines = 0
+            scoreboardTutorialLabel.textColor = tutorialColor
+            scoreboardTutorialLabel.text = Constants.scoreboardTutorialText1
             
             
             //Create button to dismiss
-            let button = UIButton(type: .system)
-            button.frame = CGRect(x: scoreboardTutorial!.bounds.width/2 - 50, y: label.frame.maxY, width: 100, height: 45)
-            button.setTitle("GOT IT", for: .normal)
-            button.titleLabel!.font = UIFont(name: Constants.buttonFont, size: Constants.buttonFontSize)
-            button.setTitleColor(UIColor.white, for: .normal)
-            button.backgroundColor = tutorialColor
-            button.addTarget(self, action: #selector(removeScoreboardTutorial), for: .touchUpInside)
-            button.layer.cornerRadius = button.bounds.height/2
-            button.clipsToBounds = true
+            scoreboardTutorialButton = UIButton(type: .system)
+            scoreboardTutorialButton.frame = CGRect(x: scoreboardTutorial!.bounds.width/2 - 50, y: scoreboardTutorialLabel.frame.maxY, width: 100, height: 45)
+            scoreboardTutorialButton.setTitle("GOT IT", for: .normal)
+            scoreboardTutorialButton.titleLabel!.font = UIFont(name: Constants.buttonFont, size: Constants.buttonFontSize)
+            scoreboardTutorialButton.setTitleColor(UIColor.white, for: .normal)
+            scoreboardTutorialButton.backgroundColor = tutorialColor
+            scoreboardTutorialButton.addTarget(self, action: #selector(removeScoreboardTutorial), for: .touchUpInside)
+            scoreboardTutorialButton.layer.cornerRadius = scoreboardTutorialButton.bounds.height/2
+            scoreboardTutorialButton.clipsToBounds = true
             
             
             //Add tutorial
             scoreboardTutorial!.alpha = 0
-            scoreboardTutorial!.addSubview(label)
-            scoreboardTutorial!.addSubview(button)
+            scoreboardTutorial!.addSubview(scoreboardTutorialLabel)
+            scoreboardTutorial!.addSubview(scoreboardTutorialButton)
             self.addSubview(scoreboardTutorial!)
             
             
@@ -283,29 +293,43 @@ class Broadcast: UIView {
         //Remove score tutorial if it's shown
         if scoreboardTutorial != nil {
             
-            //Set tutorial key
-            self.userDefaults.set(true, forKey: Constants.scoreboardTutorialKey)
-            
-            //Do animations and removal
-            UIView.animate(withDuration: 0.3, animations: {
+            if scoreboardTutorialLabel.text! == Constants.scoreboardTutorialText1 {
                 
-                self.scoreboardTutorial!.alpha = 0
+                //Change the text of the tutorial
+                scoreboardTutorialLabel.text = Constants.scoreboardTutorialText2
+                scoreboardTutorialButton.setTitle("DONE", for: .normal)
+            }
+            else {
                 
-            }, completion: { (Bool) in
+                //Set tutorial key
+                self.userDefaults.set(true, forKey: Constants.scoreboardTutorialKey)
                 
-                self.scoreboardTutorial!.removeFromSuperview()
-                self.scoreboardTutorial = nil
+                //Show buttons in main view
+                let parent = self.superview!.next as! GameController
+                parent.expandButtons()
                 
-                //Restore score and best score labels
+                //Do animations and removal
                 UIView.animate(withDuration: 0.3, animations: {
                     
-                    self.scoreHeader.alpha = 1
-                    self.score.alpha = 1
-                    self.bestScoreHeader.alpha = 1
-                    self.bestScore.alpha = 1
-                    self.bestScoreBorder.alpha = 1
+                    self.scoreboardTutorial!.alpha = 0
+                    
+                }, completion: { (Bool) in
+                    
+                    self.scoreboardTutorial!.removeFromSuperview()
+                    self.scoreboardTutorial = nil
+                    
+                    //Restore score and best score labels
+                    UIView.animate(withDuration: 0.3, animations: {
+                        
+                        self.scoreHeader.alpha = 1
+                        self.score.alpha = 1
+                        self.bestScoreHeader.alpha = 1
+                        self.bestScore.alpha = 1
+                        self.bestScoreBorder.alpha = 1
+                    })
                 })
-            })
+
+            }
         }
     }
 }

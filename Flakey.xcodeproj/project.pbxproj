@@ -26,13 +26,23 @@
 		D1A5A7A81D7CD92600D6001A /* plane.svg in Resources */ = {isa = PBXBuildFile; fileRef = D1A5A7A71D7CD92600D6001A /* plane.svg */; };
 		D1A5A7AC1D7D042800D6001A /* Score.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A5A7AB1D7D042800D6001A /* Score.swift */; };
 		D1AB9BCE1D53F69100312A0A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1AB9BCD1D53F69100312A0A /* AppDelegate.swift */; };
-		D1AB9BD01D53F69100312A0A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1AB9BCF1D53F69100312A0A /* ViewController.swift */; };
+		D1AB9BD01D53F69100312A0A /* GameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1AB9BCF1D53F69100312A0A /* GameController.swift */; };
 		D1AB9BD31D53F69100312A0A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D1AB9BD11D53F69100312A0A /* Main.storyboard */; };
 		D1AB9BD51D53F69100312A0A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D1AB9BD41D53F69100312A0A /* Assets.xcassets */; };
 		D1AB9BD81D53F69100312A0A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D1AB9BD61D53F69100312A0A /* LaunchScreen.storyboard */; };
 		D1AB9BE01D53FC4000312A0A /* Cloud.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1AB9BDF1D53FC4000312A0A /* Cloud.swift */; };
 		D1AB9BE21D54082D00312A0A /* Arc.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1AB9BE11D54082D00312A0A /* Arc.swift */; };
 		D1DA55191D9DA26D0026FD25 /* ScoreTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1DA55181D9DA26D0026FD25 /* ScoreTable.swift */; };
+		D1E784141DD2575200960FB4 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = D1E784111DD2575200960FB4 /* logo.png */; };
+		D1E784151DD2575200960FB4 /* logo@x2.png in Resources */ = {isa = PBXBuildFile; fileRef = D1E784121DD2575200960FB4 /* logo@x2.png */; };
+		D1E784161DD2575200960FB4 /* logo@x3.png in Resources */ = {isa = PBXBuildFile; fileRef = D1E784131DD2575200960FB4 /* logo@x3.png */; };
+		D1E7841B1DD2697200960FB4 /* icon@x40.png in Resources */ = {isa = PBXBuildFile; fileRef = D1E784191DD2697200960FB4 /* icon@x40.png */; };
+		D1E784201DD269CC00960FB4 /* icon@x58.png in Resources */ = {isa = PBXBuildFile; fileRef = D1E7841D1DD269CC00960FB4 /* icon@x58.png */; };
+		D1E784211DD269CC00960FB4 /* icon@x60.png in Resources */ = {isa = PBXBuildFile; fileRef = D1E7841E1DD269CC00960FB4 /* icon@x60.png */; };
+		D1E784281DD26A8A00960FB4 /* icon@x80.png in Resources */ = {isa = PBXBuildFile; fileRef = D1E784251DD26A8A00960FB4 /* icon@x80.png */; };
+		D1E784291DD26A8A00960FB4 /* icon@x120.png in Resources */ = {isa = PBXBuildFile; fileRef = D1E784261DD26A8A00960FB4 /* icon@x120.png */; };
+		D1E7842A1DD26A8A00960FB4 /* icon@x180.png in Resources */ = {isa = PBXBuildFile; fileRef = D1E784271DD26A8A00960FB4 /* icon@x180.png */; };
+		D1E7842C1DD26B7000960FB4 /* icon@x87.png in Resources */ = {isa = PBXBuildFile; fileRef = D1E7842B1DD26B7000960FB4 /* icon@x87.png */; };
 		D1E9037D1D55887E005DED90 /* Flake.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E9037C1D55887E005DED90 /* Flake.swift */; };
 		D1F2CDD21D8AFB14001479B6 /* Border.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1F2CDD11D8AFB14001479B6 /* Border.swift */; };
 		D1F2CDD61D8B0B06001479B6 /* Broadcast.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1F2CDD51D8B0B06001479B6 /* Broadcast.swift */; };
@@ -78,7 +88,7 @@
 		D1A5A7AB1D7D042800D6001A /* Score.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Score.swift; sourceTree = "<group>"; };
 		D1AB9BCA1D53F69100312A0A /* Flakey.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Flakey.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D1AB9BCD1D53F69100312A0A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		D1AB9BCF1D53F69100312A0A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		D1AB9BCF1D53F69100312A0A /* GameController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameController.swift; sourceTree = "<group>"; };
 		D1AB9BD21D53F69100312A0A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D1AB9BD41D53F69100312A0A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D1AB9BD71D53F69100312A0A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -86,6 +96,16 @@
 		D1AB9BDF1D53FC4000312A0A /* Cloud.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cloud.swift; sourceTree = "<group>"; };
 		D1AB9BE11D54082D00312A0A /* Arc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Arc.swift; sourceTree = "<group>"; };
 		D1DA55181D9DA26D0026FD25 /* ScoreTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScoreTable.swift; sourceTree = "<group>"; };
+		D1E784111DD2575200960FB4 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo.png; path = "Fly Images/logo.png"; sourceTree = SOURCE_ROOT; };
+		D1E784121DD2575200960FB4 /* logo@x2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "logo@x2.png"; path = "Fly Images/logo@x2.png"; sourceTree = SOURCE_ROOT; };
+		D1E784131DD2575200960FB4 /* logo@x3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "logo@x3.png"; path = "Fly Images/logo@x3.png"; sourceTree = SOURCE_ROOT; };
+		D1E784191DD2697200960FB4 /* icon@x40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon@x40.png"; path = "Fly Images/icon@x40.png"; sourceTree = SOURCE_ROOT; };
+		D1E7841D1DD269CC00960FB4 /* icon@x58.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon@x58.png"; path = "Fly Images/icon@x58.png"; sourceTree = SOURCE_ROOT; };
+		D1E7841E1DD269CC00960FB4 /* icon@x60.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon@x60.png"; path = "Fly Images/icon@x60.png"; sourceTree = SOURCE_ROOT; };
+		D1E784251DD26A8A00960FB4 /* icon@x80.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon@x80.png"; path = "Fly Images/icon@x80.png"; sourceTree = SOURCE_ROOT; };
+		D1E784261DD26A8A00960FB4 /* icon@x120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon@x120.png"; path = "Fly Images/icon@x120.png"; sourceTree = SOURCE_ROOT; };
+		D1E784271DD26A8A00960FB4 /* icon@x180.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon@x180.png"; path = "Fly Images/icon@x180.png"; sourceTree = SOURCE_ROOT; };
+		D1E7842B1DD26B7000960FB4 /* icon@x87.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon@x87.png"; path = "Fly Images/icon@x87.png"; sourceTree = SOURCE_ROOT; };
 		D1E9037C1D55887E005DED90 /* Flake.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Flake.swift; sourceTree = "<group>"; };
 		D1F2CDD11D8AFB14001479B6 /* Border.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Border.swift; sourceTree = "<group>"; };
 		D1F2CDD51D8B0B06001479B6 /* Broadcast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Broadcast.swift; sourceTree = "<group>"; };
@@ -132,6 +152,16 @@
 		D13ED1D81DC2E76100F4A176 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				D1E784191DD2697200960FB4 /* icon@x40.png */,
+				D1E7841D1DD269CC00960FB4 /* icon@x58.png */,
+				D1E7841E1DD269CC00960FB4 /* icon@x60.png */,
+				D1E784251DD26A8A00960FB4 /* icon@x80.png */,
+				D1E7842B1DD26B7000960FB4 /* icon@x87.png */,
+				D1E784261DD26A8A00960FB4 /* icon@x120.png */,
+				D1E784271DD26A8A00960FB4 /* icon@x180.png */,
+				D1E784111DD2575200960FB4 /* logo.png */,
+				D1E784121DD2575200960FB4 /* logo@x2.png */,
+				D1E784131DD2575200960FB4 /* logo@x3.png */,
 				D13ED1D91DC2E77800F4A176 /* backdropSmall.png */,
 				D13ED1DA1DC2E77800F4A176 /* backdropSmall@x2.png */,
 				D13ED1DB1DC2E77800F4A176 /* backdropSmall@x3.png */,
@@ -197,7 +227,7 @@
 				D1A5A7321D7CD0BB00D6001A /* PocketSVG-master */,
 				D1AB9BCD1D53F69100312A0A /* AppDelegate.swift */,
 				D15532FE1DA720B400B7FAD9 /* Constants.swift */,
-				D1AB9BCF1D53F69100312A0A /* ViewController.swift */,
+				D1AB9BCF1D53F69100312A0A /* GameController.swift */,
 				D13ED1D31DC2B76B00F4A176 /* Backdrop.swift */,
 				D1AB9BDF1D53FC4000312A0A /* Cloud.swift */,
 				D1AB9BE11D54082D00312A0A /* Arc.swift */,
@@ -258,6 +288,7 @@
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = 53738Y87UZ;
 						LastSwiftMigration = 0800;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -300,18 +331,28 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D1E7841B1DD2697200960FB4 /* icon@x40.png in Resources */,
 				D1A5A7761D7CD0BB00D6001A /* .travis.yml in Resources */,
 				D1A5A7751D7CD0BB00D6001A /* .gitignore in Resources */,
 				D1A5A77B1D7CD0BB00D6001A /* LICENSE in Resources */,
 				D1AB9BD81D53F69100312A0A /* LaunchScreen.storyboard in Resources */,
+				D1E784281DD26A8A00960FB4 /* icon@x80.png in Resources */,
 				D1A5A7911D7CD0BB00D6001A /* Info.plist in Resources */,
+				D1E784211DD269CC00960FB4 /* icon@x60.png in Resources */,
+				D1E7842A1DD26A8A00960FB4 /* icon@x180.png in Resources */,
 				D13ED1DE1DC2E77800F4A176 /* backdropSmall@x3.png in Resources */,
 				D1A5A7A81D7CD92600D6001A /* plane.svg in Resources */,
 				D1AB9BD51D53F69100312A0A /* Assets.xcassets in Resources */,
+				D1E784201DD269CC00960FB4 /* icon@x58.png in Resources */,
 				D13ED1DC1DC2E77800F4A176 /* backdropSmall.png in Resources */,
+				D1E784151DD2575200960FB4 /* logo@x2.png in Resources */,
+				D1E7842C1DD26B7000960FB4 /* icon@x87.png in Resources */,
 				D13ED1DD1DC2E77800F4A176 /* backdropSmall@x2.png in Resources */,
 				D110085C1DBBC88D0007EACA /* snowflake.svg in Resources */,
+				D1E784141DD2575200960FB4 /* logo.png in Resources */,
 				D110085E1DBBDB890007EACA /* GoogleService-Info.plist in Resources */,
+				D1E784291DD26A8A00960FB4 /* icon@x120.png in Resources */,
+				D1E784161DD2575200960FB4 /* logo@x3.png in Resources */,
 				D1AB9BD31D53F69100312A0A /* Main.storyboard in Resources */,
 				D1A5A7901D7CD0BB00D6001A /* PocketSVG.podspec in Resources */,
 			);
@@ -377,7 +418,7 @@
 				D15532FF1DA720B400B7FAD9 /* Constants.swift in Sources */,
 				D1A5A7AC1D7D042800D6001A /* Score.swift in Sources */,
 				D1AB9BE01D53FC4000312A0A /* Cloud.swift in Sources */,
-				D1AB9BD01D53F69100312A0A /* ViewController.swift in Sources */,
+				D1AB9BD01D53F69100312A0A /* GameController.swift in Sources */,
 				D1E9037D1D55887E005DED90 /* Flake.swift in Sources */,
 				D195E9001DAE894D003EF784 /* PauseButton.swift in Sources */,
 				D1AB9BE21D54082D00312A0A /* Arc.swift in Sources */,
@@ -506,6 +547,8 @@
 			baseConfigurationReference = 4415CE07A442B3743C86A933 /* Pods-Flakey.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 53738Y87UZ;
 				INFOPLIST_FILE = Fly/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -520,6 +563,8 @@
 			baseConfigurationReference = 802914975C1584ED20E87F20 /* Pods-Flakey.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 53738Y87UZ;
 				INFOPLIST_FILE = Fly/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

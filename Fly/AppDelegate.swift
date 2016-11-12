@@ -27,7 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //Set default username in case value is nil
         if UserDefaults.standard.value(forKey: Constants.username) == nil {
             
-            UserDefaults.standard.set(NSKeyedArchiver.archivedData(withRootObject: "AAA"), forKey: Constants.username)
+            UserDefaults.standard.set(NSKeyedArchiver.archivedData(withRootObject: "FLAKEY"), forKey: Constants.username)
         }
         
         return true

@@ -26,12 +26,16 @@ struct Constants {
     static let avoidCloudTutorialText = "Don't let Flakey touch the clouds!"
     static let avoidCloudTutorialKey = "avoidCloudTutorialShown"
     
-    static let scoreTutorialText = "You can see your current and best scores above"
+    static let scoreTutorialText = "You'll get your current and best scores above"
     static let scoreTutorialKey = "scoreTutorialShown"
     
-    static let scoreboardTutorialText = "Below is the global scoreboard!\nTap the scoreboard to change your name!"
+    static let scoreboardTutorialText1 = "Below is the global scoreboard!"
+    static let scoreboardTutorialText2 = "Tap the scoreboard to change your name!"
     static let scoreboardTutorialKey = "scoreboardTutorialShown"
     
     static let buttonFont = "Futura"
     static let buttonFontSize = CGFloat(15)
+    
+    
+    static let interstitialID = "ca-app-pub-9981216773147280/6808641858"
 }

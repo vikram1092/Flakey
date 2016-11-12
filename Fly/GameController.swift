@@ -9,12 +9,12 @@
 import UIKit
 import Firebase
 
-class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAnimatorDelegate, UITextFieldDelegate {
+class GameController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAnimatorDelegate, UITextFieldDelegate {
     
     
     @IBOutlet var backdrop: Backdrop!
     @IBOutlet var startButton: UIButton!
-    @IBOutlet var titleLabel: UILabel!
+    @IBOutlet var titleView: UIImageView!
     @IBOutlet var score: Score!
     @IBOutlet var flyGesture: UIPanGestureRecognizer!
     @IBOutlet var broadcast: Broadcast!
@@ -49,7 +49,8 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     
     var ref: FIRDatabaseReference!
     private var _refHandle: FIRDatabaseHandle!
-    var username = "AAA"
+    var interstitial: GADInterstitial!
+    var username = "FLAKEY"
     var paused = false
     var collided = false
     
@@ -80,12 +81,14 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.pauseGame), name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
         
+        //Load ad for later
+        createAndLoadInterstitial()
         
         //DEMO CODE -- Remove tutorial keys
         //self.userDefaults.set(false, forKey: Constants.moveFlakeTutorialKey)
         //self.userDefaults.set(false, forKey: Constants.avoidCloudTutorialKey)
-        self.userDefaults.set(false, forKey: Constants.scoreTutorialKey)
-        self.userDefaults.set(false, forKey: Constants.scoreboardTutorialKey)
+        //self.userDefaults.set(false, forKey: Constants.scoreTutorialKey)
+        //self.userDefaults.set(false, forKey: Constants.scoreboardTutorialKey)
     }
     
     
@@ -282,9 +285,8 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         print("resetView")
         //Reset view to start screen, show score broadcast if necessary
         flyGesture.isEnabled = false
-        titleLabel.isHidden = false
+        titleView.isHidden = false
         broadcast.isUserInteractionEnabled = false
-        expandButtons()
         pauseButton.hide()
         
         flake.isHidden = true
@@ -305,6 +307,11 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         //Send current score to database and request more scores
         sendScore()
         requestScores()
+        
+        if userDefaults.bool(forKey: Constants.scoreTutorialKey) && userDefaults.bool(forKey: Constants.scoreboardTutorialKey) {
+            
+            expandButtons()
+        }
         
         //Animate buttons fading and start game
         UIView.animate(withDuration: 1, animations: {
@@ -586,7 +593,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         //Animate button fade and start game
         UIView.animate(withDuration: 0.3, animations: { 
             
-            self.titleLabel.alpha = 0
+            self.titleView.alpha = 0
             self.broadcast.alpha = 0
             
             self.score.alpha = 1
@@ -595,7 +602,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
             
             }, completion: { (Bool) in
                 
-                self.titleLabel.isHidden = true
+                self.titleView.isHidden = true
                 self.startGame()
                 
         }) 
@@ -755,7 +762,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
             
             if self.flake.alpha == 1 {
                 
-                self.speed += 0.15
+                self.speed += 0.2
                 self.fall()
             }
         }
@@ -788,13 +795,13 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
                 
                 print("changed")
                 //Set translation difference and sensitivity
-                let sensitivity = CGFloat(7)
-                let translation = sender.translation(in: self.view)
+                let sensitivity = CGFloat(0.4)
+                let translation = sender.velocity(in: self.view)
                 let horizontalDifference = (touchStartingPoint.x - translation.x) * sensitivity
-                let verticalDifference = CGFloat(0)//(touchStartingPoint.y - translation.y) * sensitivity
-                
+                let verticalDifference = CGFloat(0)
                 //Set movement according to difference accounting for view bounds as limitations
-                let horizontalMovement = min(max(flakeStartingPoint.x + horizontalDifference,  flake.bounds.width/2), self.view.bounds.width - flake.bounds.width/2)
+                let horizontalMovement = min(max(flake.center.x + horizontalDifference,  flake.bounds.width/2), self.view.bounds.width - flake.bounds.width/2)
+                //let horizontalMovement = min(max(flakeStartingPoint.x + horizontalDifference,  flake.bounds.width/2), self.view.bounds.width - flake.bounds.width/2)
                 let verticalMovement = min(max(flakeStartingPoint.y + verticalDifference, flake.bounds.height/2), self.view.bounds.height - flake.bounds.height/2)
                 
                 
@@ -1118,22 +1125,25 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     @IBAction func scoreTableTapped(_ sender: AnyObject) {
         
         
-        //Show and enable username change view and its elements
-        blurView.isUserInteractionEnabled = true
-        usernameChangeField.alpha = 1
-        usernameChangeHeader.alpha = 1
-        aboutLabel.alpha = 0
-        usernameChangeField.isUserInteractionEnabled = true
-        
-        UIView.animate(withDuration: 0.4, animations: {
+        if broadcast.scoreTableView.alpha != 0 {
             
-            self.blurView.alpha = 1
+            //Show and enable username change view and its elements
+            blurView.isUserInteractionEnabled = true
+            usernameChangeField.alpha = 1
+            usernameChangeHeader.alpha = 1
+            aboutLabel.alpha = 0
+            usernameChangeField.isUserInteractionEnabled = true
             
+            UIView.animate(withDuration: 0.4, animations: {
+                
+                self.blurView.alpha = 1
+                
             }) { (Bool) in
                 
                 //Enable keyboard and select text field
                 self.usernameChangeField.becomeFirstResponder()
                 self.usernameChangeField.isSelected = true
+            }
         }
     }
     
@@ -1213,7 +1223,30 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     
     
     @IBAction func adButtonPressed(_ sender: AnyObject) {
+        
+        
+        print("adButtonPressed")
+        //Show interstitial ad
+        if interstitial.isReady {
+            interstitial.present(fromRootViewController: self)
+        } else {
+            print("Ad wasn't ready")
+        }
     }
+    
+    
+    internal func createAndLoadInterstitial() {
+        
+        
+        print("createAndLoadInterstitial")
+        interstitial = GADInterstitial(adUnitID: Constants.interstitialID)
+        
+        //Load request
+        let request = GADRequest()
+        request.testDevices = ["692e86106fd4b538b1824b62d6138614"]
+        interstitial.load(request)
+    }
+    
     
     
     @IBAction func aboutButtonPressed(_ sender: AnyObject) {
