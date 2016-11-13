@@ -81,12 +81,9 @@ class GameController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.pauseGame), name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
         
-        //Load ad for later
-        createAndLoadInterstitial()
-        
         //DEMO CODE -- Remove tutorial keys
-        //self.userDefaults.set(false, forKey: Constants.moveFlakeTutorialKey)
-        //self.userDefaults.set(false, forKey: Constants.avoidCloudTutorialKey)
+        self.userDefaults.set(false, forKey: Constants.moveFlakeTutorialKey)
+        self.userDefaults.set(false, forKey: Constants.avoidCloudTutorialKey)
         //self.userDefaults.set(false, forKey: Constants.scoreTutorialKey)
         //self.userDefaults.set(false, forKey: Constants.scoreboardTutorialKey)
     }
@@ -296,17 +293,21 @@ class GameController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         invalidateTimer()
     
         //Check if current score is the best, set labels on broadcast view & pass score to table
-        let _ = checkIfBestScore(finalScore)
+        setIfBestScore(finalScore)
         broadcast.setScoreLabel(finalScore)
         broadcast.setBestScoreLabel()
         scoreTable.updateCurrentScore(score: finalScore)
         
         //Change start button text
         startButton.setTitle("AGAIN!", for: .normal)
+        
+        
+        //Load ad for later
+        createAndLoadInterstitial()
     
         //Send current score to database and request more scores
         sendScore()
-        requestScores()
+        requestScores(showAdButton: true)
         
         if userDefaults.bool(forKey: Constants.scoreTutorialKey) && userDefaults.bool(forKey: Constants.scoreboardTutorialKey) {
             
@@ -334,7 +335,6 @@ class GameController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         }, completion: { (Bool) in
             
             //Restore user interaction to buttons
-            self.score.resetLabels()
             self.flyGesture.isEnabled = true
             
             self.dynamicAnimator.removeAllBehaviors()
@@ -584,6 +584,7 @@ class GameController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         print("startButtonPressed")
         //Disable and animate all buttons
         retractButtons()
+        score.resetLabels()
         broadcast.isUserInteractionEnabled = false
         hideStatusBar = true
         collided = false
@@ -980,7 +981,7 @@ class GameController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     
     
     
-    internal func checkIfBestScore(_ finalScore: Int) -> Bool {
+    internal func setIfBestScore(_ finalScore: Int) {
         
         
         print("checkIfBestScore")
@@ -988,10 +989,7 @@ class GameController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         if best < finalScore {
             
             userDefaults.set(finalScore, forKey: Constants.bestScore)
-            return true
         }
-        
-        return false
     }
     
     
@@ -1003,7 +1001,7 @@ class GameController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     }
     
     
-    internal func requestScores() {
+    internal func requestScores(showAdButton: Bool) {
         
         
         //Hide score table and show refreshing logo
@@ -1027,7 +1025,7 @@ class GameController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
                     self.scoreTable.resetRank()
                     self.scoreTable.scores = scoreList
                     self.scoreTable.refresh()
-                    self.broadcast.showScoreboard()
+                    self.broadcast.showScoreboard(showAdButton: showAdButton)
                 }
                 else {
                     
@@ -1040,7 +1038,7 @@ class GameController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
                             self.scoreTable.updateCurrentRank(rank: Int(rankSnapshot.childrenCount) + 1)
                             self.scoreTable.scores = scoreList
                             self.scoreTable.refresh()
-                            self.broadcast.showScoreboard()
+                            self.broadcast.showScoreboard(showAdButton: showAdButton)
                         }
                         else {
                             
@@ -1072,7 +1070,7 @@ class GameController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         self.scoreTable.resetRank()
         self.scoreTable.resetArray()
         self.scoreTable.refresh()
-        self.broadcast.showScoreboard()
+        self.broadcast.showScoreboard(showAdButton: false)
     }
     
     
@@ -1177,7 +1175,15 @@ class GameController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
             //Hide username change view, send score update to database and request more scores
             hideUsernameChangeView()
             sendScore()
-            requestScores()
+            
+            if adButton.alpha == 1 {
+                
+                requestScores(showAdButton: true)
+            }
+            else {
+                
+                requestScores(showAdButton: false)
+            }
         }
         
         return false
@@ -1226,9 +1232,27 @@ class GameController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         
         
         print("adButtonPressed")
-        //Show interstitial ad
         if interstitial.isReady {
+            
+            //Show interstitial ad
             interstitial.present(fromRootViewController: self)
+            
+            //Check if current score is the best, set labels on broadcast view & pass score to table
+            score.addPointsToScore()
+            let newScore = score.getScore()
+            setIfBestScore(newScore)
+            broadcast.setScoreLabel(newScore)
+            broadcast.setBestScoreLabel()
+            scoreTable.updateCurrentScore(score: newScore)
+            
+            //Hide ad button
+            adButton.alpha = 0
+            adButton.isUserInteractionEnabled = false
+            
+            //Send current score to database and request more scores
+            sendScore()
+            requestScores(showAdButton: false)
+            
         } else {
             print("Ad wasn't ready")
         }
@@ -1246,7 +1270,6 @@ class GameController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         request.testDevices = ["692e86106fd4b538b1824b62d6138614"]
         interstitial.load(request)
     }
-    
     
     
     @IBAction func aboutButtonPressed(_ sender: AnyObject) {
@@ -1296,16 +1319,7 @@ class GameController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
             invalidateTimer()
             removeAvoidCloudTutorial()
             
-            if item1 is Flake {
-                
-                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1, execute: {
-                    
-                    print("finalScore \(self.score.getScore())")
-                    self.resetView(finalScore: self.score.getScore())
-                })
-                
-            }
-            else if item2 is Flake {
+            if item1 is Flake || item2 is Flake {
                 
                 DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1, execute: {
                     

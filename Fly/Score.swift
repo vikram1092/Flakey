@@ -142,5 +142,10 @@ class Score: UIView {
     }
     
     
+    internal func addPointsToScore() {
+        
+        score += 5
+    }
+    
     
 }

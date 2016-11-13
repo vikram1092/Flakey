@@ -84,7 +84,7 @@ class Broadcast: UIView {
     }
     
     
-    internal func showScoreboard() {
+    internal func showScoreboard(showAdButton: Bool) {
         
         if userDefaults.bool(forKey: Constants.scoreTutorialKey)  {
             
@@ -98,7 +98,7 @@ class Broadcast: UIView {
                 self.scoreboardHeader.alpha = 1
                 
                 //Only show ad button if the tutorial has been completed
-                if self.userDefaults.bool(forKey: Constants.scoreboardTutorialKey) {
+                if self.userDefaults.bool(forKey: Constants.scoreboardTutorialKey) && showAdButton {
                     
                     self.adButton.alpha = 1
                 }
@@ -218,7 +218,7 @@ class Broadcast: UIView {
                 self.scoreTutorial = nil
                 
                 //Show scoreboard and its tutorial
-                self.showScoreboard()
+                self.showScoreboard(showAdButton: true)
                 self.showScoreboardTutorial()
             })
         }

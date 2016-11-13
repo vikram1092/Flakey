@@ -393,7 +393,6 @@
                                 <blurEffect style="light"/>
                             </visualEffectView>
                         </subviews>
-                        <color key="backgroundColor" red="0.31145018339157104" green="0.22560760378837585" blue="0.29558733105659485" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="ak1-TG-O7b" secondAttribute="bottom" id="11O-aH-4jo"/>
