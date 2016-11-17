@@ -1,6 +1,6 @@
 //
 //  Constants.swift
-//  Fly
+//  Flakey
 //
 //  Created by Vikram Ramkumar on 10/6/16.
 //  Copyright © 2016 Vikram Ramkumar. All rights reserved.

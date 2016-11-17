@@ -1,6 +1,6 @@
 //
 //  Flake.swift
-//  Fly
+//  Flakey
 //
 //  Created by Vikram Ramkumar on 8/5/16.
 //  Copyright © 2016 Vikram Ramkumar. All rights reserved.

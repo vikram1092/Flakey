@@ -1,6 +1,6 @@
 //
 //  ViewController.swift
-//  Fly
+//  Flakey
 //
 //  Created by Vikram Ramkumar on 8/4/16.
 //  Copyright © 2016 Vikram Ramkumar. All rights reserved.
@@ -107,9 +107,6 @@ class GameController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
                     self.pauseView.isUserInteractionEnabled = true
             })
         }
-        
-        //Initialize backdrop
-        backdrop.initializeViews()
     }
     
     
@@ -166,7 +163,10 @@ class GameController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     internal func initializeViewsBeforeAppear() {
         
         
-        //Initialize views and buttons
+        //Initialize backdrop
+        backdrop.initializeViews()
+        
+        //Initialize buttons
         print("initializeViewsBeforeAppear")
         if !startButton.clipsToBounds {
             //Cut start button corners
@@ -1316,7 +1316,6 @@ class GameController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         
         //Load request
         let request = GADRequest()
-        request.testDevices = ["692e86106fd4b538b1824b62d6138614"]
         interstitial.load(request)
     }
     

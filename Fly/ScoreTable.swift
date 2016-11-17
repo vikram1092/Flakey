@@ -1,6 +1,6 @@
 //
 //  scoreTable.swift
-//  Fly
+//  Flakey
 //
 //  Created by Vikram Ramkumar on 9/29/16.
 //  Copyright © 2016 Vikram Ramkumar. All rights reserved.

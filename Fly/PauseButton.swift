@@ -1,6 +1,6 @@
 //
 //  PauseButton.swift
-//  Fly
+//  Flakey
 //
 //  Created by Vikram Ramkumar on 10/12/16.
 //  Copyright © 2016 Vikram Ramkumar. All rights reserved.

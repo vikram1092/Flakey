@@ -29,7 +29,7 @@ class Backdrop: UIView {
         if !initialized {
             
             //Create filter view
-            filterView = UIView(frame: self.bounds)
+            filterView = self.viewWithTag(20)!
             filterView.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.8)
             self.addSubview(filterView)
             
