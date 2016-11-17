@@ -23,7 +23,7 @@ struct Constants {
     static let moveFlakeTutorialText2 = "Swipe anywhere to move Flakey left or right"
     static let moveFlakeTutorialKey = "moveFlakeTutorialShown"
     
-    static let avoidCloudTutorialText = "Don't let Flakey touch the clouds!"
+    static let avoidCloudTutorialText = "Don't let Flakey touch the clouds!\n\nThey get faster and faster!"
     static let avoidCloudTutorialKey = "avoidCloudTutorialShown"
     
     static let scoreTutorialText = "You'll get your current and best scores above"
@@ -35,6 +35,15 @@ struct Constants {
     
     static let buttonFont = "Futura"
     static let buttonFontSize = CGFloat(15)
+    
+    static let mutedKey = "muted"
+    static let buttonSoundFile = "Button"
+    static let collisionSoundFile = "Collision"
+    static let tableButtonSoundFile = "Table"
+    static let tutorialSoundFile = "Tutorial"
+    
+    static let shareText = "Beat my score in Flakey!"
+    static let shareLink = "itms://itunes.apple.com/flakey/1168312945?mt=8"
     
     
     static let interstitialID = "ca-app-pub-9981216773147280/6808641858"

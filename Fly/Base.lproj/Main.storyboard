@@ -290,20 +290,20 @@
                                             </constraints>
                                             <color key="textColor" red="0.77860283850000001" green="0.24362273509999999" blue="0.1909590065" alpha="1" colorSpace="calibratedRGB"/>
                                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
-                                            <textInputTraits key="textInputTraits" autocapitalizationType="allCharacters" keyboardType="alphabet" returnKeyType="done"/>
+                                            <textInputTraits key="textInputTraits" autocapitalizationType="allCharacters" autocorrectionType="no" spellCheckingType="no" keyboardType="alphabet" returnKeyType="done"/>
                                             <connections>
                                                 <outlet property="delegate" destination="BYZ-38-t0r" id="D8G-mQ-VZM"/>
                                             </connections>
                                         </textField>
-                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" editable="NO" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ysS-Lx-nKE">
-                                            <rect key="frame" x="50" y="94" width="275" height="480"/>
+                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ysS-Lx-nKE">
+                                            <rect key="frame" x="50" y="233" width="275" height="200"/>
                                             <color key="tintColor" red="0.77860283850000001" green="0.24362273509999999" blue="0.1909590065" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="275" id="oPB-hS-0OZ"/>
-                                                <constraint firstAttribute="height" constant="480" id="rmC-Z9-PEw"/>
+                                                <constraint firstAttribute="height" constant="200" id="rmC-Z9-PEw"/>
                                             </constraints>
                                             <attributedString key="attributedText">
-                                                <fragment content="Flakey is created by Vikram Ramkumar.  ">
+                                                <fragment content="Flakey is created by">
                                                     <attributes>
                                                         <color key="NSColor" red="0.58983333333333332" green="0.58983333333333332" blue="0.58983333333333332" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <font key="NSFont" size="16" name="HelveticaNeue-Medium"/>
@@ -311,7 +311,22 @@
                                                         <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                     </attributes>
                                                 </fragment>
-                                                <fragment content="The snowflake is made">
+                                                <fragment content=" ">
+                                                    <attributes>
+                                                        <color key="NSColor" red="0.58983333333333332" green="0.58983333333333332" blue="0.58983333333333332" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <font key="NSFont" size="16" name="Helvetica"/>
+                                                        <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                    </attributes>
+                                                </fragment>
+                                                <fragment content="Vikram Ramkumar  ">
+                                                    <attributes>
+                                                        <color key="NSColor" red="0.58983333333333332" green="0.58983333333333332" blue="0.58983333333333332" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <font key="NSFont" size="16" name="HelveticaNeue-Medium"/>
+                                                        <font key="NSOriginalFont" size="16" name="Helvetica"/>
+                                                        <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                    </attributes>
+                                                </fragment>
+                                                <fragment content="Flakey the snowflake is drawn">
                                                     <attributes>
                                                         <color key="NSColor" red="0.58983333333333332" green="0.58983333333333332" blue="0.58983333333333332" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <font key="NSFont" size="16" name="HelveticaNeue-Medium"/>
@@ -376,13 +391,49 @@
                                                         <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                     </attributes>
                                                 </fragment>
+                                                <fragment content="  ">
+                                                    <attributes>
+                                                        <color key="NSColor" red="0.77860283850000001" green="0.24362273509999999" blue="0.1909590065" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <font key="NSFont" size="16" name="Helvetica"/>
+                                                        <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                    </attributes>
+                                                </fragment>
+                                                <fragment content="Sound is provided by ">
+                                                    <attributes>
+                                                        <color key="NSColor" red="0.58982999999999997" green="0.58982999999999997" blue="0.58982999999999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <font key="NSFont" size="16" name="HelveticaNeue-Medium"/>
+                                                        <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                    </attributes>
+                                                </fragment>
+                                                <fragment content="www.narfstuff.co.uk">
+                                                    <attributes>
+                                                        <color key="NSColor" red="0.77860283850000001" green="0.24362273509999999" blue="0.1909590065" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <font key="NSFont" size="16" name="HelveticaNeue-Medium"/>
+                                                        <string key="NSLink">http://www.narfstuff.co.uk/</string>
+                                                        <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                    </attributes>
+                                                </fragment>
                                             </attributedString>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                             <dataDetectorType key="dataDetectorTypes" link="YES"/>
                                         </textView>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0L4-Vy-RTt">
+                                            <rect key="frame" x="166" y="443" width="43" height="43"/>
+                                            <color key="backgroundColor" red="0.78039215689999997" green="0.24362273509999999" blue="0.1909590065" alpha="1" colorSpace="calibratedRGB"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="43" id="JDI-mg-X6g"/>
+                                                <constraint firstAttribute="height" constant="43" id="cfY-za-Vr4"/>
+                                            </constraints>
+                                            <state key="normal" image="Volume-Off"/>
+                                            <connections>
+                                                <action selector="volumeButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="cpQ-2P-DBs"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
                                     <constraints>
+                                        <constraint firstItem="0L4-Vy-RTt" firstAttribute="centerX" secondItem="7ds-wH-Tr3" secondAttribute="centerX" id="1wV-PB-JAH"/>
                                         <constraint firstItem="ysS-Lx-nKE" firstAttribute="centerX" secondItem="7ds-wH-Tr3" secondAttribute="centerX" identifier="horizCenter" id="2ig-5r-sg0"/>
+                                        <constraint firstItem="0L4-Vy-RTt" firstAttribute="top" secondItem="ysS-Lx-nKE" secondAttribute="bottom" constant="10" id="F8L-hh-ukm"/>
                                         <constraint firstItem="0pw-BL-MBh" firstAttribute="centerX" secondItem="7ds-wH-Tr3" secondAttribute="centerX" id="G1U-Ab-Nx7"/>
                                         <constraint firstItem="o8R-1C-0Qm" firstAttribute="centerX" secondItem="7ds-wH-Tr3" secondAttribute="centerX" id="bi0-Lg-zxn"/>
                                         <constraint firstItem="0pw-BL-MBh" firstAttribute="top" secondItem="o8R-1C-0Qm" secondAttribute="bottom" constant="30" id="dJn-XV-Oz0"/>
@@ -396,21 +447,20 @@
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="ak1-TG-O7b" secondAttribute="bottom" id="11O-aH-4jo"/>
-                            <constraint firstItem="Lzo-dy-dCz" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="1K0-d3-VeV"/>
                             <constraint firstAttribute="trailing" secondItem="ak1-TG-O7b" secondAttribute="trailing" id="2gb-zj-Ec9"/>
+                            <constraint firstAttribute="trailing" secondItem="Lzo-dy-dCz" secondAttribute="trailing" id="5Ox-hB-J6V"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="qj3-pG-YaQ" secondAttribute="bottom" constant="93" id="Aa1-U1-T3F"/>
                             <constraint firstItem="x2u-lh-ufy" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="15" id="BLw-Lv-mdt"/>
                             <constraint firstItem="eHc-oc-tFS" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="20" id="DWK-y8-k5f"/>
                             <constraint firstItem="o6a-cL-hg9" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="ICb-Vu-qbh"/>
-                            <constraint firstAttribute="trailing" secondItem="Lzo-dy-dCz" secondAttribute="trailing" id="IPQ-we-BQS"/>
+                            <constraint firstItem="Lzo-dy-dCz" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="IIt-LW-298"/>
                             <constraint firstItem="qj3-pG-YaQ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" identifier="horizCenter" id="IWv-Ye-9j2"/>
                             <constraint firstItem="o6a-cL-hg9" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="70" id="KiN-xQ-dQq"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Lzo-dy-dCz" secondAttribute="bottom" id="LOf-2I-aPu"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Lzo-dy-dCz" secondAttribute="bottom" id="LK3-2t-3OA"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="uEA-21-XEb" secondAttribute="bottom" constant="93" id="M1r-mn-rzr"/>
                             <constraint firstItem="znO-Gd-Vbc" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="N9L-uD-vYR"/>
                             <constraint firstItem="Maf-vx-c6i" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="NHO-Nx-HSp"/>
                             <constraint firstAttribute="trailing" secondItem="znO-Gd-Vbc" secondAttribute="trailing" id="Oek-rX-0Xs"/>
-                            <constraint firstItem="Lzo-dy-dCz" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Oqm-Dg-r8n"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="817-Gt-QY2" secondAttribute="bottom" id="PFh-Me-mnc"/>
                             <constraint firstItem="x2u-lh-ufy" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="QOs-Rv-MX3"/>
                             <constraint firstItem="eHc-oc-tFS" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="16" id="R27-rf-HcU"/>
@@ -420,6 +470,7 @@
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Maf-vx-c6i" secondAttribute="bottom" constant="88" id="flK-Cb-oGQ"/>
                             <constraint firstItem="817-Gt-QY2" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="70" id="kAm-6b-dDB"/>
                             <constraint firstItem="817-Gt-QY2" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="pmZ-7f-i2O"/>
+                            <constraint firstItem="Lzo-dy-dCz" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="v4m-At-0En"/>
                             <constraint firstItem="znO-Gd-Vbc" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="w9P-on-UjL"/>
                             <constraint firstItem="817-Gt-QY2" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="wv1-uo-Y1v"/>
                             <constraint firstItem="ak1-TG-O7b" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="wxh-eZ-aor"/>
@@ -450,6 +501,7 @@
                         <outlet property="titleView" destination="o6a-cL-hg9" id="MNM-dh-Slt"/>
                         <outlet property="usernameChangeField" destination="0pw-BL-MBh" id="2q9-l5-YHR"/>
                         <outlet property="usernameChangeHeader" destination="o8R-1C-0Qm" id="VsN-2e-Jw9"/>
+                        <outlet property="volumeButton" destination="0L4-Vy-RTt" id="POt-yX-N5T"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -537,5 +589,6 @@
     </scenes>
     <resources>
         <image name="Logo" width="250" height="134"/>
+        <image name="Volume-Off" width="20" height="20"/>
     </resources>
 </document>

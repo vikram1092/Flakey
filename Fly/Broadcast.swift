@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import AVFoundation
 
 
 class Broadcast: UIView {
@@ -22,6 +23,8 @@ class Broadcast: UIView {
     var bestScoreBorder: Border!
     var scoreboardBorder: Border!
     var initialized = false
+    var muted = false
+    var audioPlayer = AVAudioPlayer()
     
     var activityIndicator = UIActivityIndicatorView()
     var activityIndicatorColor = UIColor.gray
@@ -204,6 +207,10 @@ class Broadcast: UIView {
         //Remove score tutorial if it's shown
         if scoreTutorial != nil {
             
+            //Play sound as feedback
+            let sound = NSURL(fileURLWithPath: Bundle.main.path(forResource: Constants.tutorialSoundFile, ofType: "wav")!)
+            playSound(soundURL: sound)
+            
             //Set tutorial key
             userDefaults.set(true, forKey: Constants.scoreTutorialKey)
             
@@ -293,11 +300,27 @@ class Broadcast: UIView {
         //Remove score tutorial if it's shown
         if scoreboardTutorial != nil {
             
+            //Play sound as feedback
+            let sound = NSURL(fileURLWithPath: Bundle.main.path(forResource: Constants.tutorialSoundFile, ofType: "wav")!)
+            playSound(soundURL: sound)
+            
             if scoreboardTutorialLabel.text! == Constants.scoreboardTutorialText1 {
                 
                 //Change the text of the tutorial
                 scoreboardTutorialLabel.text = Constants.scoreboardTutorialText2
-                scoreboardTutorialButton.setTitle("DONE", for: .normal)
+                
+                
+                //If the score board has been displayed, remove button so the user is forced
+                //to change their username. If it hasn't been displayed (because it's loading),
+                //give the user the ability to move forward and not get stuck.
+                if scoreTableView.alpha == 1 {
+                    
+                    scoreboardTutorialButton.removeFromSuperview()
+                }
+                else {
+                    
+                    scoreboardTutorialButton.setTitle("DONE", for: .normal)
+                }
             }
             else {
                 
@@ -329,6 +352,23 @@ class Broadcast: UIView {
                     })
                 })
 
+            }
+        }
+    }
+    
+    
+    internal func playSound(soundURL: NSURL) {
+        
+        
+        //If not muted, play sound
+        if !muted {
+            
+            do {
+                try audioPlayer = AVAudioPlayer(contentsOf: soundURL as URL)
+                audioPlayer.play()
+            }
+            catch let error as NSError {
+                print("Error playing sound: \(error)")
             }
         }
     }

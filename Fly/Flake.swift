@@ -45,7 +45,6 @@ class Flake: UIView {
         
         
         //Intialize flake view
-        //self.backgroundColor = UIColor.green
         let path = PocketSVG.path(fromSVGFileNamed: "snowflake").takeUnretainedValue()
         
         flakeLayer.path = path

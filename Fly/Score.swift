@@ -131,7 +131,7 @@ class Score: UIView {
             
             }) { (Bool) in
                 
-                //Placeholder
+                //Nothing for now
         }
     }
     

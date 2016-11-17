@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import AVFoundation
 
 class GameController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAnimatorDelegate, UITextFieldDelegate {
     
@@ -30,6 +31,7 @@ class GameController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     @IBOutlet var aboutLabel: UITextView!
     @IBOutlet var aboutButton: UIButton!
     @IBOutlet var shareButton: UIButton!
+    @IBOutlet var volumeButton: UIButton!
     
     var cloudTimer: Timer?
     var flake: Flake!
@@ -53,6 +55,7 @@ class GameController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     var username = "FLAKEY"
     var paused = false
     var collided = false
+    var muted = false
     
     var speed = CGFloat(1)
     var dynamicAnimator: UIDynamicAnimator!
@@ -68,6 +71,8 @@ class GameController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     var flakeMoveTutorial: UIView?
     var avoidCloudTutorial: UIView?
     
+    var audioPlayer = AVAudioPlayer()
+    
     
     override func viewDidLoad() {
         
@@ -80,12 +85,6 @@ class GameController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         configureDatabase()
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.pauseGame), name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
-        
-        //DEMO CODE -- Remove tutorial keys
-        self.userDefaults.set(false, forKey: Constants.moveFlakeTutorialKey)
-        self.userDefaults.set(false, forKey: Constants.avoidCloudTutorialKey)
-        //self.userDefaults.set(false, forKey: Constants.scoreTutorialKey)
-        //self.userDefaults.set(false, forKey: Constants.scoreboardTutorialKey)
     }
     
     
@@ -111,7 +110,6 @@ class GameController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         
         //Initialize backdrop
         backdrop.initializeViews()
-        
     }
     
     
@@ -140,6 +138,11 @@ class GameController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
             
             username = NSKeyedUnarchiver.unarchiveObject(with: userDefaults.object(forKey: Constants.username) as! Data) as! String
         }
+        
+        //Find user's volume preference and set variables accordingly
+        muted = userDefaults.bool(forKey: Constants.mutedKey)
+        broadcast.muted = muted
+        setVolumeButton(ring: false)
     }
     
     
@@ -190,6 +193,13 @@ class GameController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
             //Cut share button corners
             shareButton.layer.cornerRadius = 18
             shareButton.clipsToBounds = true
+        }
+        
+        if !volumeButton.clipsToBounds {
+            
+            //Cut share button corners
+            volumeButton.layer.cornerRadius = 21.5
+            volumeButton.clipsToBounds = true
         }
     }
     
@@ -340,11 +350,9 @@ class GameController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
             self.dynamicAnimator.removeAllBehaviors()
             self.flake.center = CGPoint(x: self.view.center.x, y: self.view.bounds.height/3)
             
-            //DEMO CODE - REMOVE TEST DEVICES
             //Initialize banner
             self.banner.rootViewController = self
             let request = GADRequest()
-            request.testDevices = ["692e86106fd4b538b1824b62d6138614"]
             self.banner.load(request)
             
             self.initializeDynamicAnimator()
@@ -475,6 +483,11 @@ class GameController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         
         
         print("pauseButtonPressed")
+        //Play sound as feedback
+        let sound = NSURL(fileURLWithPath: Bundle.main.path(forResource: Constants.buttonSoundFile, ofType: "wav")!)
+        playSound(soundURL: sound)
+        
+        //Pause game and hide button
         pauseGame()
         pauseButton.hide()
     }
@@ -508,6 +521,9 @@ class GameController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         
         
         print("resumeButtonPressed")
+        //Play sound as feedback and resume game
+        let sound = NSURL(fileURLWithPath: Bundle.main.path(forResource: Constants.buttonSoundFile, ofType: "wav")!)
+        playSound(soundURL: sound)
         resumeGame()
     }
     
@@ -557,9 +573,10 @@ class GameController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
             
             if verticalPosition != -5000000 && width != -5000000 && self.score.getScore() % 10 != 0 {
                 
-                let velocity = self.cloudSpeed(width: width) * 500
+                let velocity = self.cloudSpeed(width: width)/width * 5
                 let distance = self.view.bounds.height - verticalPosition + 30
                 time = distance/velocity
+                print("height: \(self.view.bounds.height), position: \(verticalPosition), velocity: \(velocity), time: \(time)")
             }
             else if self.score.getScore() % 10 != 0 {
                 
@@ -582,6 +599,10 @@ class GameController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         
         
         print("startButtonPressed")
+        //Play sound as feedback
+        let sound = NSURL(fileURLWithPath: Bundle.main.path(forResource: Constants.buttonSoundFile, ofType: "wav")!)
+        playSound(soundURL: sound)
+        
         //Disable and animate all buttons
         retractButtons()
         score.resetLabels()
@@ -794,15 +815,14 @@ class GameController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
             case .changed:
                 
                 
-                print("changed")
                 //Set translation difference and sensitivity
-                let sensitivity = CGFloat(0.4)
+                let sensitivity = CGFloat(1.0)
                 let translation = sender.velocity(in: self.view)
                 let horizontalDifference = (touchStartingPoint.x - translation.x) * sensitivity
                 let verticalDifference = CGFloat(0)
+                
                 //Set movement according to difference accounting for view bounds as limitations
                 let horizontalMovement = min(max(flake.center.x + horizontalDifference,  flake.bounds.width/2), self.view.bounds.width - flake.bounds.width/2)
-                //let horizontalMovement = min(max(flakeStartingPoint.x + horizontalDifference,  flake.bounds.width/2), self.view.bounds.width - flake.bounds.width/2)
                 let verticalMovement = min(max(flakeStartingPoint.y + verticalDifference, flake.bounds.height/2), self.view.bounds.height - flake.bounds.height/2)
                 
                 
@@ -886,8 +906,10 @@ class GameController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         
         
         //Remove move flake tutorial and start game
+        //Check if tutorial is visible in case screen disappears and reappears
         if flakeMoveTutorial != nil {
             if flakeMoveTutorial?.alpha == 1 {
+                
                 
                 UIView.animate(withDuration: 0.3, animations: {
                     
@@ -899,6 +921,10 @@ class GameController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
                         self.userDefaults.set(true, forKey: Constants.moveFlakeTutorialKey)
                         self.fall()
                         self.pauseButton.show()
+                        
+                        //Play sound as feedback
+                        let sound = NSURL(fileURLWithPath: Bundle.main.path(forResource: Constants.tutorialSoundFile, ofType: "wav")!)
+                        self.playSound(soundURL: sound)
                 })
             }
         }
@@ -926,7 +952,7 @@ class GameController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
             let border = Border(frame: CGRect(x: 0, y: 0, width: avoidCloudTutorial!.bounds.width, height: 10))
             
             //Create label to show instructions
-            let label = UILabel(frame: CGRect(x: 0, y: 10, width: tutorialWidth, height: 70))
+            let label = UILabel(frame: CGRect(x: 0, y: 10, width: tutorialWidth, height: 130))
             label.textAlignment = .center
             label.font = UIFont.systemFont(ofSize: 15, weight: UIFontWeightMedium)
             label.numberOfLines = 0
@@ -962,8 +988,14 @@ class GameController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         
         
         //Remove move flake tutorial and start game
+        //Check if tutorial is visible in case screen disappears and reappears
         if avoidCloudTutorial != nil {
-            if avoidCloudTutorial?.alpha == 1 {
+            if avoidCloudTutorial!.alpha == 1 {
+                
+                
+                //Play sound as feedback
+                let sound = NSURL(fileURLWithPath: Bundle.main.path(forResource: Constants.tutorialSoundFile, ofType: "wav")!)
+                playSound(soundURL: sound)
                 
                 UIView.animate(withDuration: 0.3, animations: {
                     
@@ -1125,11 +1157,20 @@ class GameController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         
         if broadcast.scoreTableView.alpha != 0 {
             
+            
+            //Play sound as feedback
+            let sound = NSURL(fileURLWithPath: Bundle.main.path(forResource: Constants.tableButtonSoundFile, ofType: "wav")!)
+            playSound(soundURL: sound)
+            
+            
             //Show and enable username change view and its elements
             blurView.isUserInteractionEnabled = true
             usernameChangeField.alpha = 1
             usernameChangeHeader.alpha = 1
             aboutLabel.alpha = 0
+            volumeButton.alpha = 0
+            aboutLabel.isUserInteractionEnabled = false
+            volumeButton.isUserInteractionEnabled = false
             usernameChangeField.isUserInteractionEnabled = true
             
             UIView.animate(withDuration: 0.4, animations: {
@@ -1166,6 +1207,10 @@ class GameController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         
         let text = textField.text
         if text != nil && text != "" {
+            
+            
+            //Remove tutorial if it exists
+            broadcast.removeScoreboardTutorial()
             
             //Set the user default, then re-initialize parameters
             userDefaults.set(NSKeyedArchiver.archivedData(withRootObject: text!), forKey: Constants.username)
@@ -1232,6 +1277,10 @@ class GameController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         
         
         print("adButtonPressed")
+        //Play sound as feedback
+        let sound = NSURL(fileURLWithPath: Bundle.main.path(forResource: Constants.buttonSoundFile, ofType: "wav")!)
+        playSound(soundURL: sound)
+        
         if interstitial.isReady {
             
             //Show interstitial ad
@@ -1275,29 +1324,38 @@ class GameController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     @IBAction func aboutButtonPressed(_ sender: AnyObject) {
         
         
+        //Play sound as feedback
+        let sound = NSURL(fileURLWithPath: Bundle.main.path(forResource: Constants.buttonSoundFile, ofType: "wav")!)
+        playSound(soundURL: sound)
+        
         //Show and enable username change view and its elements
         blurView.isUserInteractionEnabled = true
         usernameChangeField.alpha = 0
         usernameChangeHeader.alpha = 0
         aboutLabel.alpha = 1
+        volumeButton.alpha = 1
+        aboutLabel.isUserInteractionEnabled = true
+        volumeButton.isUserInteractionEnabled = true
         usernameChangeField.isUserInteractionEnabled = false
         
         UIView.animate(withDuration: 0.4, animations: {
             
             self.blurView.alpha = 1
             
-        }) { (Bool) in
-            
-            //Nothing for now
-        }
+        })
     }
     
     
     @IBAction func shareButtonPressed(_ sender: AnyObject) {
         
-        let textToShare = "Beat my score in Flakey!"
         
-        if let flakeyLink = NSURL(string: "itms://itunes.apple.com/flakey/1168312945?mt=8") {
+        //Play sound as feedback
+        let sound = NSURL(fileURLWithPath: Bundle.main.path(forResource: Constants.buttonSoundFile, ofType: "wav")!)
+        playSound(soundURL: sound)
+        
+        //Open share screen
+        let textToShare = Constants.shareText
+        if let flakeyLink = NSURL(string: Constants.shareLink) {
             let objectsToShare = [textToShare, flakeyLink] as [Any]
             let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
             
@@ -1312,6 +1370,10 @@ class GameController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         
         
         print("Collision!")
+        //Play sound as feedback
+        let sound = NSURL(fileURLWithPath: Bundle.main.path(forResource: Constants.collisionSoundFile, ofType: "wav")!)
+        playSound(soundURL: sound)
+        
         if flake.alpha == 1 && !collided {
             
             collided = true
@@ -1335,6 +1397,60 @@ class GameController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         }
     }
     
+    
+    
+    @IBAction func volumeButtonPressed(_ sender: Any) {
+        
+        print("volumeButtonPressed")
+        //Flip and store the variable and set button
+        muted = !muted
+        broadcast.muted = muted
+        userDefaults.set(muted, forKey: Constants.mutedKey)
+        setVolumeButton(ring: true)
+    }
+    
+    
+    internal func setVolumeButton(ring: Bool) {
+        
+        print("setVolumeButton")
+        //Set button according to variable
+        if muted {
+            volumeButton.imageView!.contentMode = .scaleAspectFit
+            volumeButton.setImage(UIImage(named: "Volume-Off")!.withRenderingMode(.alwaysTemplate), for: .normal)
+            volumeButton.imageView!.tintColor = UIColor.white
+            
+        }
+        else {
+            volumeButton.imageView!.contentMode = .scaleAspectFit
+            volumeButton.setImage(UIImage(named: "Volume-On")!.withRenderingMode(.alwaysTemplate), for: .normal)
+            volumeButton.imageView!.tintColor = UIColor.white
+            
+            
+            //If ring is allowed, play sound as feedback
+            if ring {
+                
+                let sound = NSURL(fileURLWithPath: Bundle.main.path(forResource: Constants.buttonSoundFile, ofType: "wav")!)
+                playSound(soundURL: sound)
+            }
+        }
+    }
+    
+    
+    internal func playSound(soundURL: NSURL) {
+        
+        
+        //If not muted, play sound
+        if !muted {
+            
+            do {
+                try audioPlayer = AVAudioPlayer(contentsOf: soundURL as URL)
+                audioPlayer.play()
+            }
+            catch let error as NSError {
+                print("Error playing sound: \(error)")
+            }
+        }
+    }
     
     
     override var prefersStatusBarHidden : Bool {

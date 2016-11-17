@@ -101,7 +101,6 @@ class ScoreTable: UITableViewController {
             scoreLabel.text = "-"
         }
         
-        //cell.backgroundColor = UIColor.clear
         cell.contentView.backgroundColor = UIColor.clear
         
         return cell
