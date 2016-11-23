@@ -43,8 +43,7 @@ struct Constants {
     static let tutorialSoundFile = "Tutorial"
     
     static let shareText = "Beat my score in Flakey!"
-    static let shareLink = "itms://itunes.apple.com/flakey/1168312945?mt=8"
-    
+    static let shareLink = "https://appsto.re/us/XPWOfb.i"
     
     static let interstitialID = "ca-app-pub-9981216773147280/6808641858"
 }
