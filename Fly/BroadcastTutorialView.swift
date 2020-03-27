@@ -154,7 +154,7 @@ class BroadcastTutorialView: UIView {
     }
     
     
-    internal func removeView() {
+    @objc internal func removeView() {
         
         
         //Disappear view upon touch

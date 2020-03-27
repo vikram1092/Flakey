@@ -53,7 +53,7 @@ class Backdrop: UIView {
     }
     
     
-    internal func sendFlake() {
+    @objc internal func sendFlake() {
         
         //Create flakes
         let number = Int(self.bounds.width/150)

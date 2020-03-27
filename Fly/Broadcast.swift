@@ -24,7 +24,7 @@ class Broadcast: UIView {
     var scoreboardBorder: Border!
     var initialized = false
     var muted = false
-    var audioPlayer = AVAudioPlayer()
+    var audioPlayer: AVAudioPlayer!
     
     var activityIndicator = UIActivityIndicatorView()
     var activityIndicatorColor = UIColor.gray
@@ -176,7 +176,7 @@ class Broadcast: UIView {
             //Create label to show instructions
             let label = UILabel(frame: CGRect(x: 0, y: 10, width: scoreTutorial!.bounds.width, height: 70))
             label.textAlignment = .center
-            label.font = UIFont.systemFont(ofSize: 15, weight: UIFontWeightMedium)
+            label.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
             label.numberOfLines = 0
             label.textColor = tutorialColor
             label.text = Constants.scoreTutorialText
@@ -201,7 +201,7 @@ class Broadcast: UIView {
     }
     
     
-    internal func removeScoreTutorial() {
+    @objc internal func removeScoreTutorial() {
         
         
         //Remove score tutorial if it's shown
@@ -247,7 +247,7 @@ class Broadcast: UIView {
             //Create label to show instructions
             scoreboardTutorialLabel = UILabel(frame: CGRect(x: 0, y: 10, width: scoreboardTutorial!.bounds.width, height: 100))
             scoreboardTutorialLabel.textAlignment = .center
-            scoreboardTutorialLabel.font = UIFont.systemFont(ofSize: 15, weight: UIFontWeightMedium)
+            scoreboardTutorialLabel.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
             scoreboardTutorialLabel.numberOfLines = 0
             scoreboardTutorialLabel.textColor = tutorialColor
             scoreboardTutorialLabel.text = Constants.scoreboardTutorialText1
@@ -294,7 +294,7 @@ class Broadcast: UIView {
     }
     
     
-    internal func removeScoreboardTutorial() {
+    @objc internal func removeScoreboardTutorial() {
         
         
         //Remove score tutorial if it's shown

@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B1E15B8B746B974D99F6570B /* Pods_Flakey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 024EDF313F83DAB84CB9606E /* Pods_Flakey.framework */; };
+		992D203D8555781E6FAFE259 /* Pods_Flakey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B047C2AC64DF438489C81E5 /* Pods_Flakey.framework */; };
 		D110085C1DBBC88D0007EACA /* snowflake.svg in Resources */ = {isa = PBXBuildFile; fileRef = D110085B1DBBC88D0007EACA /* snowflake.svg */; };
 		D110085E1DBBDB890007EACA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D110085D1DBBDB890007EACA /* GoogleService-Info.plist */; };
 		D12D86581DDCF202001E2685 /* Thud.wav in Resources */ = {isa = PBXBuildFile; fileRef = D12D86571DDCF202001E2685 /* Thud.wav */; };
@@ -33,7 +33,6 @@
 		D1A5A77B1D7CD0BB00D6001A /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = D1A5A7391D7CD0BB00D6001A /* LICENSE */; };
 		D1A5A78F1D7CD0BB00D6001A /* PocketSVG.m in Sources */ = {isa = PBXBuildFile; fileRef = D1A5A76C1D7CD0BB00D6001A /* PocketSVG.m */; };
 		D1A5A7901D7CD0BB00D6001A /* PocketSVG.podspec in Resources */ = {isa = PBXBuildFile; fileRef = D1A5A76D1D7CD0BB00D6001A /* PocketSVG.podspec */; };
-		D1A5A7911D7CD0BB00D6001A /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D1A5A76F1D7CD0BB00D6001A /* Info.plist */; };
 		D1A5A7AC1D7D042800D6001A /* Score.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A5A7AB1D7D042800D6001A /* Score.swift */; };
 		D1AB9BCE1D53F69100312A0A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1AB9BCD1D53F69100312A0A /* AppDelegate.swift */; };
 		D1AB9BD01D53F69100312A0A /* GameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1AB9BCF1D53F69100312A0A /* GameController.swift */; };
@@ -69,12 +68,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		024EDF313F83DAB84CB9606E /* Pods_Flakey.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Flakey.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		2E66D6444BEEC0EFEE1BC07D /* Pods-Plungy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Plungy.release.xcconfig"; path = "Pods/Target Support Files/Pods-Plungy/Pods-Plungy.release.xcconfig"; sourceTree = "<group>"; };
-		4415CE07A442B3743C86A933 /* Pods-Flakey.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Flakey.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Flakey/Pods-Flakey.debug.xcconfig"; sourceTree = "<group>"; };
-		802914975C1584ED20E87F20 /* Pods-Flakey.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Flakey.release.xcconfig"; path = "Pods/Target Support Files/Pods-Flakey/Pods-Flakey.release.xcconfig"; sourceTree = "<group>"; };
-		94AFA9FB4B2679DE2369E52D /* Pods-Fly.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fly.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Fly/Pods-Fly.debug.xcconfig"; sourceTree = "<group>"; };
-		B28560324B452E5FBA227812 /* Pods-Plungy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Plungy.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Plungy/Pods-Plungy.debug.xcconfig"; sourceTree = "<group>"; };
+		2B047C2AC64DF438489C81E5 /* Pods_Flakey.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Flakey.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		856DFB90FC939FFE783B3A65 /* Pods-Flakey.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Flakey.release.xcconfig"; path = "Target Support Files/Pods-Flakey/Pods-Flakey.release.xcconfig"; sourceTree = "<group>"; };
 		D110085B1DBBC88D0007EACA /* snowflake.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = snowflake.svg; sourceTree = "<group>"; };
 		D110085D1DBBDB890007EACA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D12D86571DDCF202001E2685 /* Thud.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Thud.wav; sourceTree = "<group>"; };
@@ -129,9 +124,7 @@
 		D1E9037C1D55887E005DED90 /* Flake.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Flake.swift; sourceTree = "<group>"; };
 		D1F2CDD11D8AFB14001479B6 /* Border.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Border.swift; sourceTree = "<group>"; };
 		D1F2CDD51D8B0B06001479B6 /* Broadcast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Broadcast.swift; sourceTree = "<group>"; };
-		E3EDACFD735B16A8FFA8ADD1 /* Pods-Fly.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fly.release.xcconfig"; path = "Pods/Target Support Files/Pods-Fly/Pods-Fly.release.xcconfig"; sourceTree = "<group>"; };
-		ED41132728075A15C1E0AFAA /* Pods_Fly.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Fly.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		FC4A3DBA6E520BBB7910F4C3 /* Pods_Plungy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Plungy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FAA9DBAB2BC9E19F561B5AA7 /* Pods-Flakey.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Flakey.debug.xcconfig"; path = "Target Support Files/Pods-Flakey/Pods-Flakey.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -139,34 +132,19 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B1E15B8B746B974D99F6570B /* Pods_Flakey.framework in Frameworks */,
+				992D203D8555781E6FAFE259 /* Pods_Flakey.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		7F6967E5B5A828F8A77521FD /* Frameworks */ = {
+		5B89CBFC6CB1F0DA6D7621F4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				ED41132728075A15C1E0AFAA /* Pods_Fly.framework */,
-				FC4A3DBA6E520BBB7910F4C3 /* Pods_Plungy.framework */,
-				024EDF313F83DAB84CB9606E /* Pods_Flakey.framework */,
+				2B047C2AC64DF438489C81E5 /* Pods_Flakey.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		9A9DC56B2A089E6B4CA2A12A /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				94AFA9FB4B2679DE2369E52D /* Pods-Fly.debug.xcconfig */,
-				E3EDACFD735B16A8FFA8ADD1 /* Pods-Fly.release.xcconfig */,
-				B28560324B452E5FBA227812 /* Pods-Plungy.debug.xcconfig */,
-				2E66D6444BEEC0EFEE1BC07D /* Pods-Plungy.release.xcconfig */,
-				4415CE07A442B3743C86A933 /* Pods-Flakey.debug.xcconfig */,
-				802914975C1584ED20E87F20 /* Pods-Flakey.release.xcconfig */,
-			);
-			name = Pods;
 			sourceTree = "<group>";
 		};
 		D12D86561DDCF202001E2685 /* Sounds */ = {
@@ -245,8 +223,8 @@
 			children = (
 				D1AB9BCC1D53F69100312A0A /* Flakey */,
 				D12D86561DDCF202001E2685 /* Sounds */,
-				9A9DC56B2A089E6B4CA2A12A /* Pods */,
-				7F6967E5B5A828F8A77521FD /* Frameworks */,
+				D31C961BEB7DCEF7A146CDC9 /* Pods */,
+				5B89CBFC6CB1F0DA6D7621F4 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -289,6 +267,16 @@
 			path = Fly;
 			sourceTree = "<group>";
 		};
+		D31C961BEB7DCEF7A146CDC9 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				FAA9DBAB2BC9E19F561B5AA7 /* Pods-Flakey.debug.xcconfig */,
+				856DFB90FC939FFE783B3A65 /* Pods-Flakey.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -296,12 +284,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D1AB9BDC1D53F69100312A0A /* Build configuration list for PBXNativeTarget "Flakey" */;
 			buildPhases = (
-				C063EF7602C75646DDE509A3 /* [CP] Check Pods Manifest.lock */,
+				5954E925592BFA6C8D2AEFDA /* [CP] Check Pods Manifest.lock */,
 				D1AB9BC61D53F69100312A0A /* Sources */,
 				D1AB9BC71D53F69100312A0A /* Frameworks */,
 				D1AB9BC81D53F69100312A0A /* Resources */,
-				5F3156AECF60A94CECB8BB53 /* [CP] Embed Pods Frameworks */,
-				0E20DC9906F0F3E6D5A18774 /* [CP] Copy Pods Resources */,
+				CCD3E9229A6AFA7674078A4F /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -335,6 +322,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -375,7 +363,6 @@
 				D1A5A77B1D7CD0BB00D6001A /* LICENSE in Resources */,
 				D1AB9BD81D53F69100312A0A /* LaunchScreen.storyboard in Resources */,
 				D1E784281DD26A8A00960FB4 /* icon@x80.png in Resources */,
-				D1A5A7911D7CD0BB00D6001A /* Info.plist in Resources */,
 				D13D56841DDE0AAD001A8DA7 /* volume-on@x2.png in Resources */,
 				D1E784211DD269CC00960FB4 /* icon@x60.png in Resources */,
 				D1E7842A1DD26A8A00960FB4 /* icon@x180.png in Resources */,
@@ -409,49 +396,44 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0E20DC9906F0F3E6D5A18774 /* [CP] Copy Pods Resources */ = {
+		5954E925592BFA6C8D2AEFDA /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
+			inputFileListPaths = (
 			);
-			name = "[CP] Copy Pods Resources";
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Flakey-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Flakey/Pods-Flakey-resources.sh\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		5F3156AECF60A94CECB8BB53 /* [CP] Embed Pods Frameworks */ = {
+		CCD3E9229A6AFA7674078A4F /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Flakey/Pods-Flakey-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Flakey/Pods-Flakey-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		C063EF7602C75646DDE509A3 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Flakey/Pods-Flakey-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -539,7 +521,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -581,7 +563,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/Fly/Flakey-Bridging-Header.h";
@@ -592,36 +574,38 @@
 		};
 		D1AB9BDD1D53F69100312A0A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4415CE07A442B3743C86A933 /* Pods-Flakey.debug.xcconfig */;
+			baseConfigurationReference = FAA9DBAB2BC9E19F561B5AA7 /* Pods-Flakey.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 53738Y87UZ;
 				INFOPLIST_FILE = Fly/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Vikram.Flakey;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/Fly/Flakey-Bridging-Header.h";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
 		D1AB9BDE1D53F69100312A0A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 802914975C1584ED20E87F20 /* Pods-Flakey.release.xcconfig */;
+			baseConfigurationReference = 856DFB90FC939FFE783B3A65 /* Pods-Flakey.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 53738Y87UZ;
 				INFOPLIST_FILE = Fly/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Vikram.Flakey;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/Fly/Flakey-Bridging-Header.h";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

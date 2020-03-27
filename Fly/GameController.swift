@@ -71,7 +71,7 @@ class GameController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     var flakeMoveTutorial: UIView?
     var avoidCloudTutorial: UIView?
     
-    var audioPlayer = AVAudioPlayer()
+    var audioPlayer: AVAudioPlayer!
     
     
     override func viewDidLoad() {
@@ -493,7 +493,7 @@ class GameController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     }
     
     
-    internal func pauseGame() {
+    @objc internal func pauseGame() {
         
         
         //Pause game and show the pause view
@@ -680,7 +680,7 @@ class GameController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     }
     
     
-    internal func sendCloud() {
+    @objc internal func sendCloud() {
         
         
         print("sendCloud")
@@ -726,7 +726,7 @@ class GameController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         
         //Add action to delete cloud once it's past screen
         let cloudRemove = UIDynamicItemBehavior(items: [cloud])
-        cloudRemove.action = { (Bool) in
+        cloudRemove.action = {
             
             if cloud.frame.maxY < 0 {
                 
@@ -873,7 +873,7 @@ class GameController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
             //Create label to show instructions
             let label = UILabel(frame: CGRect(x: 0, y: 10, width: tutorialWidth, height: 70))
             label.textAlignment = .center
-            label.font = UIFont.systemFont(ofSize: 15, weight: UIFontWeightMedium)
+            label.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
             label.numberOfLines = 0
             label.textColor = themeGray
             label.text = Constants.moveFlakeTutorialText1
@@ -954,7 +954,7 @@ class GameController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
             //Create label to show instructions
             let label = UILabel(frame: CGRect(x: 0, y: 10, width: tutorialWidth, height: 130))
             label.textAlignment = .center
-            label.font = UIFont.systemFont(ofSize: 15, weight: UIFontWeightMedium)
+            label.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
             label.numberOfLines = 0
             label.textColor = themeGray
             label.text = Constants.avoidCloudTutorialText
@@ -984,7 +984,7 @@ class GameController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
     }
     
     
-    internal func removeAvoidCloudTutorial() {
+    @objc internal func removeAvoidCloudTutorial() {
         
         
         //Remove move flake tutorial and start game
@@ -1357,8 +1357,6 @@ class GameController: UIViewController, UICollisionBehaviorDelegate, UIDynamicAn
         if let flakeyLink = NSURL(string: Constants.shareLink) {
             let objectsToShare = [textToShare, flakeyLink] as [Any]
             let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
-            
-            activityVC.popoverPresentationController!.sourceView = sender as? UIView
             self.present(activityVC, animated: true, completion: nil)
         }
     }
